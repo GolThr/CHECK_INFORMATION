@@ -1,28 +1,30 @@
-document.writeln('<div class="dialog_content dialog_content_process" style="display: none;" onclick="dialogBack()">\n' +
-    '        <!--tips-->\n' +
-    '        <div class="dialog_pop dialog_pop_tips" style="display: none;height: 12rem;width: 28rem;">\n' +
-    '            <span class="dialog_header"></span>\n' +
-    '            <span class="dialog_title dialog_title_tips">更改成功</span>\n' +
+document.writeln('<div class="dialog_back" style="display: none;">\n' +
+    '        <div class="dialog_body">\n' +
+    '            <span class="dialog_title"></span>\n' +
+    '            <span class="dialog_content"></span>\n' +
     '            <div class="dialog_btn_line">\n' +
-    '                <button class="main_button_default dialog_btn_tips" onclick="dialogBack()" style="width: 70px;">知道了</button>\n' +
+    '                <span class="dialog_btn_seco">取消</span>\n' +
+    '                <span class="dialog_btn_main">确定</span>\n' +
     '            </div>\n' +
     '        </div>\n' +
     '    </div>');
 
-function showTip(msg){
-    $('.dialog_content').fadeIn('fast');
-    $('.dialog_pop_tips').fadeIn('fast');
-    $('.dialog_title_tips').text(msg);
+function showDialogTip(title,text){
+    $('.dialog_back').fadeIn('fast');
+    $('.dialog_body').fadeIn('fast');
+    $('.dialog_title').text(title);
+    $('.dialog_content').text(text);
 }
 
-function dialogBack(){
-    $(".dialog_pop_add_driver").hide();
-    $(".dialog_pop_delete_driver").hide();
-    $(".dialog_content_process").hide();
+function hideDialogTip(){
+    $(".dialog_body").fadeOut('fast');
+    $(".dialog_back").fadeOut('fast');
 }
 
-function showTipHtml(msg){
-    $('.dialog_content').fadeIn('fast');
-    $('.dialog_pop_tips').fadeIn('fast');
-    $('.dialog_title_tips').html(msg);
-}
+$(".dialog_body").click(function (event) {
+    event.stopPropagation();
+});
+
+$(".dialog_back").click(function () {
+    hideDialogTip();
+});
