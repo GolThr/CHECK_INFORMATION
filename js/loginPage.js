@@ -18,10 +18,8 @@ $(".submit_btn").click(function () {
     //ajax去服务器端校验
     var data= {"account":account,"password":password};
     console.log(data);
-    console.log(JSON.stringify(data));
     console.log("LoginAjax");
     $.ajax({
-        //*&/InformationCheck/&*
         url: "server/login.php", //后台请求数据
         dataType: "json",
         data:data,
@@ -29,7 +27,6 @@ $(".submit_btn").click(function () {
         success: function (msg) {
             console.log("success!");
             console.log(msg);
-            console.log(JSON.stringify(msg));
             if(msg.flag == '1'){
                 localStorage.setItem("s_userinfo", JSON.stringify(msg));
                 location.href = "index.html";
@@ -46,10 +43,6 @@ $(".submit_btn").click(function () {
         error: function (msg) {
             console.log("error!");
             console.log(msg);
-            var parsedJson = JSON.stringify(msg);
-            console.log(parsedJson);
-            var jsonData = JSON.parse(parsedJson);
-            console.log(jsonData);
             alert("请求失败，请重试");
         }
     });

@@ -23,16 +23,16 @@ document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '            <span class="dialog_title"></span>\n' +
     '            <span class="dialog_content"></span>\n' +
     '            <div class="dialog_btn_line">\n' +
-    '                <span class="dialog_btn_seco">取消</span>\n' +
-    '                <span class="dialog_btn_main">确定</span>\n' +
+    '                <span class="dialog_btn_seco" id="tips_cancel_btn">取消</span>\n' +
+    '                <span class="dialog_btn_main" id="tips_ok_btn">确定</span>\n' +
     '            </div>\n' +
     '        </div>\n' +
     '        <div class="dialog_body" id="dialog_input" style="display: none;">\n' +
     '            <span class="dialog_title">输入列名</span>\n' +
     '            <input type="text" class="dialog_input main_input" placeholder=""/>\n' +
     '            <div class="dialog_btn_line">\n' +
-    '                <span class="dialog_btn_seco">取消</span>\n' +
-    '                <span class="dialog_btn_main">确定</span>\n' +
+    '                <span class="dialog_btn_seco" id="input_cancel_btn">取消</span>\n' +
+    '                <span class="dialog_btn_main" id="input_ok_btn">确定</span>\n' +
     '            </div>\n' +
     '        </div>\n' +
     '    </div>');
@@ -65,7 +65,10 @@ $(".dialog_body").click(function (event) {
     event.stopPropagation();
 });
 
-$(".dialog_btn_seco").click(function () {
+$("#tips_cancel_btn").click(function () {
     hideDialogTip();
+});
+
+$("#input_cancel_btn").click(function () {
     hideDialogInput();
 });

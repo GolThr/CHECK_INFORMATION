@@ -17,6 +17,7 @@ li{
 }
 
 .main_btn{
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -72,6 +73,25 @@ li{
 
 .main_title{
     font-size: 35px;
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.head_back_btn{
+    cursor: pointer;
+    display: none;
+    width: auto;
+    height: 25px;
+    margin-right: 10px;
+}
+
+.head_left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
 }
 
 .head_right{

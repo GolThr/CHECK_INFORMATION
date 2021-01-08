@@ -1,5 +1,15 @@
 <?php
+include("dbconfig.php");
+include("getUuid.php");
+
 $file = $_FILES['file']['tmp_name'];
+$uuid = $_POST["uuid"];
+$tbl_name = $_POST["tbl_name"];
+
+echo $uuid;
+echo $tbl_name;
+
+/*
 # 载入composer自动加载文件
 require 'D:\xampp\php\vendor/autoload.php';
 
@@ -13,15 +23,25 @@ try {
 
 $sheet = $spreadsheet->getActiveSheet();
 $res = array();
-$i = 0;
 
+$i = 0;
 foreach ($sheet->getRowIterator() as $row) {
     $tmp = array();
-    $i++;
     foreach ($row->getCellIterator() as $cell) {
         $tmp[] = $cell->getFormattedValue();
     }
-    $res[$row->getRowIndex()] = $tmp;
+    if($i == 0){
+        array_unshift($tmp, 'id', 'ischecked', 'isviewed', 'checked_time');
+    }else{
+        array_unshift($tmp, $i, '0', '0', '0');
+    }
+    $res[$i] = $tmp;
+    $i++;
 }
 
+
+
+
 echo json_encode($res);
+
+ */

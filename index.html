@@ -24,7 +24,7 @@
             <img class="check_logo" src="images/check_logo.png" alt="logo">
             <ul class="panel_menu_list">
                 <li id="menu_home" onclick="changePage('home')">主页</li>
-                <li id="menu_manage" onclick="changePage('manage')">管理信息</li>
+                <li id="menu_manage" onclick="changePage('manage_all')">管理信息</li>
                 <li id="menu_mine" onclick="changePage('mine')">个人中心</li>
             </ul>
         </div>
@@ -134,8 +134,44 @@
             </div>
         </div>
 <!--bottom-->
-    <span class="span_fixed">-</span>
+    <span class="span_fixed_home">-</span>
 
+    </div>
+    <div class="panel_body panel_body_manage_all" id="panel_body_manage_all" style="display: none;">
+        <script type="text/javascript" src="js/header.js"></script>
+        <div class="manage_all_list">
+            <!---->
+            <div class="manage_list_item" onclick="openTable('tbl_name')">
+                <div class="manage_list_item_left">
+                    <span class="manage_list_item_title">样例</span>
+                    <div class="manage_list_item_data_view_body">
+                        <div class="manage_list_item_data_view">
+                            <img class="manage_list_item_data_view_img" src="images/ic_num_data.png">
+                            <span class="manage_data_text">234</span>
+                            <span class="manage_data_text" style="margin-left: 5px;">条数据</span>
+                        </div>
+                        <div class="manage_list_item_data_view">
+                            <img class="manage_list_item_data_view_img" src="images/ic_viewed.png">
+                            <span class="manage_data_text">123</span>
+                            <span class="manage_data_text" style="margin-left: 5px;">已查看</span>
+                        </div>
+                        <div class="manage_list_item_data_view">
+                            <img class="manage_list_item_data_view_img" src="images/ic_checked.png">
+                            <span class="manage_data_text">137</span>
+                            <span class="manage_data_text" style="margin-left: 5px;">已核对</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="manage_list_item_right">
+                    <img class="manage_list_item_del" src="images/ic_delete.png">
+                </div>
+            </div>
+            <!---->
+        </div>
+        <span class="span_fixed_manage">-</span>
+        <div class="float_add_btn">
+            <img class="float_add_btn_img" src="images/func_add.png">
+        </div>
     </div>
     <div class="panel_body panel_body_manage" id="panel_body_manage" style="display: none;">
         <script type="text/javascript" src="js/header.js"></script>

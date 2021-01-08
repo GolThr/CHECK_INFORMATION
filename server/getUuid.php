@@ -1,5 +1,5 @@
 <?php
-function  uuid()
+function getNewUuid()
 {
     $chars = md5(uniqid(mt_rand(), true));
     $uuid = substr ( $chars, 0, 8 ) . '-'

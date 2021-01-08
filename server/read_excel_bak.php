@@ -13,21 +13,20 @@ try {
 
 $sheet = $spreadsheet->getActiveSheet();
 $res = array();
-$data = array();
-$i = 0;
 
+$i = 0;
 foreach ($sheet->getRowIterator() as $row) {
     $tmp = array();
-    $i++;
     foreach ($row->getCellIterator() as $cell) {
         $tmp[] = $cell->getFormattedValue();
     }
-    if($i == 1){
-        $res['head'] = $tmp;
+    if($i == 0){
+        array_unshift($tmp, 'id', 'ischecked', 'isviewed', 'checked_time');
     }else{
-        $data[$i - 1] = $tmp;
+        array_unshift($tmp, $i, '0', '0', '0');
     }
+    $res[$row->getRowIndex()] = $tmp;
+    $i++;
 }
-$res['data'] = $data;
 
 echo json_encode($res);

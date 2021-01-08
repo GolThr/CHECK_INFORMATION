@@ -31,7 +31,7 @@ $sql="CREATE TABLE `$dbt_name`(`id` INT UNSIGNED AUTO_INCREMENT";
 $sql_insert="INSERT INTO `$dbt_name` (`id`";
 foreach ($data[0] as $h){
     if($h != "id"){
-        $sql = $sql . ",`$h` TEXT";
+        $sql = $sql . ",`$h` VARCHAR(2048)";
         $sql_insert = $sql_insert . ",`$h`";
     }
 }

@@ -52,46 +52,26 @@ function init(){
 
 function changePage(p){
     if(p == "home"){
-        $('#panel_body_home').show();
-        $('#panel_body_manage_all').hide();
         $('#panel_body_manage').hide();
         $('#panel_body_mine').hide();
+        $('#panel_body_home').show();
         $("#menu_home").addClass('panel_menu_list_selected');
         $("#menu_manage").removeClass('panel_menu_list_selected');
         $("#menu_mine").removeClass('panel_menu_list_selected');
-    }else if(p == "manage_all"){
-        $('#panel_body_home').hide();
-        $('#panel_body_manage_all').show();
-        $('#panel_body_manage').hide();
-        $('#panel_body_mine').hide();
-        $("#menu_home").removeClass('panel_menu_list_selected');
-        $("#menu_manage").addClass('panel_menu_list_selected');
-        $("#menu_mine").removeClass('panel_menu_list_selected');
-        $('.head_back_btn').hide();
-        $('.head_title').text('所有表单');
     }else if(p == "manage"){
         $('#panel_body_home').hide();
-        $('#panel_body_manage_all').hide();
-        $('#panel_body_manage').show();
         $('#panel_body_mine').hide();
+        $('#panel_body_manage').show();
         $("#menu_home").removeClass('panel_menu_list_selected');
         $("#menu_manage").addClass('panel_menu_list_selected');
         $("#menu_mine").removeClass('panel_menu_list_selected');
-        $('.head_back_btn').show();
-        $('.head_back_btn').on("click", function (){
-            changePage('manage_all');
-        });
-        $('.head_title').text('管理信息');
     }else if(p == "mine"){
         $('#panel_body_home').hide();
-        $('#panel_body_manage_all').hide();
         $('#panel_body_manage').hide();
         $('#panel_body_mine').show();
         $("#menu_home").removeClass('panel_menu_list_selected');
         $("#menu_manage").removeClass('panel_menu_list_selected');
         $("#menu_mine").addClass('panel_menu_list_selected');
-        $('.head_back_btn').hide();
-        $('.head_title').text('个人中心');
     }
 }
 
@@ -103,8 +83,6 @@ function uploadExcel(){
     var formData = new FormData();
     /*给对象中添加文件信息，没有对象或者没有文件信息后台是得不到的*/
     formData.append('file', fileArray);
-    formData.append('uuid', s_userinfo.uuid);
-    formData.append('tbl_name', TBL_NAME);
     /*jquery ajax 方法*/
     $.ajax({
         url: "server/read_excel.php",/*传向后台服务器文件*/
@@ -191,10 +169,6 @@ function onInputNumberBlur(obj){
 }
 
 function parseData(msg){
-    TBL_DATA = new Array();
-    TBL_ROW = 0;
-    TBL_COL = 0;
-    TBL_NAME = '';
     for(var i in msg){
         TBL_DATA[i - 1] = new Array();
         for(var j in msg[i]){
@@ -204,37 +178,32 @@ function parseData(msg){
     TBL_ROW = i;
     TBL_COL = j - 0 + 1;
     bakupTBLData();
-    // console.log(TBL_DATA);
+    console.log(TBL_DATA);
     console.log(TBL_ROW);
     console.log(TBL_COL);
 }
 
-function renderTable(msg){
+function renderTable(){
     modified = 1;
     renderSaveBtn();
     $('.back_none').fadeOut('fast');
     $(".manage_info_table").html('');
-
-    //render header
-    $(".manage_info_table").append('<tr id="row0" row="0" onclick="onRowSelected(this)"></tr>');
-    for(var j in msg['head']){
-        $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + msg['head'][j] + '</th>');
-    }
-    //render data
-    for(var i in msg['data']){
-        $(".manage_info_table").append('<tr id="row'+ (i+1) +'" row="'+ (i+1) +'" onclick="onRowSelected(this)"></tr>');
-        for(var j in msg['data'][i]){
-            if(j >= 0 && j < 4){
-                $('#row'+(i+1)).append('<td class="readonly_td col'+ j +'"><input class="change_able_editor" row="'+(i+1)+'" col="'+j+'" readonly="true" type="text" value="' + msg['data'][i][j] + '"></input></td>');
+    for(var i = 0; i < TBL_ROW; i++){
+        $(".manage_info_table").append('<tr id="row'+ i +'" row="'+ i +'" onclick="onRowSelected(this)"></tr>');
+        for(var j = 0; j < TBL_COL; j++){
+            var data = "";
+            if(TBL_DATA[i][j] != undefined){
+                data = TBL_DATA[i][j];
+            }
+            if(i == 0){
+                $('#row'+i).append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + data + '</th>');
+            }else if(j >= 0 && j < 4){
+                $('#row'+i).append('<td class="readonly_td col'+ j +'"><input class="change_able_editor" row="'+i+'" col="'+j+'" readonly="true" type="text" value="' + data + '"></input></td>');
             }else{
-                $('#row'+(i+1)).append('<td class="change_able col'+ j +'"><input class="change_able_editor" row="'+(i+1)+'" col="'+j+'" type="text" value="' + msg['data'][i][j] + '" onblur="onInputNumberBlur(this)"></input></td>');
+                $('#row'+i).append('<td class="change_able col'+ j +'"><input class="change_able_editor" row="'+i+'" col="'+j+'" type="text" value="' + data + '" onblur="onInputNumberBlur(this)"></input></td>');
             }
         }
     }
-}
-
-function renderTableList(mag){
-
 }
 
 function saveTBLData(){
@@ -253,7 +222,7 @@ function saveTBLData(){
             }
         });
     }else{
-        showDialogTip('温馨提示', '正在保存。。。');
+        showDialogTip('温馨提示', '正再保存。。。');
         $('#tips_ok_btn').on('click', function (){
             hideDialogTip();
         });
@@ -282,75 +251,7 @@ function saveTBLData(){
     }
 }
 
-function openTable(tbl_name){
-    changePage('manage');
-    $('.head_title').text('管理信息 - ' + tbl_name);
-    //ajax去服务器端校验
-    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
-    console.log(data);
-    console.log("OpenTableAjax");
-    $.ajax({
-        url: "server/OpenTable.php", //后台请求数据
-        dataType: "json",
-        data:data,
-        type: "POST",
-        success: function (msg) {
-            console.log(msg);
-            renderTable(msg);
-        },
-        error: function (msg) {
-            console.log("error!");
-            console.log(msg);
-            alert("请求失败，请重试");
-        }
-    });
-}
-
 //obj
-$(".float_add_btn").click(function () {
-    showDialogInput('新建表单', '输入表名');
-    $('#input_ok_btn').on('click', function (){
-        var t_name = $.trim($('.dialog_input').val());
-        if(t_name == ""){
-            $(".dialog_input").css("border-color", "#ff392f");
-            $(".dialog_input").shake(2, 10, 400);
-        }else{
-            TBL_NAME = t_name;
-            $(".dialog_input").css("border-color", "#EAEDF6");
-            hideDialogInput();
-            //ajax去服务器端校验
-            var data= {"uuid":s_userinfo.uuid,"tbl_name":t_name};
-            console.log(data);
-            console.log("CreateTableAjax");
-            /*!!!!!!!!!!!!*
-             *!表不允许重名!*
-             *!!!!!!!!!!!!*/
-            $.ajax({
-                url: "server/CreateNewTable.php", //后台请求数据
-                dataType: "json",
-                data:data,
-                type: "POST",
-                success: function (msg) {
-                    console.log(msg);
-                    if(msg.check_name == 0){
-                        showDialogTip('温馨提示', '您已有一个命名为该名字的表单。');
-                        $('#tips_ok_btn').on('click', function (){
-                            hideDialogTip();
-                        });
-                    }else{
-                        openTable(t_name);
-                    }
-                },
-                error: function (msg) {
-                    console.log("error!");
-                    console.log(msg);
-                    alert("请求失败，请重试");
-                }
-            });
-        }
-    });
-});
-
 $(".func_btn_upload").click(function () {
     $("#upload_excel").click();
 });
