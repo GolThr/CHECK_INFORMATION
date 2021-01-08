@@ -13,6 +13,7 @@ try {
 
 $sheet = $spreadsheet->getActiveSheet();
 $res = array();
+$data = array();
 $i = 0;
 
 foreach ($sheet->getRowIterator() as $row) {
@@ -21,7 +22,12 @@ foreach ($sheet->getRowIterator() as $row) {
     foreach ($row->getCellIterator() as $cell) {
         $tmp[] = $cell->getFormattedValue();
     }
-    $res[$row->getRowIndex()] = $tmp;
+    if($i == 1){
+        $res['head'] = $tmp;
+    }else{
+        $data[$i - 1] = $tmp;
+    }
 }
+$res['data'] = $data;
 
 echo json_encode($res);

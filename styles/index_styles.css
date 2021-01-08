@@ -122,18 +122,46 @@
 .user_avatar{
     width: 40px;
     height: auto;
+    border-radius: 50%;
+}
+
+.home_data_view_line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-radius: 10px;
 }
 
 .home_data_view{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 200px;
+    margin-top: 40px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+}
+
+.home_data_view_content_title{
+    width: 100%;
+    text-align: left;
+    height: 20px;
+    line-height: 20px;
+    text-indent: 2em;
+    margin-top: 30px;
+}
+
+.home_data_view_content{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     width: 100%;
     height: 150px;
-    margin-top: 50px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px 5px #F2F2F2;
 }
 
 .home_data_view_body{
@@ -159,7 +187,14 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 40px;
+}
+
+.home_block_title{
+    width: 100%;
+    text-align: start;
+    margin-top: 40px;
+    color: #458cfe;
 }
 
 .home_tool_bar_title{
@@ -184,8 +219,8 @@
 }
 
 .home_tools_img_body{
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: #458CFE;
     display: flex;
@@ -199,12 +234,17 @@
 }
 
 .home_tools_img{
-    width: 40px;
+    width: 30px;
     height: auto;
 }
 
 .home_tools_title{
     margin-top: 10px;
+}
+
+.span_fixed{
+    height: 20px;
+    color: rgba(0,0,0,0);
 }
 
 /*panel_body_manage*/
@@ -224,22 +264,24 @@
 }
 
 .manage_info_table_body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
     width: 100%;
     margin-top: 20px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 5px #F2F2F2;
+    overflow-x: scroll;
+    overflow-y: auto;
 }
 
 .manage_info_table{
-    width: 100%;
     text-align: center;
 }
 
 .manage_info_table tr td{
+    width: 100px;
     height: 20px;
     padding: 5px;
     border: 1px solid rgba(69, 140, 255, 0);
@@ -259,7 +301,6 @@
 }
 
 .change_able_editor{
-    width: 100%;
     height: 20px;
     border: 0;
     background: none;

@@ -44,6 +44,21 @@ li{
     margin-left: 10px;
 }
 
+.btn_grey{
+    opacity: 0.5;
+}
+
+.main_input{
+    height: 25px;
+    border-radius: 10px;
+    border: 2px solid #EAEDF6;
+    text-indent: 1em;
+}
+
+.main_input:hover{
+    border: 2px solid rgba(95, 155, 253, 1);
+}
+
 /*****main_head*****/
 .main_head{
     width: 100%;
@@ -160,6 +175,11 @@ li{
     margin: 20px 0 20px 0;
     width: 100%;
     text-align: left;
+}
+
+.dialog_input{
+    margin: 20px 0 20px 0;
+    width: 100%;
 }
 
 .dialog_btn_line{
