@@ -69,6 +69,7 @@ function changePage(p){
         $("#menu_mine").removeClass('panel_menu_list_selected');
         $('.head_back_btn').hide();
         $('.head_title').text('所有表单');
+        getTableList();
     }else if(p == "manage"){
         $('#panel_body_home').hide();
         $('#panel_body_manage_all').hide();
@@ -233,8 +234,60 @@ function renderTable(msg){
     }
 }
 
-function renderTableList(mag){
+function renderTableList(msg){
+    $("#manage_all_list").html('');
+    for(var i in msg){
+        $("#manage_all_list").append('<div class="manage_list_item" onclick="openTable(\''+msg[i]["tbl_name"]+'\')">\n' +
+            '                <div class="manage_list_item_left">\n' +
+            '                    <span class="manage_list_item_title">'+msg[i]["tbl_name"]+'</span>\n' +
+            '                    <div class="manage_list_item_data_view_body">\n' +
+            '                        <div class="manage_list_item_data_view">\n' +
+            '                            <img class="manage_list_item_data_view_img" src="images/ic_num_data.png">\n' +
+            '                            <span class="manage_data_text">'+msg[i]["n_all"]+'</span>\n' +
+            '                            <span class="manage_data_text" style="margin-left: 5px;">条数据</span>\n' +
+            '                        </div>\n' +
+            '                        <div class="manage_list_item_data_view">\n' +
+            '                            <img class="manage_list_item_data_view_img" src="images/ic_viewed.png">\n' +
+            '                            <span class="manage_data_text">'+msg[i]["n_viewed"]+'</span>\n' +
+            '                            <span class="manage_data_text" style="margin-left: 5px;">已查看</span>\n' +
+            '                        </div>\n' +
+            '                        <div class="manage_list_item_data_view">\n' +
+            '                            <img class="manage_list_item_data_view_img" src="images/ic_checked.png">\n' +
+            '                            <span class="manage_data_text">'+msg[i]["n_checked"]+'</span>\n' +
+            '                            <span class="manage_data_text" style="margin-left: 5px;">已核对</span>\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '                <div class="manage_list_item_right">\n' +
+            '                    <img class="manage_list_item_del" src="images/ic_delete.png" onclick="delTable(\''+msg[i]["tbl_name"]+'\')">\n' +
+            '                </div>\n' +
+            '            </div>');
+    }
+    $(".manage_list_item_right").on('click', function (event) {
+        event.stopPropagation();
+    });
+}
 
+function getTableList(){
+    //ajax去服务器端校验
+    var data= {"uuid":s_userinfo.uuid};
+    console.log(data);
+    console.log("GetTableListAjax");
+    $.ajax({
+        url: "server/GetTableList.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            renderTableList(msg['tbl_list']);
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
 }
 
 function saveTBLData(){
@@ -297,6 +350,28 @@ function openTable(tbl_name){
         success: function (msg) {
             console.log(msg);
             renderTable(msg);
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+}
+
+function delTable(tbl_name){
+    //ajax去服务器端校验
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
+    console.log(data);
+    console.log("DelTableAjax");
+    $.ajax({
+        url: "server/DelTable.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            getTableList();
         },
         error: function (msg) {
             console.log("error!");
