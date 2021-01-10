@@ -119,8 +119,7 @@ function uploadExcel(){
         processData: false,//设置为false,因为data值是FormData对象，不需要对数据做处理。
         success: function (msg){
             console.log(msg);
-            parseData(msg);
-            renderTable();
+            renderTable(msg);
             hideDialogTip();
         },
         error: function () {
@@ -335,9 +334,7 @@ function saveTBLData(){
     }
 }
 
-function openTable(tbl_name){
-    changePage('manage');
-    $('.head_title').text('管理信息 - ' + tbl_name);
+function getTable(tbl_name){
     //ajax去服务器端校验
     var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
     console.log(data);
@@ -357,6 +354,13 @@ function openTable(tbl_name){
             alert("请求失败，请重试");
         }
     });
+}
+
+function openTable(tbl_name){
+    TBL_NAME = tbl_name;
+    changePage('manage');
+    $('.head_title').text('管理信息 - ' + tbl_name);
+    getTable(tbl_name);
 }
 
 function delTable(tbl_name){

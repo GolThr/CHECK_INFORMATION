@@ -7,6 +7,7 @@ $tbl_name = $_POST["tbl_name"];
 $data = $_POST["data"];
 
 //flag -> 0:wrong, 1:successful
+$find_flag = 0;
 $reg_flag = 0;
 $crt_flag = 0;
 $ins_flag = 0;

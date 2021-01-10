@@ -40,6 +40,6 @@ if($obj){
     }
 }
 
-$flags = array("find_flag" => $find_flag, "open_flag" => $open_flag, "head" => $head);
+$flags = array("find_flag" => $find_flag, "open_flag" => $open_flag);
 $jsonStr = array("flags" => $flags, "head" => $head, "data" => $res);
 echo json_encode($jsonStr);
