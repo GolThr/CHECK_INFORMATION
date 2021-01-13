@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
+    <style type="text/css">
+        #aaa{
+            border: 2px solid #5F9BFD;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <span id="aaa">你敢点我吗</span>
+    <span id="bbb">你敢再点我吗</span>
+    <script type="text/javascript" src="js/dialogs.js"></script>
+
+    <script type="text/javascript">
+        $('#aaa').click(function (){
+            showDialogTip('srg', 'gt');
+            bindTipOK(function (){
+                $('#aaa').css({background:'#000'});
+                $('#bbb').css({background:'#a33737'});
+                console.log('1');
+            });
+        });
+        $('#bbb').click(function (){
+            showDialogTip('ng', 'srhyygb');
+            bindTipOK(function (){
+                $('#aaa').css({background:'#48d74a'});
+                $('#bbb').css({background:'#845eea'});
+                console.log('2');
+            });
+        });
+    </script>
+</body>
+</html>

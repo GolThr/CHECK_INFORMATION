@@ -1,53 +1,4 @@
 <?php
-include("server/dbconfig.php");
-require 'D:\xampp\php\vendor/autoload.php';
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-
-//$uuid = $_GET["i"];
-//$tbl_name = $_GET["name"];
-$uuid = "ee248a63-62e2-3398-8c3d-be2a746c0aa6";
-$tbl_name = "大结局";
-
-//flag -> 0:wrong, 1:successful
-$find_flag = 0;
-
-$dbt_name = '';
-$tbl_colname_json = null;
-
-//find table
-$sql = "SELECT dbt_name,tbl_colname_json FROM s_tables WHERE uuid='$uuid' AND tbl_name='$tbl_name'";
-$obj = mysqli_query($link, $sql);
-if($obj){
-    $row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
-    if($row){
-        $dbt_name = $row['dbt_name'];
-        $tbl_colname_json = $row['tbl_colname_json'];
-        $find_flag = 1;
-    }else{
-        $find_flag = 0;
-    }
-}
-$head = json_decode($tbl_colname_json, $assoc = FALSE);
-
-//fetch table data
-$res = array();
-$i = 0;
-$sql = "SELECT * FROM `$dbt_name`";
-$obj = mysqli_query($link, $sql);
-if($obj){
-    while($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
-        $tmp = array();
-        foreach ($head as $colName){
-            $tmp[] = $row[$colName];
-        }
-        $res[$i++] = $tmp;
-    }
-}
-$d = [[1,2,3],[4,5,6]];
-$dd = [['1','2','3'],['d','5','6']];
-
-//prepare excel
 function excelBrowserExport($fileName, $fileType) {
     //文件名称校验
     if(!$fileName) {
@@ -71,14 +22,25 @@ function excelBrowserExport($fileName, $fileType) {
     }
 }
 
+//$data = $_POST["data"];
+$data = [
+    ['1','2','3'],
+    ['d','f','g']
+];
+
+require 'D:\xampp\php\vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+
 $spreadsheet = new Spreadsheet();
 $worksheet = $spreadsheet->getActiveSheet();
 
 //设置工作表标题名称
 $worksheet->setTitle('工作表格1');
 
-$row = 1; //Excel第一行开始
-foreach ($res as $item) {
+$row = 1; //从第二行开始
+foreach ($data as $item) {
     $column = 1;
     foreach ($item as $value) {
         $worksheet->setCellValueByColumnAndRow($column, $row, $value);

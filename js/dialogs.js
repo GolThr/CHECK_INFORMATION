@@ -22,17 +22,17 @@ document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '        <div class="dialog_body" id="dialog_tips" style="display: none;">\n' +
     '            <span class="dialog_title"></span>\n' +
     '            <span class="dialog_content"></span>\n' +
-    '            <div class="dialog_btn_line">\n' +
-    '                <span class="dialog_btn_seco" id="tips_cancel_btn">取消</span>\n' +
-    '                <span class="dialog_btn_main" id="tips_ok_btn">确定</span>\n' +
+    '            <div class="dialog_btn_line" id="tip_btn">\n' +
+    '                <span class="dialog_btn_seco" id="tip_cancel">取消</span>\n' +
+    '                <span class="dialog_btn_main" id="tip_ok">确定</span>\n' +
     '            </div>\n' +
     '        </div>\n' +
     '        <div class="dialog_body" id="dialog_input" style="display: none;">\n' +
     '            <span class="dialog_title">输入列名</span>\n' +
     '            <input type="text" class="dialog_input main_input" placeholder=""/>\n' +
-    '            <div class="dialog_btn_line">\n' +
-    '                <span class="dialog_btn_seco" id="input_cancel_btn">取消</span>\n' +
-    '                <span class="dialog_btn_main" id="input_ok_btn">确定</span>\n' +
+    '            <div class="dialog_btn_line" id="input_btn">\n' +
+    '                <span class="dialog_btn_seco" id="input_cancel">取消</span>\n' +
+    '                <span class="dialog_btn_main" id="input_ok">确定</span>\n' +
     '            </div>\n' +
     '        </div>\n' +
     '    </div>');
@@ -61,14 +61,34 @@ function hideDialogInput(){
     $(".dialog_back").fadeOut('fast');
 }
 
+function bindTipOK(fn){
+    $("#tip_ok").unbind('click');
+    $("#tip_ok").click(fn);
+}
+
+function bindTipCancel(fn){
+    $("#tip_cancel").unbind('click');
+    $("#tip_cancel").click(fn);
+}
+
+function bindInputOK(fn){
+    $("#input_ok").unbind('click');
+    $("#input_ok").click(fn);
+}
+
+function bindInputCancel(fn){
+    $("#tip_cancel").unbind('click');
+    $("#tip_cancel").click(fn);
+}
+
 $(".dialog_body").click(function (event) {
     event.stopPropagation();
 });
 
-$("#tips_cancel_btn").click(function () {
+$("#tip_cancel").click(function () {
     hideDialogTip();
 });
 
-$("#input_cancel_btn").click(function () {
+$("#input_cancel").click(function () {
     hideDialogInput();
 });

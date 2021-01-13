@@ -20,7 +20,7 @@ $(".submit_btn").click(function () {
     console.log(data);
     console.log("LoginAjax");
     $.ajax({
-        url: "server/login.php", //后台请求数据
+        url: "server/Login.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",

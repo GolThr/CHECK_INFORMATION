@@ -363,6 +363,10 @@
     color: rgba(0,0,0,0);
 }
 /*//////////////////*/
+.main_btn{
+    overflow: hidden;
+}
+
 .func_btn_line{
     display: flex;
     flex-direction: row;

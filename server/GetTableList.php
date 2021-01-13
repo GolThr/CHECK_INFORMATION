@@ -14,6 +14,7 @@ $cnt_viewed_flag = 0;
 $sql = "SELECT tbl_name,dbt_name FROM s_tables WHERE uuid='$uuid'";
 $obj = mysqli_query($link, $sql);
 $i = 0;
+$res = array();
 if($obj){
     while($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
         $tmp = array();

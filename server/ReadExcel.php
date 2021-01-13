@@ -35,6 +35,7 @@ foreach ($sheet->getRowIterator() as $row) {
 $find_flag = 0;
 $ins_col_flag = 1;
 $ins_flag = 0;
+$upd_flag = 0;
 
 $tbl_id = '';
 $dbt_name = '';
@@ -99,6 +100,14 @@ foreach ($res as $row){
     $sql_run = $sql;
 }
 
+//register column
+$head_json = json_encode($head, JSON_UNESCAPED_UNICODE);
+$sql = "UPDATE s_tables SET tbl_colname_json='$head_json' WHERE tbl_id='$tbl_id'";
+$obj = mysqli_query($link, $sql);
+if($obj){
+    $upd_flag = 1;
+}
+
 //fetch table data
 $res_table = array();
 $i = 0;
@@ -114,6 +123,6 @@ if($obj){
     }
 }
 
-$flags = array("find_flag" => $find_flag, "ins_col_flag" => $ins_col_flag, "ins_flag" => $ins_flag);
+$flags = array("find_flag" => $find_flag, "ins_col_flag" => $ins_col_flag, "upd_flag" => $upd_flag, "ins_flag" => $ins_flag);
 $jsonStr = array("flags" => $flags, "head" => $head, "data" => $res_table);
 echo json_encode($jsonStr);

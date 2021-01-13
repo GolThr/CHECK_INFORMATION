@@ -43,6 +43,7 @@ li{
     line-height: 20px;
     text-align: left;
     margin-left: 10px;
+    white-space: nowrap;
 }
 
 .btn_grey{

@@ -37,7 +37,7 @@ function init(){
     var bak_tbl_name = JSON.parse(localStorage.getItem("bak_tbl_name"));
     if(bak_tbl_data != undefined){
         showDialogTip('温馨提示', '您尚有未保存的表单，要继续编辑吗？');
-        $('#tips_ok_btn').on('click', function (){
+        bindTipOK(function (){
             TBL_DATA = bak_tbl_data;
             TBL_ROW = bak_tbl_row;
             TBL_COL = bak_tbl_col;
@@ -108,7 +108,7 @@ function uploadExcel(){
     formData.append('tbl_name', TBL_NAME);
     /*jquery ajax 方法*/
     $.ajax({
-        url: "server/read_excel.php",/*传向后台服务器文件*/
+        url: "server/ReadExcel.php",/*传向后台服务器文件*/
         type: 'POST',    /*传递方法 */
         data:formData,  /*要带的值，在这里只能带一个formdata ，不可以增加其他*/
         //传递的数据
@@ -186,8 +186,27 @@ function onInputNumberBlur(obj){
     console.log(row);
     console.log(col);
     console.log(new_data);
-    TBL_DATA[row][col] = new_data;
-    bakupTBLData();
+    var mod_data = {"row":row,"col":col,"text":new_data};
+    //ajax去服务器端校验
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":mod_data,"op":"mod_data"};
+    console.log(data);
+    console.log("ModDataAjax");
+    $.ajax({
+        url: "server/ModifiedTable.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            renderTable(msg);
+            hideDialogTip();
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
 }
 
 function parseData(msg){
@@ -216,18 +235,28 @@ function renderTable(msg){
     $(".manage_info_table").html('');
 
     //render header
+    var id_ind = 0;
     $(".manage_info_table").append('<tr id="row0" row="0" onclick="onRowSelected(this)"></tr>');
     for(var j in msg['head']){
         $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + msg['head'][j] + '</th>');
+        if(msg['head'][j] == "id"){
+            id_ind = j;
+        }
     }
     //render data
     for(var i in msg['data']){
-        $(".manage_info_table").append('<tr id="row'+ (i+1) +'" row="'+ (i+1) +'" onclick="onRowSelected(this)"></tr>');
+        //row: row_id
+        var row_id = msg['data'][i][id_ind];
+        $(".manage_info_table").append('<tr id="row'+ row_id +'" row="'+ row_id +'" onclick="onRowSelected(this)"></tr>');
         for(var j in msg['data'][i]){
+            var data = msg['data'][i][j];
+            if(data == null){
+                data = "";
+            }
             if(j >= 0 && j < 4){
-                $('#row'+(i+1)).append('<td class="readonly_td col'+ j +'"><input class="change_able_editor" row="'+(i+1)+'" col="'+j+'" readonly="true" type="text" value="' + msg['data'][i][j] + '"></input></td>');
+                $('#row'+row_id).append('<td class="readonly_td col'+ j +'"><input class="change_able_editor" row="'+row_id+'" col="'+j+'" readonly="true" type="text" value="' + data + '"></input></td>');
             }else{
-                $('#row'+(i+1)).append('<td class="change_able col'+ j +'"><input class="change_able_editor" row="'+(i+1)+'" col="'+j+'" type="text" value="' + msg['data'][i][j] + '" onblur="onInputNumberBlur(this)"></input></td>');
+                $('#row'+row_id).append('<td class="change_able col'+ j +'"><input class="change_able_editor" row="'+row_id+'" col="'+j+'" type="text" value="' + data + '" onblur="onInputNumberBlur(this)"></input></td>');
             }
         }
     }
@@ -292,7 +321,7 @@ function getTableList(){
 function saveTBLData(){
     if(TBL_NAME == ''){
         showDialogInput('输入表名', '表名');
-        $('#input_ok_btn').on('click', function (){
+        bindInputOK(function (){
             var t_name = $.trim($('.dialog_input').val());
             if(t_name == ""){
                 $(".dialog_input").css("border-color", "#ff392f");
@@ -306,7 +335,7 @@ function saveTBLData(){
         });
     }else{
         showDialogTip('温馨提示', '正在保存。。。');
-        $('#tips_ok_btn').on('click', function (){
+        bindTipOK(function (){
             hideDialogTip();
         });
         //ajax去服务器端校验
@@ -322,7 +351,7 @@ function saveTBLData(){
                 hideDialogTip();
                 $('.func_btn_save').addClass('btn_grey');
                 showDialogTip('温馨提示', '保存成功！');
-                $('#tips_ok_btn').on('click', function (){
+                bindTipOK(function (){
                     hideDialogTip();
                 });
             },
@@ -388,7 +417,7 @@ function delTable(tbl_name){
 //obj
 $(".float_add_btn").click(function () {
     showDialogInput('新建表单', '输入表名');
-    $('#input_ok_btn').on('click', function (){
+    bindInputOK(function (){
         var t_name = $.trim($('.dialog_input').val());
         if(t_name == ""){
             $(".dialog_input").css("border-color", "#ff392f");
@@ -413,7 +442,7 @@ $(".float_add_btn").click(function () {
                     console.log(msg);
                     if(msg.check_name == 0){
                         showDialogTip('温馨提示', '您已有一个命名为该名字的表单。');
-                        $('#tips_ok_btn').on('click', function (){
+                        bindTipOK(function (){
                             hideDialogTip();
                         });
                     }else{
@@ -435,78 +464,129 @@ $(".func_btn_upload").click(function () {
 });
 
 $(".func_btn_export").click(function () {
-    if(modified == 0){
+    // if(modified == 0){
         showDialogTip('温馨提示', '正在导出信息。。。若长时间为弹出下载，请取消后重试。');
-        $('#tips_ok_btn').on('click', function (){
+        bindTipOK(function (){
             hideDialogTip();
         });
-        location.href = 'export_excel.php';
-    }else{
-        showDialogTip('温馨提示', '导出信息需要先保存，要保存信息吗？');
-        $('#tips_ok_btn').on('click', function (){
-            saveTBLData();
-        });
-    }
+        location.href = 'export_excel.php?i='+s_userinfo.uuid+'&name='+TBL_NAME;
+    // }else{
+    //     showDialogTip('温馨提示', '导出信息需要先保存，要保存信息吗？');
+    //     $('#tips_ok_btn').on('click', function (){
+    //         saveTBLData();
+    //     });
+    // }
 });
 
 $(".func_btn_addrow").click(function () {
-    TBL_DATA[TBL_ROW++] = new Array();
-    TBL_DATA[TBL_ROW - 1][0] = TBL_ROW - 1;
-    renderTable();
-    bakupTBLData();
+    //ajax去服务器端校验
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":0,"op":"add_row"};
+    console.log(data);
+    console.log("AddRowAjax");
+    $.ajax({
+        url: "server/ModifiedTable.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            renderTable(msg);
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
 });
 
 $(".func_btn_addcol").click(function () {
     var col_name;
     showDialogInput("输入列名", "列名称");
-    $('#input_ok_btn').on('click', function (){
+    bindInputOK(function (){
         col_name = $.trim($('.dialog_input').val());
         if(col_name == ""){
             $(".dialog_input").css("border-color", "#ff392f");
             $(".dialog_input").shake(2, 10, 400);
         }else{
             $(".dialog_input").css("border-color", "#EAEDF6");
-            TBL_DATA[0].push(col_name);
-            for(var i = 1; i < TBL_ROW; i++){
-                TBL_DATA[i].push();
-            }
-            TBL_COL++;
-            renderTable();
-            hideDialogInput();
-            bakupTBLData();
+            //ajax去服务器端校验
+            var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":col_name,"op":"add_col"};
+            console.log(data);
+            console.log("AddColAjax");
+            $.ajax({
+                url: "server/ModifiedTable.php", //后台请求数据
+                dataType: "json",
+                data:data,
+                type: "POST",
+                success: function (msg) {
+                    console.log(msg);
+                    renderTable(msg);
+                    hideDialogInput();
+                },
+                error: function (msg) {
+                    console.log("error!");
+                    console.log(msg);
+                    alert("请求失败，请重试");
+                }
+            });
         }
     });
 });
 
 $(".func_btn_del").click(function () {
-    if(cur_row == 0 && (cur_col >= 0 && cur_col < 4)){
-        showDialogTip('温馨提示', '单击选中某行或单击表头选中某列来使用删除操作');
-        $('#tips_ok_btn').on('click', function (){
-            hideDialogTip();
-        });
-    }else{
-        if(cur_row != 0){
-            showDialogTip('温馨提示', '确定要删除该行吗？');
-        }else if(!(cur_col >= 0 && cur_col < 4)){
-            showDialogTip('温馨提示', '确定要删除该列吗？');
-        }
-        $('#tips_ok_btn').on('click', function (){
-            if(cur_row != 0){
-                // 删除行
-                TBL_DATA.splice(cur_row, 1);
-                TBL_ROW--;
-            }else if(cur_col != 0){
-                // 删除列
-                for(var i = 0; i < TBL_ROW; i++){
-                    TBL_DATA[i].splice(cur_col, 1);
-                }
-                TBL_COL--;
-            }
-            renderTable();
-            bakupTBLData();
-            hideDialogTip();
-        });
+    if(cur_row != 0){
+        showDialogTip('温馨提示', '确定要删除该行吗？');
+    }else if(!(cur_col >= 0 && cur_col < 4)){
+        showDialogTip('温馨提示', '确定要删除该列吗？');
     }
+    bindTipOK(function (){
+        if(cur_row != 0){
+            // 删除行
+            //ajax去服务器端校验
+            var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":cur_row,"op":"del_row"};
+            console.log(data);
+            console.log("DelRowAjax");
+            $.ajax({
+                url: "server/ModifiedTable.php", //后台请求数据
+                dataType: "json",
+                data:data,
+                type: "POST",
+                success: function (msg) {
+                    console.log(msg);
+                    renderTable(msg);
+                    hideDialogTip();
+                },
+                error: function (msg) {
+                    console.log("error!");
+                    console.log(msg);
+                    alert("请求失败，请重试");
+                }
+            });
+        }else if(cur_col != 0){
+            // 删除列
+            //ajax去服务器端校验
+            var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":cur_col,"op":"del_col"};
+            console.log(data);
+            console.log("DelColAjax");
+            $.ajax({
+                url: "server/ModifiedTable.php", //后台请求数据
+                dataType: "json",
+                data:data,
+                type: "POST",
+                success: function (msg) {
+                    console.log(msg);
+                    renderTable(msg);
+                    hideDialogTip();
+                },
+                error: function (msg) {
+                    console.log("error!");
+                    console.log(msg);
+                    alert("请求失败，请重试");
+                }
+            });
+        }
+    });
 });
 
 $(".func_btn_save").click(function () {
