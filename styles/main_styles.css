@@ -246,15 +246,22 @@ li{
     text-align: center;
 }
 
+#dialog_share_checkinfo{
+    font-size: 12px;
+    font-weight: bold;
+}
+
 .dialog_checkbox_content{
     width: 100%;
     margin: 10px 0 20px 0;
     padding: 10px;
     border-radius: 10px;
+    word-break: break-word;
 }
 
 .dialog_checkbox_item{
     margin: 0 10px;
+    display: inline-block;
 }
 
 .dialog_qrcode{
