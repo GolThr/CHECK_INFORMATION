@@ -171,6 +171,10 @@
     background: #F1F6FC;
 }
 
+.regular_col_name{
+    color: #458CFE;
+}
+
 .readonly_td{
     width: 200px;
 }

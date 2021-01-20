@@ -185,7 +185,12 @@ function renderTable(msg){
     var id_ind = 0;
     $(".manage_info_table").append('<tr id="row0" row="0" onclick="onRowSelected(this)"></tr>');
     for(var j in msg['head']){
-        $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + msg['head'][j] + '</th>');
+        var t = msg['head'][j];
+        if(t == 'id' || t == 'ischecked' || t == 'isviewed' || t == 'checked_time'){
+            $('#row0').append('<th class="regular_col_name col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + t + '</th>');
+        }else{
+            $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + t + '</th>');
+        }
         if(msg['head'][j] == "id"){
             id_ind = j;
         }
