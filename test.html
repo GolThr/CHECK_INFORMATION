@@ -7,33 +7,21 @@
     <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
     <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
     <style type="text/css">
-        #aaa{
-            border: 2px solid #5F9BFD;
-            padding: 20px;
-        }
+
     </style>
 </head>
 <body>
-    <span id="aaa">你敢点我吗</span>
-    <span id="bbb">你敢再点我吗</span>
-    <script type="text/javascript" src="js/dialogs.js"></script>
+<script type="text/javascript" src="js/float_tips.js"></script>
+
+<span class="dialog_btn_seco" id="tip_cancel">取消</span>
+    <span class="dialog_btn_main" id="tip_ok">确定</span>
 
     <script type="text/javascript">
-        $('#aaa').click(function (){
-            showDialogTip('srg', 'gt');
-            bindTipOK(function (){
-                $('#aaa').css({background:'#000'});
-                $('#bbb').css({background:'#a33737'});
-                console.log('1');
-            });
+        $('#tip_ok').click(function (){
+            showFloatTip('确定');
         });
-        $('#bbb').click(function (){
-            showDialogTip('ng', 'srhyygb');
-            bindTipOK(function (){
-                $('#aaa').css({background:'#48d74a'});
-                $('#bbb').css({background:'#845eea'});
-                console.log('2');
-            });
+        $('#tip_cancel').click(function (){
+            showFloatTip('取消');
         });
     </script>
 </body>

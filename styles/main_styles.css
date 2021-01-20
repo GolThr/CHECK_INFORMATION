@@ -22,6 +22,7 @@ li{
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
     height: 20px;
     padding: 10px;
     background: #fff;
@@ -111,6 +112,7 @@ li{
 .user_avatar{
     width: 40px;
     height: auto;
+    border-radius: 50%;
 }
 /*******************/
 
@@ -149,7 +151,7 @@ li{
 }
 
 .inline_tips_close:hover{
-    background: #cf3b3f;
+    background: #ffa9ab;
 }
 
 .inline_tips_text{
@@ -159,6 +161,13 @@ li{
 /*********************/
 
 /*****dialog_tips*****/
+#copy_temp{
+    width: 0;
+    height: 0;
+    resize: none;
+    border: none;
+}
+
 .dialog_back{
     display: flex;
     flex-direction: column;
@@ -185,11 +194,21 @@ li{
     width: 400px;
 }
 
+#dialog_publish_info{
+    width: 350px;
+}
+
 .dialog_title{
     width: 100%;
     color: #458CFE;
     font-size: 20px;
     text-align: left;
+}
+
+.dialog_sub_title{
+    width: 100%;
+    text-align: left;
+    margin-top: 20px;
 }
 
 .dialog_content{
@@ -203,15 +222,55 @@ li{
     width: 100%;
 }
 
+.dialog_config_code{
+    margin: 20px 0 0 0;
+    width: 100%;
+    text-align: center;
+}
+
+.dialog_share_link,.dialog_share_code{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: center;
+}
+
+.dialog_text_content{
+    width: 100%;
+    margin-top: 10px;
+    background: #f1f6fc;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.dialog_checkbox_content{
+    width: 100%;
+    margin: 10px 0 20px 0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.dialog_checkbox_item{
+    margin: 0 10px;
+}
+
+.dialog_qrcode{
+    margin: 10px 0;
+}
+
 .dialog_btn_line{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     width: 100%;
 }
 
 .dialog_btn_main{
+    cursor: pointer;
     width: 40px;
     height: 20px;
     padding: 5px;
@@ -228,6 +287,7 @@ li{
 }
 
 .dialog_btn_seco{
+    cursor: pointer;
     width: 40px;
     height: 20px;
     padding: 5px;
@@ -244,6 +304,35 @@ li{
     background: #D4D4DE;
 }
 /*********************/
+
+/*****float_tips*****/
+.float_tips_body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 20px;
+    min-width: 300px;
+    max-width: 400px;
+    border-radius: 10px;
+    background: #f1f6fc;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+    z-index: 100;
+}
+
+.float_tip_img{
+    width: 20px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.float_tip_content{
+    word-break: break-word;
+}
+/********************/
 
 /*****back_none*****/
 .back_none{

@@ -5,95 +5,35 @@ var TBL_NAME = '';
 var cur_row = 0;
 var cur_col = 0;
 var modified = 0;
-var s_userinfo;
-function initUser() {
-    s_userinfo = JSON.parse(localStorage.getItem("s_userinfo"));
-    console.log(s_userinfo);
-    if(s_userinfo == null || s_userinfo.flag != "1"){
-        console.log('未登录');
-        location.href = 'login.html';
-    }else{
-        //已登录
-        $('.user_name').text(s_userinfo.user_name);
-        $('.user_avatar').attr("src", s_userinfo.avatar);
+
+function changePage(p){
+    if(p == "manage_all"){
+        $('#panel_body_manage_all').show();
+        $('#panel_body_manage').hide();
+        $('.head_back_btn').hide();
+        $('.head_title').text('所有表单');
+        getTableList();
+    }else if(p == "manage"){
+        $('#panel_body_manage_all').hide();
+        $('#panel_body_manage').show();
+        $('.head_back_btn').show();
+        bindBackBtn(function (){
+            changePage('manage_all');
+        });
+        $('.head_title').text('管理信息');
     }
 }
 
 function init(){
     initUser();
-    $("#menu_home").addClass('panel_menu_list_selected');
-    $("#menu_manage").removeClass('panel_menu_list_selected');
+    $('#panel_body_manage_all').show();
+    $('#panel_body_manage').hide();
+    $('.head_back_btn').hide();
+    $('.head_title').text('所有表单');
+    $("#menu_home").removeClass('panel_menu_list_selected');
+    $("#menu_manage").addClass('panel_menu_list_selected');
     $("#menu_mine").removeClass('panel_menu_list_selected');
-    TBL_DATA = new Array();
-    TBL_ROW = 0;
-    TBL_COL = 0;
-    TBL_NAME = '';
-    cur_row = 0;
-    cur_col = 0;
-    modified = 0;
-    var bak_tbl_data = JSON.parse(localStorage.getItem("bak_tbl_data"));
-    var bak_tbl_row = JSON.parse(localStorage.getItem("bak_tbl_row"));
-    var bak_tbl_col = JSON.parse(localStorage.getItem("bak_tbl_col"));
-    var bak_tbl_name = JSON.parse(localStorage.getItem("bak_tbl_name"));
-    if(bak_tbl_data != undefined){
-        showDialogTip('温馨提示', '您尚有未保存的表单，要继续编辑吗？');
-        bindTipOK(function (){
-            TBL_DATA = bak_tbl_data;
-            TBL_ROW = bak_tbl_row;
-            TBL_COL = bak_tbl_col;
-            TBL_NAME = bak_tbl_name;
-            modified = 1;
-            changePage('manage');
-            renderTable();
-            hideDialogTip();
-        });
-    }
-}
-
-function changePage(p){
-    if(p == "home"){
-        $('#panel_body_home').show();
-        $('#panel_body_manage_all').hide();
-        $('#panel_body_manage').hide();
-        $('#panel_body_mine').hide();
-        $("#menu_home").addClass('panel_menu_list_selected');
-        $("#menu_manage").removeClass('panel_menu_list_selected');
-        $("#menu_mine").removeClass('panel_menu_list_selected');
-    }else if(p == "manage_all"){
-        $('#panel_body_home').hide();
-        $('#panel_body_manage_all').show();
-        $('#panel_body_manage').hide();
-        $('#panel_body_mine').hide();
-        $("#menu_home").removeClass('panel_menu_list_selected');
-        $("#menu_manage").addClass('panel_menu_list_selected');
-        $("#menu_mine").removeClass('panel_menu_list_selected');
-        $('.head_back_btn').hide();
-        $('.head_title').text('所有表单');
-        getTableList();
-    }else if(p == "manage"){
-        $('#panel_body_home').hide();
-        $('#panel_body_manage_all').hide();
-        $('#panel_body_manage').show();
-        $('#panel_body_mine').hide();
-        $("#menu_home").removeClass('panel_menu_list_selected');
-        $("#menu_manage").addClass('panel_menu_list_selected');
-        $("#menu_mine").removeClass('panel_menu_list_selected');
-        $('.head_back_btn').show();
-        $('.head_back_btn').on("click", function (){
-            changePage('manage_all');
-        });
-        $('.head_title').text('管理信息');
-    }else if(p == "mine"){
-        $('#panel_body_home').hide();
-        $('#panel_body_manage_all').hide();
-        $('#panel_body_manage').hide();
-        $('#panel_body_mine').show();
-        $("#menu_home").removeClass('panel_menu_list_selected');
-        $("#menu_manage").removeClass('panel_menu_list_selected');
-        $("#menu_mine").addClass('panel_menu_list_selected');
-        $('.head_back_btn').hide();
-        $('.head_title').text('个人中心');
-    }
+    getTableList();
 }
 
 function uploadExcel(){
@@ -230,7 +170,14 @@ function parseData(msg){
 
 function renderTable(msg){
     modified = 1;
+    // render btn
     renderSaveBtn();
+    if(msg['flags']['ischecking'] == 1){
+        showPauseBtn();
+    }else{
+        showStartBtn();
+    }
+
     $('.back_none').fadeOut('fast');
     $(".manage_info_table").html('');
 
@@ -393,18 +340,107 @@ function openTable(tbl_name){
 }
 
 function delTable(tbl_name){
-    //ajax去服务器端校验
-    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
+    showDialogTip('温馨提示', '是否要删除该表单？');
+    bindTipOK(function (){
+        hideDialogTip();
+        //ajax去服务器端校验
+        var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
+        console.log(data);
+        console.log("DelTableAjax");
+        $.ajax({
+            url: "server/DelTable.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                getTableList();
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    });
+}
+
+function checkConfigRight(){
+    showFloatTip('检测配置是否符合要求，注意选中的验证信息的列中不可有重复的信息！', 'success');
+    var code = $.trim($('.dialog_config_code').val());
+    var ver_col = getCheckedItem();
+    if(code == ""){
+        $(".dialog_config_code").css("border-color", "#ff392f");
+        $(".dialog_config_code").shake(2, 10, 400);
+    }else if(ver_col == undefined){
+        $("#dialog_config_verify").css("border-color", "#ff392f");
+        $("#dialog_config_verify").shake(2, 10, 400);
+    }else{
+        var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"s_pwd":code,"ver_col":ver_col};
+        console.log("CheckConfigAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/CheckConfig.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg['flags']['flag'] == 1){
+                    publishCheckInfoShare(code,ver_col);
+                }else if(msg['flags']['check_flag'] == 0){
+                    showDialogTip('配置错误', '选中的验证信息列中包含重复的信息。请选择不含重复信息的列，以方便用户准确地筛选出属于自己的信息。');
+                    bindTipOK(function () {
+                        hideDialogTip();
+                    });
+                }else if(msg['flags']['ischecking'] == 1){
+                    showDialogTip('配置错误', '该表单核对已经发布！不可重复发布。');
+                    bindTipOK(function () {
+                        hideDialogTip();
+                    });
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    }
+}
+
+function publishCheckInfoShare(s_pwd,ver_col){
+    showFloatTip('正在发布核对表单。。。', 'success');
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"s_pwd":s_pwd,"ver_col":ver_col};
+    console.log("RegisterCheckInfoShareAjax");
     console.log(data);
-    console.log("DelTableAjax");
     $.ajax({
-        url: "server/DelTable.php", //后台请求数据
+        url: "server/RegisterCheckInfoShare.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",
         success: function (msg) {
             console.log(msg);
-            getTableList();
+            if(msg['flags']['flag'] == 1){
+                var link = 'http://www.golthrcloud.tk/check.html?s='+msg['share_id'];
+                var check_info = '';
+                for(var i in ver_col){
+                    if(i != 0){
+                        check_info += ', ';
+                    }
+                    check_info += ver_col[i];
+                }
+                hideDialogTip();
+                showPauseBtn();
+                showDialogPublishInfo('发布成功', link, s_pwd, check_info);
+                bindPublishInfoCopy(function (){
+                    $('#copy_temp').val(s_userinfo.user_name+'邀请您参与【'+TBL_NAME+'】的信息核对，快点击下方链接参加吧！\n链接：'+link+'\n验证码：'+s_pwd);
+                    console.log($('#copy_temp').val());
+                    $("#copy_temp").select();
+                    document.execCommand("Copy");
+                    showFloatTip('复制成功', 'success');
+                });
+            }
         },
         error: function (msg) {
             console.log("error!");
@@ -412,6 +448,16 @@ function delTable(tbl_name){
             alert("请求失败，请重试");
         }
     });
+}
+
+function showStartBtn(){
+    $('.func_btn_start').show();
+    $('.func_btn_pause').hide();
+}
+
+function showPauseBtn(){
+    $('.func_btn_start').hide();
+    $('.func_btn_pause').show();
 }
 
 //obj
@@ -465,11 +511,11 @@ $(".func_btn_upload").click(function () {
 
 $(".func_btn_export").click(function () {
     // if(modified == 0){
-        showDialogTip('温馨提示', '正在导出信息。。。若长时间为弹出下载，请取消后重试。');
-        bindTipOK(function (){
-            hideDialogTip();
-        });
-        location.href = 'export_excel.php?i='+s_userinfo.uuid+'&name='+TBL_NAME;
+    showDialogTip('温馨提示', '正在导出信息。。。若长时间为弹出下载，请取消后重试。');
+    bindTipOK(function (){
+        hideDialogTip();
+    });
+    location.href = 'export_excel.php?i='+s_userinfo.uuid+'&name='+TBL_NAME;
     // }else{
     //     showDialogTip('温馨提示', '导出信息需要先保存，要保存信息吗？');
     //     $('#tips_ok_btn').on('click', function (){
@@ -598,5 +644,56 @@ $(".func_btn_save").click(function () {
 });
 
 $(".func_btn_start").click(function () {
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME};
+    console.log("GetOptionColNameAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/GetOptionColName.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            showDialogPublishConfig('配置链接', msg['head']);
+            bindPublishConfigNext(function (){
+                hideDialogPublishConfig();
+                checkConfigRight();
+            });
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+});
 
+$(".func_btn_pause").click(function () {
+    showDialogTip('温馨提示', '是否要取消核对分享？');
+    bindTipOK(function (){
+        hideDialogTip();
+        var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME};
+        console.log("CancelCheckInfoShareAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/CancelCheckInfoShare.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg['flags']['flag'] == 1){
+                    showStartBtn();
+                    showFloatTip('已取消核对分享', 'success');
+                }else{
+                    showFloatTip('取消核对分享失败！', 'error');
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    });
 });

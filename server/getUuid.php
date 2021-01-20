@@ -9,3 +9,7 @@ function getNewUuid()
         . substr ( $chars, 20, 12 );
     return $uuid;
 }
+
+function getNewUniqid(){
+    return uniqid();
+}

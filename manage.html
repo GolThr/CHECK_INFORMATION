@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查客核对</title>
+    <meta name="keywords" content="心志愿,志愿者,志愿服务"/>
+    <meta name="description" content="心志愿，用心做志愿！"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="png_favicon.png" type=" image/png">
+    <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/manage_styles.css" type="text/css"/>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/qrcode.min.js"></script>
+    <script type="text/javascript" src="js/affects.js"></script>
+    <script type="text/javascript">
+        window.onload = (function () {
+            init();
+        });
+    </script>
+</head>
+<body>
+    <script type="text/javascript" src="js/panel_menu.js"></script>
+    <div class="panel_body panel_body_manage_all" id="panel_body_manage_all">
+        <script type="text/javascript" src="js/header.js"></script>
+        <div class="manage_all_list" id="manage_all_list">
+            <!--
+            <div class="manage_list_item" onclick="openTable('tbl_name')">
+                <div class="manage_list_item_left">
+                    <span class="manage_list_item_title">样例</span>
+                    <div class="manage_list_item_data_view_body">
+                        <div class="manage_list_item_data_view">
+                            <img class="manage_list_item_data_view_img" src="images/ic_num_data.png">
+                            <span class="manage_data_text">234</span>
+                            <span class="manage_data_text" style="margin-left: 5px;">条数据</span>
+                        </div>
+                        <div class="manage_list_item_data_view">
+                            <img class="manage_list_item_data_view_img" src="images/ic_viewed.png">
+                            <span class="manage_data_text">123</span>
+                            <span class="manage_data_text" style="margin-left: 5px;">已查看</span>
+                        </div>
+                        <div class="manage_list_item_data_view">
+                            <img class="manage_list_item_data_view_img" src="images/ic_checked.png">
+                            <span class="manage_data_text">137</span>
+                            <span class="manage_data_text" style="margin-left: 5px;">已核对</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="manage_list_item_right">
+                    <img class="manage_list_item_del" src="images/ic_delete.png">
+                </div>
+            </div>
+            -->
+        </div>
+        <span class="span_fixed_manage">-</span>
+        <div class="float_add_btn">
+            <img class="float_add_btn_img" src="images/func_add.png">
+        </div>
+    </div>
+    <div class="panel_body panel_body_manage" id="panel_body_manage" style="display: none;">
+        <script type="text/javascript" src="js/header.js"></script>
+        <script type="text/javascript" src="js/inline_tips.js"></script>
+        <div class="func_btn_line">
+            <div class="func_btn_left">
+                <form action="" method="post" id="t" enctype="multipart/form-data">
+                    <!--
+                    multiple  作用是可以同时选中多个文件，多张图片
+                    accept 指定input可以上传那种类型
+                    onchange 当本元素动的时候，点击也属于 调用abs函数
+                    -->
+                    <input type="file" name='tables_a[]' id="upload_excel" accept="*/*" onchange="uploadExcel()" style="display: none;">
+                </form>
+                <div class="func_btn_upload main_btn">
+                    <img class="main_btn_img" src="images/ic_upload_black.png"/>
+                    <span class="main_btn_text">导入信息</span>
+                </div>
+                <div class="func_btn_export main_btn" style="margin-left: 10px;">
+                    <img class="main_btn_img" src="images/ic_export_black.png"/>
+                    <span class="main_btn_text">导出信息</span>
+                </div>
+                <div class="func_btn_addrow main_btn" style="margin-left: 10px;">
+                    <img class="main_btn_img" src="images/ic_add_row.png"/>
+                    <span class="main_btn_text">添加信息</span>
+                </div>
+                <div class="func_btn_addcol main_btn" style="margin-left: 10px;">
+                    <img class="main_btn_img" src="images/ic_add_column.png"/>
+                    <span class="main_btn_text">添加列</span>
+                </div>
+                <div class="func_btn_del main_btn btn_grey" style="margin-left: 10px;">
+                    <img class="main_btn_img" src="images/ic_delete.png"/>
+                    <span class="main_btn_text">删除行/列</span>
+                </div>
+            </div>
+            <div class="func_btn_right">
+<!--                <div class="func_btn_save main_btn btn_grey" style="margin-right: 10px;">-->
+<!--                    <img class="main_btn_img" src="images/ic_save.png"/>-->
+<!--                    <span class="main_btn_text">保存</span>-->
+<!--                </div>-->
+                <div class="func_btn_start main_btn">
+                    <img class="main_btn_img" src="images/ic_modify_open.png"/>
+                    <span class="main_btn_text">发布核对</span>
+                </div>
+                <div class="func_btn_pause main_btn" style="display: none;">
+                    <img class="main_btn_img" src="images/ic_modify_pause.png"/>
+                    <span class="main_btn_text">暂停核对</span>
+                </div>
+            </div>
+        </div>
+        <div class="manage_info_table_body">
+            <div class="back_none">
+                <img class="back_none_img" src="images/back_none.png">
+                <p class="back_none_text">什么都没有哦<br>试试导入信息吧</p>
+            </div>
+            <table class="manage_info_table" style="border-collapse:separate; border-spacing:0;">
+<!--                <tr>-->
+<!--                    <td></td>-->
+<!--                    <td></td>-->
+<!--                    <td></td>-->
+<!--                    <td></td>-->
+<!--                    <td></td>-->
+<!--                </tr>-->
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/dialogs.js"></script>
+    <script type="text/javascript" src="js/float_tips.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/managePage.js"></script>
+</body>
+</html>

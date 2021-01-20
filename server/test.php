@@ -1,4 +1,3 @@
 <?php
-$a = array('a', 's');
-$a[] = 'aaa';
+$a = array('a'=>"feo", "fei"=>"faji");
 print_r($a);

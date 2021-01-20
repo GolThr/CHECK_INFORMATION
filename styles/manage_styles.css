@@ -1,0 +1,189 @@
+/*panel_body_manage*/
+.float_add_btn{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    position: fixed;
+    right: 50px;
+    bottom: 70px;
+    z-index: 50;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #458CFE;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+}
+
+.float_add_btn_img{
+    width: 20px;
+    height: auto;
+    margin-left: 20px;
+}
+
+.float_add_btn:hover{
+    background: #5F9BFD;
+}
+
+.manage_all_list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom:140px;
+}
+
+.manage_list_item{
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+}
+
+.manage_list_item:hover{
+    background: #F1F6FC;
+}
+
+.manage_list_item_left{
+    display: flex;
+    flex-direction: column;
+    align-content: start;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.manage_list_item_title{
+    font-size: 20px;
+}
+
+.manage_list_item_data_view_body{
+    display: flex;
+    flex-direction: row;
+    align-content: start;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.manage_list_item_data_view{
+    display: flex;
+    flex-direction: row;
+    align-content: start;
+    justify-content: center;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.manage_list_item_data_view_img{
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+}
+
+.manage_list_item_right{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.manage_list_item_del{
+    width: 20px;
+    height: auto;
+    margin-left: 5px;
+}
+
+.manage_list_item_right:hover{
+    background: #ffa9ab;
+}
+
+.span_fixed_manage{
+    height: 150px;
+    color: rgba(0,0,0,0);
+}
+/*//////////////////*/
+.func_btn_line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.func_btn_left,.func_btn_right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.manage_info_table_body{
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+    overflow-x: scroll;
+    overflow-y: auto;
+}
+
+.manage_info_table{
+    text-align: center;
+}
+
+.manage_info_table tr td{
+    height: 20px;
+    padding: 5px;
+    border: 1px solid rgba(69, 140, 255, 0);
+}
+
+.manage_info_table tr th{
+    width: 200px;
+    height: 20px;
+    padding: 5px;
+    border: 1px solid rgba(69, 140, 255, 0);
+}
+
+.manage_info_table tr:hover{
+    background: #f9f9f9;
+}
+
+.change_able{
+    width: 200px;
+}
+
+.change_able:hover{
+    border: 1px solid #458CFE;
+    background: #F1F6FC;
+}
+
+.readonly_td{
+    width: 200px;
+}
+
+.readonly_td:hover{
+    border: 1px solid #808080;
+}
+
+.change_able_editor{
+    height: 20px;
+    border: 0;
+    background: none;
+    text-align: center;
+}
+
+/*panel_body_mine*/
