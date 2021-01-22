@@ -1,0 +1,54 @@
+.check_page_body{
+    width: 100%;
+    margin-top: 65px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.check_page_item{
+    width: 100%;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.check_page_link_fail{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    padding: 30px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+}
+
+.link_fail_img{
+    width: 50px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.link_fail_content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.link_fail_title{
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.link_fail_text{
+    color: #000;
+    font-size: 12px;
+    margin-top: 10px;
+}

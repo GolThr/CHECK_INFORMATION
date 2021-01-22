@@ -138,7 +138,7 @@ function showCheckShareInfo(msg){
     }
     showDialogPublishInfo('发布成功', link, pwd, check_info);
     bindPublishInfoCopy(function (){
-        $('#copy_temp').val(s_userinfo.user_name+'邀请您参与【'+TBL_NAME+'】的信息核对，快点击下方链接参加吧！\n链接：'+link+'\n验证码：'+pwd);
+        $('#copy_temp').val('【查客核对】'+s_userinfo.user_name+'邀请您参与【'+TBL_NAME+'】的信息核对，快点击下方链接参加吧！\n链接：'+link+'\n验证码：'+pwd);
         console.log($('#copy_temp').val());
         $("#copy_temp").select();
         document.execCommand("Copy");

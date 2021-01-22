@@ -1,6 +1,5 @@
 <?php
 include("dbconfig.php");
-include("getUuid.php");
 
 $uuid = $_POST["uuid"];
 $tbl_name = $_POST["tbl_name"];
@@ -29,7 +28,6 @@ $sha_id = '';
 $sha_pwd = '';
 $sha_vercol_json = '';
 //find share
-$share_id = getNewUniqid();
 $sql = "SELECT sha_id,sha_pwd,sha_vercol_json FROM s_shares WHERE tbl_id='$tbl_id'";
 $obj = mysqli_query($link, $sql);
 if($obj){
