@@ -520,7 +520,9 @@ $(".func_btn_export").click(function () {
     bindTipOK(function (){
         hideDialogTip();
     });
-    location.href = 'export_excel.php?i='+s_userinfo.uuid+'&name='+TBL_NAME;
+    var h = 'export_excel.php?i='+s_userinfo.uuid+'&name='+TBL_NAME;
+    location.href = h;
+    console.log(h);
     // }else{
     //     showDialogTip('温馨提示', '导出信息需要先保存，要保存信息吗？');
     //     $('#tips_ok_btn').on('click', function (){

@@ -4,10 +4,10 @@ require 'D:\xampp\php\vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-//$uuid = $_GET["i"];
-//$tbl_name = $_GET["name"];
-$uuid = "ee248a63-62e2-3398-8c3d-be2a746c0aa6";
-$tbl_name = "大结局";
+$uuid = $_GET["i"];
+$tbl_name = $_GET["name"];
+//$uuid = "ee248a63-62e2-3398-8c3d-be2a746c0aa6";
+//$tbl_name = "大结局";
 
 //flag -> 0:wrong, 1:successful
 $find_flag = 0;
@@ -44,8 +44,6 @@ if($obj){
         $res[$i++] = $tmp;
     }
 }
-$d = [[1,2,3],[4,5,6]];
-$dd = [['1','2','3'],['d','5','6']];
 
 //prepare excel
 function excelBrowserExport($fileName, $fileType) {
@@ -77,7 +75,15 @@ $worksheet = $spreadsheet->getActiveSheet();
 //设置工作表标题名称
 $worksheet->setTitle('工作表格1');
 
+//prepare head
 $row = 1; //Excel第一行开始
+$column = 1;
+foreach ($head as $item) {
+    $worksheet->setCellValueByColumnAndRow($column, $row, $item);
+    $column++;
+}
+//prepare data
+$row = 2;
 foreach ($res as $item) {
     $column = 1;
     foreach ($item as $value) {
@@ -87,7 +93,7 @@ foreach ($res as $item) {
     $row++;
 }
 
-$fileName = '学生信息';
+$fileName = $tbl_name;
 $fileType = 'Xlsx';
 
 //1.下载到服务器
