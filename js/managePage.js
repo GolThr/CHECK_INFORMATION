@@ -18,6 +18,8 @@ function changePage(p){
         $('#panel_body_manage').show();
         $('.head_back_btn').show();
         bindBackBtn(function (){
+            clearTblArea();
+            getTableList();
             changePage('manage_all');
         });
         $('.head_title').text('管理信息');
@@ -169,6 +171,7 @@ function parseData(msg){
 }
 
 function renderTable(msg){
+    clearTblArea();
     modified = 1;
     // render btn
     renderSaveBtn();
@@ -178,9 +181,12 @@ function renderTable(msg){
         showStartBtn();
     }
 
-    $('.back_none').fadeOut('fast');
-    $(".manage_info_table").html('');
+    if(msg['data'].length == 0){
+        showTblNone();
+        return;
+    }
 
+    hideTblNone();
     //render header
     var id_ind = 0;
     $(".manage_info_table").append('<tr id="row0" row="0" onclick="onRowSelected(this)"></tr>');
@@ -216,7 +222,16 @@ function renderTable(msg){
 
 function renderTableList(msg){
     $("#manage_all_list").html('');
+    var btn_img = 'ic_modify_open.png';
+    var btn_fn = '';
     for(var i in msg){
+        if(msg[i]["ischecking"] == 1){
+            btn_img = 'ic_modify_pause.png';
+            btn_fn = 'pauseChecking(\''+msg[i]["tbl_name"]+'\')';
+        }else{
+            btn_img = 'ic_modify_open.png';
+            btn_fn = 'startChecking(\''+msg[i]["tbl_name"]+'\')';
+        }
         $("#manage_all_list").append('<div class="manage_list_item" onclick="openTable(\''+msg[i]["tbl_name"]+'\')">\n' +
             '                <div class="manage_list_item_left">\n' +
             '                    <span class="manage_list_item_title">'+msg[i]["tbl_name"]+'</span>\n' +
@@ -239,7 +254,15 @@ function renderTableList(msg){
             '                    </div>\n' +
             '                </div>\n' +
             '                <div class="manage_list_item_right">\n' +
-            '                    <img class="manage_list_item_del" src="images/ic_delete.png" onclick="delTable(\''+msg[i]["tbl_name"]+'\')">\n' +
+            '                    <div class="manage_list_item_btn">\n' +
+            '                        <img class="manage_list_item_img" src="images/'+btn_img+'" onclick="'+btn_fn+'">\n' +
+            '                    </div>\n' +
+            '                    <div class="manage_list_item_btn">\n' +
+            '                        <img class="manage_list_item_img" src="images/ic_information_blue.png" onclick="getCheckShareInfo(\''+msg[i]["tbl_name"]+'\')">\n' +
+            '                    </div>\n' +
+            '                    <div class="manage_list_item_del_btn">\n' +
+            '                        <img class="manage_list_item_img" src="images/ic_delete_red.png" onclick="delTable(\''+msg[i]["tbl_name"]+'\')">\n' +
+            '                    </div>\n' +
             '                </div>\n' +
             '            </div>');
     }
@@ -370,7 +393,7 @@ function delTable(tbl_name){
     });
 }
 
-function checkConfigRight(){
+function checkConfigRight(tbl_name){
     showFloatTip('检测配置是否符合要求，注意选中的验证信息的列中不可有重复的信息！', 'success');
     var code = $.trim($('.dialog_config_code').val());
     var ver_col = getCheckedItem();
@@ -381,7 +404,7 @@ function checkConfigRight(){
         $("#dialog_config_verify").css("border-color", "#ff392f");
         $("#dialog_config_verify").shake(2, 10, 400);
     }else{
-        var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"s_pwd":code,"ver_col":ver_col};
+        var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name,"s_pwd":code,"ver_col":ver_col};
         console.log("CheckConfigAjax");
         console.log(data);
         $.ajax({
@@ -392,7 +415,7 @@ function checkConfigRight(){
             success: function (msg) {
                 console.log(msg);
                 if(msg['flags']['flag'] == 1){
-                    publishCheckInfoShare(code,ver_col);
+                    publishCheckInfoShare(tbl_name,code,ver_col);
                 }else if(msg['flags']['check_flag'] == 0){
                     showDialogTip('配置错误', '选中的验证信息列中包含重复的信息。请选择不含重复信息的列，以方便用户准确地筛选出属于自己的信息。');
                     bindTipOK(function () {
@@ -414,9 +437,9 @@ function checkConfigRight(){
     }
 }
 
-function publishCheckInfoShare(s_pwd,ver_col){
+function publishCheckInfoShare(tbl_name,s_pwd,ver_col){
     showFloatTip('正在发布核对表单。。。', 'success');
-    var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"s_pwd":s_pwd,"ver_col":ver_col};
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name,"s_pwd":s_pwd,"ver_col":ver_col};
     console.log("RegisterCheckInfoShareAjax");
     console.log(data);
     $.ajax({
@@ -427,24 +450,11 @@ function publishCheckInfoShare(s_pwd,ver_col){
         success: function (msg) {
             console.log(msg);
             if(msg['flags']['flag'] == 1){
-                var link = 'http://www.golthrcloud.tk/check.html?s='+msg['share_id'];
-                var check_info = '';
-                for(var i in ver_col){
-                    if(i != 0){
-                        check_info += ', ';
-                    }
-                    check_info += ver_col[i];
-                }
+                //publish success
                 hideDialogTip();
                 showPauseBtn();
-                showDialogPublishInfo('发布成功', link, s_pwd, check_info);
-                bindPublishInfoCopy(function (){
-                    $('#copy_temp').val(s_userinfo.user_name+'邀请您参与【'+TBL_NAME+'】的信息核对，快点击下方链接参加吧！\n链接：'+link+'\n验证码：'+s_pwd);
-                    console.log($('#copy_temp').val());
-                    $("#copy_temp").select();
-                    document.execCommand("Copy");
-                    showFloatTip('复制成功', 'success');
-                });
+                getTableList();
+                showCheckShareInfo(msg);
             }
         },
         error: function (msg) {
@@ -455,14 +465,111 @@ function publishCheckInfoShare(s_pwd,ver_col){
     });
 }
 
+function getCheckShareInfo(tbl_name){
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
+    console.log("GetCheckInfoShareInfoAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/GetCheckInfoShareInfo.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg['flags']['flag'] == 1){
+                showCheckShareInfo(msg);
+            }else if(msg['flags']['find_s_flag'] == 0){
+                showFloatTip('该表单未发起核对哦~', 'success');
+            }else{
+                showFloatTip('获取分享信息失败！', 'error');
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+}
+
+function startChecking(tbl_name){
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
+    console.log("GetOptionColNameAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/GetOptionColName.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            showDialogPublishConfig('配置链接', msg['head']);
+            bindPublishConfigNext(function (){
+                hideDialogPublishConfig();
+                checkConfigRight(tbl_name);
+            });
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+}
+
+function pauseChecking(tbl_name){
+    showDialogTip('温馨提示', '是否要取消核对分享？');
+    bindTipOK(function (){
+        hideDialogTip();
+        var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
+        console.log("CancelCheckInfoShareAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/CancelCheckInfoShare.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg['flags']['flag'] == 1){
+                    showStartBtn();
+                    getTableList();
+                    showFloatTip('已取消核对分享', 'success');
+                }else{
+                    showFloatTip('取消核对分享失败！', 'error');
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    });
+}
+
 function showStartBtn(){
     $('.func_btn_start').show();
     $('.func_btn_pause').hide();
+    $('.func_btn_s_info').hide();
 }
 
 function showPauseBtn(){
     $('.func_btn_start').hide();
     $('.func_btn_pause').show();
+    $('.func_btn_s_info').show();
+}
+
+function showTblNone(){
+    $('.back_none').show();
+}
+
+function hideTblNone(){
+    $('.back_none').hide();
+}
+
+function clearTblArea(){
+    $(".manage_info_table").html('');
 }
 
 //obj
@@ -651,56 +758,13 @@ $(".func_btn_save").click(function () {
 });
 
 $(".func_btn_start").click(function () {
-    var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME};
-    console.log("GetOptionColNameAjax");
-    console.log(data);
-    $.ajax({
-        url: "server/GetOptionColName.php", //后台请求数据
-        dataType: "json",
-        data:data,
-        type: "POST",
-        success: function (msg) {
-            console.log(msg);
-            showDialogPublishConfig('配置链接', msg['head']);
-            bindPublishConfigNext(function (){
-                hideDialogPublishConfig();
-                checkConfigRight();
-            });
-        },
-        error: function (msg) {
-            console.log("error!");
-            console.log(msg);
-            alert("请求失败，请重试");
-        }
-    });
+    startChecking(TBL_NAME);
 });
 
 $(".func_btn_pause").click(function () {
-    showDialogTip('温馨提示', '是否要取消核对分享？');
-    bindTipOK(function (){
-        hideDialogTip();
-        var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME};
-        console.log("CancelCheckInfoShareAjax");
-        console.log(data);
-        $.ajax({
-            url: "server/CancelCheckInfoShare.php", //后台请求数据
-            dataType: "json",
-            data:data,
-            type: "POST",
-            success: function (msg) {
-                console.log(msg);
-                if(msg['flags']['flag'] == 1){
-                    showStartBtn();
-                    showFloatTip('已取消核对分享', 'success');
-                }else{
-                    showFloatTip('取消核对分享失败！', 'error');
-                }
-            },
-            error: function (msg) {
-                console.log("error!");
-                console.log(msg);
-                alert("请求失败，请重试");
-            }
-        });
-    });
+    pauseChecking(TBL_NAME);
+});
+
+$(".func_btn_s_info").click(function () {
+    getCheckShareInfo(TBL_NAME);
 });

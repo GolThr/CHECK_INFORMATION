@@ -1,8 +1,8 @@
 <?php
 include("dbconfig.php");
 
-//$uuid = $_POST["uuid"];
-$uuid = 'ee248a63-62e2-3398-8c3d-be2a746c0aa6';
+$uuid = $_POST["uuid"];
+//$uuid = 'ee248a63-62e2-3398-8c3d-be2a746c0aa6';
 
 //flag -> 0:wrong, 1:successful
 $find_flag = 0;
@@ -11,7 +11,7 @@ $cnt_checked_flag = 0;
 $cnt_viewed_flag = 0;
 
 //find table
-$sql = "SELECT tbl_name,dbt_name FROM s_tables WHERE uuid='$uuid'";
+$sql = "SELECT tbl_name,dbt_name,ischecking FROM s_tables WHERE uuid='$uuid'";
 $obj = mysqli_query($link, $sql);
 $i = 0;
 $res = array();
@@ -20,6 +20,7 @@ if($obj){
         $tmp = array();
         $tmp["tbl_name"] = $row["tbl_name"];
         $dbt_name = $row['dbt_name'];
+        $tmp["ischecking"] = $row["ischecking"];
         $find_flag = 1;
         //cnt all
         $sql = "SELECT COUNT(*) AS cnt FROM `$dbt_name`";

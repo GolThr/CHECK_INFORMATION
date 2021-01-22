@@ -44,8 +44,10 @@ if($obj){
     $add_flag = 1;
 }
 
+$sha_vercol = json_decode($sha_vercol_json, $assoc = FALSE);
+
 $flag = $find_flag && $reg_flag && $add_flag;
 $flags = array("flag" => $flag, "find_flag" => $find_flag, "reg_flag" => $reg_flag, "add_flag" => $add_flag);
-$jsonStr = array("flags" => $flags, "share_id" => $share_id);
+$jsonStr = array("flags" => $flags, "share_id" => $share_id, "share_pwd" => $s_pwd, "share_vercol" => $sha_vercol);
 echo json_encode($jsonStr);
 // add_flag == 1 is success

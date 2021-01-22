@@ -89,22 +89,32 @@
 
 .manage_list_item_right{
     display: flex;
-    flex-direction: column;
-    align-content: center;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+}
+
+.manage_list_item_btn,.manage_list_item_del_btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 20px;
 }
 
-.manage_list_item_del{
-    width: 20px;
-    height: auto;
-    margin-left: 5px;
+.manage_list_item_img{
+    width: auto;
+    height: 20px;
 }
 
-.manage_list_item_right:hover{
+.manage_list_item_btn:hover{
+    background: #fff;
+}
+
+.manage_list_item_del_btn:hover{
     background: #ffa9ab;
 }
 
