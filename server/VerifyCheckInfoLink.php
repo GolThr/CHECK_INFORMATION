@@ -5,7 +5,6 @@ include("getUuid.php");
 $sha_id = $_POST["s"];
 $type = $_POST["op"]; //check: check link, verify: verify link pwd, query: query user info
 $data = $_POST["data"];
-$dbt_name = '';
 $tbl_id = '';
 $sha_pwd = '';
 $sha_vercol_json = '';
@@ -32,8 +31,25 @@ if($obj){
 $sha_vercol = json_decode($sha_vercol_json, $assoc = FALSE);
 
 if($type == 'check'){
-    $flags = array("flag" => $find_s_flag, "find_s_flag" => $find_s_flag);
-    $jsonStr = array("flags" => $flags);
+    //find user info
+    $user_name = '';
+    $avatar = '';
+    $find_usr_flag = 0;
+    $sql = "SELECT user_name,avatar FROM s_tables tb INNER JOIN s_userinfo ur ON tb.uuid=ur.uuid WHERE tbl_id='$tbl_id'";
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        $row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
+        if($row){
+            $user_name = $row['user_name'];
+            $avatar = $row['avatar'];
+            $find_usr_flag = 1;
+        }else{
+            $find_usr_flag = 0;
+        }
+    }
+    $flag = $find_s_flag && $find_usr_flag;
+    $flags = array("flag" => $flag, "find_s_flag" =>$find_s_flag, "find_usr_flag" => $find_usr_flag);
+    $jsonStr = array("flags" => $flags, "user_name" => $user_name, "avatar" => $avatar);
 }else if($type == 'verify'){
     $check_pwd_flag = 0;
     if($data == $sha_pwd){
@@ -43,11 +59,55 @@ if($type == 'check'){
     $flags = array("flag" => $flag, "find_s_flag" => $find_s_flag, "check_pwd_flag" => $check_pwd_flag);
     $jsonStr = array("flags" => $flags, "vercol" => $sha_vercol);
 }else if($type == 'query'){
+    //find dbt_name
+    $dbt_name = '';
+    $tbl_colname_json = null;
+    $find_dbt_flag = 0;
+    $query_flag = 0;
+    $sql = "SELECT dbt_name,tbl_colname_json FROM s_tables WHERE tbl_id='$tbl_id'";
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        $row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
+        if($row){
+            $dbt_name = $row['dbt_name'];
+            $tbl_colname_json = $row['tbl_colname_json'];
+            $find_dbt_flag = 1;
+        }else{
+            $find_dbt_flag = 0;
+        }
+    }
+    $head = json_decode($tbl_colname_json, $assoc = FALSE);
+    //query info
+    $res = array();
+    $query_head = array();
+    $n_vercol = count($sha_vercol);
+    $sql = "SELECT * FROM `$dbt_name` WHERE ";
+    for($i = 0; $i < $n_vercol; $i++){
+        if($i != 0){
+            $sql = $sql . " AND ";
+        }
+        $sql = $sql . "$sha_vercol[$i]='$data[$i]'";
+    }
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        $row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
+        if($row){
+            foreach ($head as $colName){
+                if($colName == 'id' || $colName == 'ischecked' || $colName == 'isviewed' || $colName == 'checked_time'){
+                    continue;
+                }
+                $query_head[] = $colName;
+                $res[] = $row[$colName];
+            }
+            $query_flag = 1;
+        }else{
+            $query_flag = 0;
+        }
+    }
 
-
-    $flag = $find_s_flag;
-    $flags = array("flag" => $flag);
-    $jsonStr = array("flags" => $flags, "vercol" => $sha_vercol);
+    $flag = $find_s_flag && $find_dbt_flag && $query_flag;
+    $flags = array("flag" => $flag, "find_s_flag" => $find_s_flag, "find_dbt_flag" => $find_dbt_flag, "query_flag" => $query_flag);
+    $jsonStr = array("flags" => $flags, "vercol" => $sha_vercol, "head" => $query_head, "data" => $res);
 }
 
 echo json_encode($jsonStr);

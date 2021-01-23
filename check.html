@@ -20,20 +20,46 @@
     <script type="text/javascript" src="js/normal_header.js"></script>
 
     <div class="check_page_body">
-        <div class="check_page_item check_page_verify">
-            <div class="check_page_link_fail" style="display: none;">
+        <div class="check_page_item" id="check_page_verify">
+            <div class="check_page_link_fail" id="check_page_link_fail" style="display: none;">
                 <img class="link_fail_img" src="images/ic_link_fail.png"/>
                 <div class="link_fail_content">
                     <span class="link_fail_title">链接不存在或已失效!</span>
                     <span class="link_fail_text">请记得及时查看链接哟~</span>
                 </div>
             </div>
+            <div class="check_page_link_verify" id="check_page_link_verify" style="display: none;">
+                <img class="link_avatar" src="avatar/head_default.png"/>
+                <span class="link_user">Manager</span>
+                <span class="link_title">邀请您参与信息核对</span>
+                <div class="link_verify_step" id="link_verify_step1">
+                    <input type="text" class="main_input link_verify_input" id="link_verify_input" placeholder="验证码"/>
+                    <span class="dialog_btn_main link_verify_btn" id="link_verify_btn">打开</span>
+                </div>
+                <div class="link_verify_step" id="check_page_query" style="display: none;"><!--auto--></div>
+            </div>
         </div>
-        <div class="check_page_item check_page_query">
-
-        </div>
-        <div class="check_page_item check_page_info">
-
+        <div class="check_page_item" id="check_page_info" style="display: none;">
+            <div class="info_page_body">
+                <span class="info_page_title">已确定的信息</span>
+                <div class="info_page_all" id="info_page_ok">
+                    <div class="info_page_item">
+                        <span class="info_page_subtitle">学号</span>
+                        <input class="main_input info_page_in" value=""/>
+                    </div>
+                    <div class="info_page_item">
+                        <span class="info_page_subtitle">姓名</span>
+                        <input class="main_input info_page_in" value=""/>
+                    </div>
+                </div>
+                <span class="info_page_title">需核对的信息</span>
+                <div class="info_page_all" id="info_page_need">
+                    <div class="info_page_item">
+                        <span class="info_page_subtitle">一些信息</span>
+                        <input class="main_input info_page_in" value=""/>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

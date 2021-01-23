@@ -52,10 +52,11 @@ li{
 }
 
 .main_input{
-    height: 25px;
+    height: 30px;
+    padding: 0 5px;
     border-radius: 10px;
     border: 2px solid #EAEDF6;
-    text-indent: 1em;
+    text-align: center;
 }
 
 .main_input:hover{
@@ -63,6 +64,23 @@ li{
 }
 
 .main_input:focus{
+    border: 2px solid rgba(95, 155, 253, 1);
+}
+
+.main_input_rad{
+    height: 40px;
+    border-radius: 50px;
+    font-size: 13px;
+    color: #000;
+    border: 2px solid #EAEDF6;
+    text-align: center;
+}
+
+.main_input_rad:hover{
+    border: 2px solid rgba(95, 155, 253, 1);
+}
+
+.main_input_rad:focus{
     border: 2px solid rgba(95, 155, 253, 1);
 }
 
@@ -264,8 +282,21 @@ li{
 }
 
 .dialog_checkbox_item{
-    margin: 0 10px;
+    cursor: pointer;
+    /*width: 60px;*/
+    height: 20px;
+    margin: 0 5px 5px 5px;
+    padding: 0 10px;
+    line-height: 20px;
+    border-radius: 15px;
     display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    color: #000;
+    text-align: center;
+    background: #EAEDF6;
 }
 
 .dialog_qrcode{
@@ -319,19 +350,28 @@ li{
 /*****float_tips*****/
 .float_tips_body {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 60px;
+    width: 300px;
+    background: rgba(0,0,0,0);
+    z-index: 100;
+}
+
+.float_tips_item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
     padding: 20px;
-    min-width: 300px;
-    max-width: 400px;
+    width: 300px;
     border-radius: 10px;
     background: #f1f6fc;
-    box-shadow: 2px 2px 5px 5px #F2F2F2;
-    z-index: 100;
+    box-shadow: 0 0 5px 2px #C3DCFF;
+    margin-top: 10px;
 }
 
 .float_tip_img{

@@ -16,6 +16,11 @@
     justify-content: center;
 }
 
+.check_page_item_n{
+    width: 100%;
+    margin: 20px;
+}
+
 .check_page_link_fail{
     display: flex;
     flex-direction: row;
@@ -26,6 +31,7 @@
     margin-bottom: 10px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 5px #F2F2F2;
+    margin-top: 80px;
 }
 
 .link_fail_img{
@@ -51,4 +57,95 @@
     color: #000;
     font-size: 12px;
     margin-top: 10px;
+}
+
+.check_page_link_verify{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+    padding: 30px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+    margin-top: 80px;
+}
+
+.link_avatar{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.link_user{
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.link_title_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.link_title{
+    display: inline-block;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.link_verify_input{
+    width: 200px;
+    margin-top: 10px;
+}
+
+.link_verify_btn,.link_query_btn{
+    width: 80px;
+    margin-top: 25px;
+}
+
+.link_verify_step{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.info_page_body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.info_page_title{
+    font-size: 16px;
+    color: #458CFE;
+    text-align: left;
+    margin: 20px;
+}
+
+.info_page_subtitle{
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.info_page_all{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.info_page_item{
+    width: 300px;
+    margin: 0 0 15px 20px;
+    display: flex;
+    flex-direction: column;
 }

@@ -25,9 +25,7 @@
         <input type="text" readonly="true" class="dialog_config_code main_input"/>
         <span class="dialog_sub_title">验证信息(用于用户查询属于自己的信息，可选择1~2项)</span>
         <div class="dialog_checkbox_content" id="dialog_config_verify">
-            <label class="dialog_checkbox_item"><input type="checkbox" onchange="onCheckedBox(this)" class="verify_checkbox" id="abc" value="abc"/>abc</label>
-            <label class="dialog_checkbox_item"><input type="checkbox" onchange="onCheckedBox(this)" class="verify_checkbox" id="asd" value="asd"/>asd</label>
-            <label class="dialog_checkbox_item"><input type="checkbox" onchange="onCheckedBox(this)" class="verify_checkbox" id="qwe" value="qwe"/>qwe</label>
+            <span class="dialog_checkbox_item" id="abc" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">abc</span>
         </div>
         <div class="dialog_btn_line" id="publish_config_btn">
             <span class="dialog_btn_seco" id="publish_config_cancel">取消</span>
@@ -83,9 +81,7 @@ document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '        <input type="text" readonly="true" class="dialog_config_code main_input"/>\n' +
     '        <span class="dialog_sub_title">验证信息(用于用户查询属于自己的信息，可选择1~2项)</span>\n' +
     '        <div class="dialog_checkbox_content" id="dialog_config_verify">\n' +
-    '            <label class="dialog_checkbox_item"><input type="checkbox" onchange="onCheckedBox(this)" class="verify_checkbox" id="abc" value="abc"/>abc</label>\n' +
-    '            <label class="dialog_checkbox_item"><input type="checkbox" onchange="onCheckedBox(this)" class="verify_checkbox" id="asd" value="asd"/>asd</label>\n' +
-    '            <label class="dialog_checkbox_item"><input type="checkbox" onchange="onCheckedBox(this)" class="verify_checkbox" id="qwe" value="qwe"/>qwe</label>\n' +
+    '            <span class="dialog_checkbox_item" id="abc" checked="false" disabled="false" onclick="onCheckedBox(this)">abc</span>\n' +
     '        </div>\n' +
     '        <div class="dialog_btn_line" id="publish_config_btn">\n' +
     '            <span class="dialog_btn_seco" id="publish_config_cancel">取消</span>\n' +
@@ -194,15 +190,19 @@ function showDialogPublishConfig(title,col_json){
     checked_num = 0;
     for(var i in col_json){
         var col_name = col_json[i];
-        $('#dialog_config_verify').append('<label class="dialog_checkbox_item"><input type="checkbox" onchange="onCheckedBox(this)" class="verify_checkbox" id="'+col_name+'" value="'+col_name+'"/>'+col_name+'</label>');
+        $('#dialog_config_verify').append('<span class="dialog_checkbox_item" id="'+col_name+'" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">'+col_name+'</span>');
     }
 }
 
 function onCheckedBox(obj){
-    if($(obj).is(':checked')){
+    if($(obj).attr('ischecked') == 'false'){
         checked_num++;
+        $(obj).attr('ischecked', 'true');
+        $(obj).css({'background':'#458CFE','color':'#fff'});
     }else{
         checked_num--;
+        $(obj).attr('ischecked', 'false');
+        $(obj).css({'background':'#EAEDF6','color':'#000'});
     }
     if(checked_num < 0){
         checked_num = 0;
@@ -215,24 +215,30 @@ function onCheckedBox(obj){
 
 function getCheckedItem(){
     var tmp = [];
-    $('.verify_checkbox').each(function (index, elem){
-        if($(elem).is(':checked')){
-            tmp.push($(elem).val());
+    $('.dialog_checkbox_item').each(function (index, elem){
+        if($(elem).attr('ischecked') == 'true'){
+            tmp.push($(elem).text());
         }
     });
     return tmp;
 }
 
 function showOtherCheckBox(){
-    $('.verify_checkbox').each(function (index, elem){
-        $(elem).removeAttr('disabled');
+    $('.dialog_checkbox_item').each(function (index, elem){
+        if($(elem).attr('ischecked') == 'false') {
+            $(elem).attr('isdisabled', 'false');
+            $(elem).attr('onclick', 'onCheckedBox(this)');
+            $(elem).css({'background': '#EAEDF6', 'color': '#000'});
+        }
     });
 }
 
 function hideOtherCheckBox(){
-    $('.verify_checkbox').each(function (index, elem){
-        if(!$(elem).is(':checked')){
-            $(elem).attr('disabled','disabled');
+    $('.dialog_checkbox_item').each(function (index, elem){
+        if($(elem).attr('ischecked') == 'false'){
+            $(elem).attr('isdisabled','true');
+            $(elem).attr('onclick', '');
+            $(elem).css({'background':'#f1f6fc','color':'#bfbfbf'});
         }
     });
 }

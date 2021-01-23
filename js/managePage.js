@@ -185,8 +185,8 @@ function renderTable(msg){
         showTblNone();
         return;
     }
-
     hideTblNone();
+
     //render header
     var id_ind = 0;
     $(".manage_info_table").append('<tr id="row0" row="0" onclick="onRowSelected(this)"></tr>');
@@ -221,7 +221,14 @@ function renderTable(msg){
 }
 
 function renderTableList(msg){
-    $("#manage_all_list").html('');
+    console.log(msg);
+    console.log(msg.length);
+    if(msg.length == 0){
+        showTblListEmpty();
+        return;
+    }
+    hideTblListEmpty();
+    clearTblListArea();
     var btn_img = 'ic_modify_open.png';
     var btn_fn = '';
     for(var i in msg){
@@ -454,6 +461,7 @@ function publishCheckInfoShare(tbl_name,s_pwd,ver_col){
                 hideDialogTip();
                 showPauseBtn();
                 getTableList();
+                showFloatTip('发布成功！', 'success');
                 showCheckShareInfo(msg);
             }
         },
@@ -561,15 +569,27 @@ function showPauseBtn(){
 }
 
 function showTblNone(){
-    $('.back_none').show();
+    $('#back_none').show();
 }
 
 function hideTblNone(){
-    $('.back_none').hide();
+    $('#back_none').hide();
+}
+
+function showTblListEmpty(){
+    $('#back_empty').show();
+}
+
+function hideTblListEmpty(){
+    $('#back_empty').hide();
 }
 
 function clearTblArea(){
     $(".manage_info_table").html('');
+}
+
+function clearTblListArea(){
+    $("#manage_all_list").html('');
 }
 
 //obj

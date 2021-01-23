@@ -7,21 +7,33 @@
     <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
     <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
     <style type="text/css">
-
+        .test_test{
+            width: 100px;
+            height: 50px;
+            padding: 20px;
+            color: #fff;
+            background: #458CFE;
+            transform: scale(12);
+        }
     </style>
 </head>
 <body>
 <script type="text/javascript" src="js/float_tips.js"></script>
+<span class="test_test">123</span>
 
 <span class="dialog_btn_seco" id="tip_cancel">取消</span>
     <span class="dialog_btn_main" id="tip_ok">确定</span>
+    <span class="dialog_btn_main" id="test_test">测试transform</span>
 
     <script type="text/javascript">
         $('#tip_ok').click(function (){
-            showFloatTip('确定');
+            showFloatTip('确定', 'success');
         });
         $('#tip_cancel').click(function (){
-            showFloatTip('取消');
+            showFloatTip('取消', 'error');
+        });
+        $('#test_test').click(function (){
+            $('.test_test').css("transform","scale(1)");
         });
     </script>
 </body>

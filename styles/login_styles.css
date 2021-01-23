@@ -88,7 +88,7 @@ body{
     color: #fff;
     border: 0;
     margin-top: 20px;
-    box-shadow: 2px 2px 5px 2px rgb(195, 220, 255);
+    box-shadow: 0 0 5px 2px #C3DCFF;
 }
 
 .submit_btn a{
