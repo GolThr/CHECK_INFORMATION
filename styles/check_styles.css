@@ -141,11 +141,30 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-right: 20px;
 }
 
 .info_page_item{
     width: 300px;
-    margin: 0 0 15px 20px;
+    margin: 0 0 20px 20px;
     display: flex;
     flex-direction: column;
+}
+
+.info_page_btn_line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.info_check_save{
+    width: 100px;
+}
+
+.info_check_ok{
+    width: 100px;
+    margin-left: 20px;
 }
