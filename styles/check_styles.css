@@ -26,7 +26,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 300px;
     padding: 30px;
     margin-bottom: 10px;
     border-radius: 10px;
@@ -35,9 +34,9 @@
 }
 
 .link_fail_img{
-    width: 50px;
+    width: 130px;
     height: auto;
-    margin-right: 20px;
+    margin-right: 30px;
 }
 
 .link_fail_content{
@@ -49,7 +48,7 @@
 
 .link_fail_title{
     color: #000;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -135,6 +134,34 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.info_page_in_ok{
+    height: 30px;
+    padding: 0 5px;
+    border-radius: 10px;
+    border: 2px solid #EAEDF6;
+    text-align: center;
+}
+
+.info_page_in_nochange{
+    border-color: #EAEDF6;
+}
+
+.info_page_in_changed{
+    border-color: #fedf45;
+}
+
+.info_page_in_wrong{
+    border-color: #cf3b3f;
+}
+
+.info_page_in:hover{
+    border: 2px solid rgba(95, 155, 253, 1);
+}
+
+.info_page_in:focus{
+    border: 2px solid rgba(95, 155, 253, 1);
 }
 
 .info_page_all{

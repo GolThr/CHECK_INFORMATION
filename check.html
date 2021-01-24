@@ -22,7 +22,7 @@
     <div class="check_page_body">
         <div class="check_page_item" id="check_page_verify">
             <div class="check_page_link_fail" id="check_page_link_fail" style="display: none;">
-                <img class="link_fail_img" src="images/ic_link_fail.png"/>
+                <img class="link_fail_img" src="images/back_oops.png"/>
                 <div class="link_fail_content">
                     <span class="link_fail_title">链接不存在或已失效!</span>
                     <span class="link_fail_text">请记得及时查看链接哟~</span>
@@ -45,23 +45,35 @@
                 <div class="info_page_all" id="info_page_ok">
                     <div class="info_page_item">
                         <span class="info_page_subtitle">学号</span>
-                        <input class="main_input info_page_in" value=""/>
+                        <input class="info_page_in_ok" type="text" readonly value=""/>
                     </div>
                     <div class="info_page_item">
                         <span class="info_page_subtitle">姓名</span>
-                        <input class="main_input info_page_in" value=""/>
+                        <input class="info_page_in_ok" type="text" readonly value=""/>
                     </div>
                 </div>
-                <span class="info_page_title">需核对的信息</span>
+                <span class="info_page_title">需核对的信息 (黄色框为已经修改的信息，灰色框为未修改信息)</span>
                 <div class="info_page_all" id="info_page_need">
                     <div class="info_page_item">
                         <span class="info_page_subtitle">一些信息</span>
-                        <input class="main_input info_page_in" value=""/>
+                        <input class="main_input info_page_in" type="text" value="" onchange="onInfoPageInChange(this)" onblur="onInfoPageInBlur(this)"/>
                     </div>
                 </div>
                 <div class="info_page_btn_line">
                     <span class="dialog_btn_seco info_check_save">保存修改</span>
                     <span class="dialog_btn_main info_check_ok">确认无误</span>
+                </div>
+            </div>
+        </div>
+        <div class="check_page_item" id="check_page_done" style="display: none;">
+            <div class="check_page_link_fail">
+                <img class="link_fail_img" src="images/back_thanks.png"/>
+                <div class="link_fail_content">
+                    <span class="link_fail_title">感谢您的核对</span>
+                    <span class="link_fail_text">点击下方“再次核对”按钮可返回再次查看您的信息哟~</span>
+                    <div class="info_page_btn_line">
+                        <span class="dialog_btn_seco" style="width: 100px;" onclick="changePage('info')">再次查看</span>
+                    </div>
                 </div>
             </div>
         </div>

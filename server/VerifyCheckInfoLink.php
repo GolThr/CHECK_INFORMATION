@@ -32,14 +32,16 @@ $sha_vercol = json_decode($sha_vercol_json, $assoc = FALSE);
 
 if($type == 'check'){
     //find user info
+    $tbl_name = '';
     $user_name = '';
     $avatar = '';
     $find_usr_flag = 0;
-    $sql = "SELECT user_name,avatar FROM s_tables tb INNER JOIN s_userinfo ur ON tb.uuid=ur.uuid WHERE tbl_id='$tbl_id'";
+    $sql = "SELECT user_name,avatar,tbl_name FROM s_tables tb INNER JOIN s_userinfo ur ON tb.uuid=ur.uuid WHERE tbl_id='$tbl_id'";
     $obj = mysqli_query($link, $sql);
     if($obj){
         $row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
         if($row){
+            $tbl_name = $row['tbl_name'];
             $user_name = $row['user_name'];
             $avatar = $row['avatar'];
             $find_usr_flag = 1;
@@ -49,7 +51,7 @@ if($type == 'check'){
     }
     $flag = $find_s_flag && $find_usr_flag;
     $flags = array("flag" => $flag, "find_s_flag" =>$find_s_flag, "find_usr_flag" => $find_usr_flag);
-    $jsonStr = array("flags" => $flags, "user_name" => $user_name, "avatar" => $avatar);
+    $jsonStr = array("flags" => $flags, "tbl_name" => $tbl_name, "user_name" => $user_name, "avatar" => $avatar);
 }else if($type == 'verify'){
     $check_pwd_flag = 0;
     if($data == $sha_pwd){
@@ -82,11 +84,14 @@ if($type == 'check'){
     $query_head = array();
     $n_vercol = count($sha_vercol);
     $sql = "SELECT * FROM `$dbt_name` WHERE ";
+    $sql_set_viewed = "UPDATE `$dbt_name` SET isviewed='1' WHERE ";
     for($i = 0; $i < $n_vercol; $i++){
         if($i != 0){
             $sql = $sql . " AND ";
+            $sql_set_viewed = $sql_set_viewed . " AND ";
         }
         $sql = $sql . "$sha_vercol[$i]='$data[$i]'";
+        $sql_set_viewed = $sql_set_viewed . "$sha_vercol[$i]='$data[$i]'";
     }
     $obj = mysqli_query($link, $sql);
     if($obj){
@@ -99,6 +104,8 @@ if($type == 'check'){
                 $query_head[] = $colName;
                 $res[] = $row[$colName];
             }
+            //set viewed
+            $obj_v = mysqli_query($link, $sql_set_viewed);
             $query_flag = 1;
         }else{
             $query_flag = 0;
