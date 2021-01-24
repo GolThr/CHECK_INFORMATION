@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="styles/footer_web_style.css" type="text/css">
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="js/animation.js"></script>
+    <script type="text/javascript" src="js/affects.js"></script>
     <script type="text/javascript">
         if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
             //*&/InformationCheck/&*
@@ -28,12 +29,55 @@
     <div class="background_header">
         <img class="background_header_img" src="images/background_pop_header.png" onclick=""/>
     </div>
-    <div class="sheet">
+
+    <div class="sheet" id="login_sheet">
         <img class="sheet_logo" src="images/check_logo_col.png"/>
         <input class="username main_input" id="account" type="text" placeholder="邮箱/手机号">
         <input class="password main_input" id="password" type="password" placeholder="密码">
-        <button class="submit_btn" type="submit">登录</button>
+        <div class="login_func_line">
+            <span class="login_func_title">忘记密码?</span>
+        </div>
+        <div class="login_btn_line">
+            <button class="submit_btn_sec" type="submit" onclick="changePage('choose')">注册</button>
+            <button class="submit_btn" type="submit" id="login_btn">登录</button>
+        </div>
     </div>
+    <div class="sheet" id="register_sheet" style="display: none;">
+        <img class="reg_logo" src="images/check_logo_rgb.png"/>
+        <span class="reg_title">注册</span>
+        <div class="reg_choose_body" id="reg_choose" style="display: none;">
+            <div class="reg_choose_item" onclick="changePage('email_verify')">
+                <img class="reg_choose_img" src="images/ic_email_black.png"/>
+                <span class="reg_choose_title">邮箱注册</span>
+            </div>
+            <div class="reg_choose_item" style="margin-left: 40px;">
+                <img class="reg_choose_img" src="images/ic_phone_black.png"/>
+                <span class="reg_choose_title">手机注册</span>
+            </div>
+        </div>
+        <div class="reg_choose_body" id="reg_step_body" style="display: none;">
+            <div class="reg_step_body" id="reg_email_step_verify" style="display: none;">
+                <input type="text" class="main_input" id="reg_email" placeholder="邮箱"/>
+                <div class="reg_need_verify_line">
+                    <input type="text" class="main_input" id="reg_email_vercode" placeholder="验证码"/>
+                    <button class="submit_btn_sec" id="get_email_ver_btn" onclick="getEmailVerify(this)">获取验证码</button>
+                </div>
+                <button class="submit_btn" type="submit" style="width: 270px;" id="reg_email_next">下一步</button>
+            </div>
+            <div class="reg_step_body" id="reg_email_step_input" style="display: none;">
+                <input type="text" class="main_input" id="reg_email_username" placeholder="用户名"/>
+                <input type="password" class="main_input" id="reg_email_pwd" placeholder="设置密码"/>
+                <input type="password" class="main_input" id="reg_email_repwd" placeholder="再次输入密码"/>
+                <button class="submit_btn" type="submit" style="width: 270px;" onclick="register()">注册</button>
+            </div>
+        </div>
+    </div>
+    <div class="sheet" id="done_sheet" style="display: none;">
+        <span class="reg_title">注册成功</span>
+        <img class="reg_done_img" src="images/back_reg_success.png"/>
+        <button class="submit_btn" type="submit" style="width: 270px;" onclick="changePage('login')">返回登录</button>
+    </div>
+
     <div class="background_footer">
         <img class="background_footer_img" src="images/background_pop_footer.png" onclick=""/>
     </div>
@@ -42,6 +86,7 @@
         <span class="footer_detail">Developed by 宋宜鑫.</span>
     </div>
 
+    <script type="text/javascript" src="js/float_tips.js"></script>
     <script type="text/javascript" src="js/loginPage.js"></script>
 </body>
 </html>
