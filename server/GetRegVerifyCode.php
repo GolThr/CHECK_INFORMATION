@@ -41,10 +41,10 @@ function sendEmail($to, $subject, $message, $altMessage){
 }
 
 function getVerCode(){
-    $tmp = ['a','b','c','d','e','f','g','h','i','j','k','5','6','7','8','9','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4'];
+    $tmp = ['0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9'];
     $code = "";
     for($i = 0; $i < 6; $i++){
-        $code = $code . $tmp[rand(0, 35)];
+        $code = $code . $tmp[rand(0, 19)];
     }
     return $code;
 }
