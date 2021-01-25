@@ -17,10 +17,10 @@ function sendEmail($to, $subject, $message, $altMessage){
         $mail->Host = 'smtp.163.com';                // SMTP服务器
         $mail->SMTPAuth = true;                      // 允许 SMTP 认证
         $mail->Username = 'golthr@163.com';                // SMTP 用户名  即邮箱的用户名
-        $mail->Password = 'PUMABPMYABZBWFEX';             // SMTP 密码  部分邮箱是授权码(例如163邮箱)
+        $mail->Password = '';             // SMTP 密码  部分邮箱是授权码(例如163邮箱)
         $mail->Port = 25;                            // 服务器端口 25 或者465 具体要看邮箱服务器支持
 
-        $mail->setFrom('golthr@163.com', 'GolThr');  //发件人
+        $mail->setFrom('golthr@163.com', '查客账号中心');  //发件人
         $mail->addAddress($to);  // 收件人
 
         //发送附件
