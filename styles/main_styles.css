@@ -435,5 +435,31 @@ li{
     margin-right: 30px;
     font-size: 20px;
 }
-
 /***********************/
+
+
+/*****marquee_inline*****/
+.marquee_inline_body{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 15px;
+    padding: 5px 0;
+    margin-top: 20px;
+    border-radius: 20px;
+    background: #ffde6f;
+}
+
+.marquee_inline_img{
+    width: auto;
+    height: 15px;
+    margin: 0 20px;
+}
+
+.marquee_inline_text{
+    color: #000;
+    font-size: 12px;
+}
+/************************/

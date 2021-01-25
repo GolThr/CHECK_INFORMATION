@@ -31,15 +31,18 @@
                 <img class="user_avatar" src="images/head_default.png" alt="avatar">
             </div>
         </div>
+
+        <script type="text/javascript" src="js/marquee_inline.js"></script>
+
         <div class="home_data_view_line">
             <div class="home_data_view" style="margin-right: 10px;height: 150px;">
                 <div class="home_data_view_content">
                     <div class="home_data_view_body">
-                        <span class="home_data_view_number">536</span>
+                        <span class="home_data_view_number" id="n_tbl_all">0</span>
                         <span class="home_data_view_title">总计</span>
                     </div>
                     <div class="home_data_view_body">
-                        <span class="home_data_view_number" style="color: #5F9BFD">520</span>
+                        <span class="home_data_view_number" id="n_tbl_checking" style="color: #5F9BFD">0</span>
                         <span class="home_data_view_title">正在进行</span>
                     </div>
                 </div>
@@ -47,82 +50,47 @@
             <div class="home_data_view" style="margin-left: 10px;height: 150px;">
                 <div class="home_data_view_content">
                     <div class="home_data_view_body">
-                        <span class="home_data_view_number">1</span>
+                        <span class="home_data_view_number home_num_clickable" onclick="location.href = 'personal.html?page=notice'" id="n_notice">0</span>
                         <span class="home_data_view_title">公告</span>
                     </div>
                     <div class="home_data_view_body">
-                        <span class="home_data_view_number" style="color: #cf3b3f">3</span>
+                        <span class="home_data_view_number home_num_clickable" id="n_messages" onclick="location.href = 'personal.html?page=message'" style="color: #cf3b3f">0</span>
                         <span class="home_data_view_title">未读消息</span>
                     </div>
                 </div>
             </div>
         </div>
-        <span class="home_block_title">正在进行速览</span>
-
+        <span class="home_block_title">核对进度速览</span>
 <!--head-->
-        <div class="home_data_view">
-            <span class="home_data_view_content_title">某某数据表名</span>
-            <div class="home_data_view_content">
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number">536</span>
-                    <span class="home_data_view_title">条数据</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number" style="color: #5F9BFD">520</span>
-                    <span class="home_data_view_title">人已核对</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number" style="color: #cf3b3f">16</span>
-                    <span class="home_data_view_title">人未核对</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number">97.01%</span>
-                    <span class="home_data_view_title">核对率</span>
-                </div>
-            </div>
+        <div class="home_data_view_checking_body" id="home_data_view_checking_body">
+<!--            <div class="home_data_view">-->
+<!--                <div class="home_data_progress_bar" style="width: 0;"></div>-->
+<!--                <span class="home_data_view_content_title">某某数据表名</span>-->
+<!--                <div class="home_data_view_content">-->
+<!--                    <div class="home_data_view_body">-->
+<!--                        <span class="home_data_view_number">536</span>-->
+<!--                        <span class="home_data_view_title">条数据</span>-->
+<!--                    </div>-->
+<!--                    <div class="home_data_view_body">-->
+<!--                        <span class="home_data_view_number" style="color: #ffce00">520</span>-->
+<!--                        <span class="home_data_view_title">人已查看</span>-->
+<!--                    </div>-->
+<!--                    <div class="home_data_view_body">-->
+<!--                        <span class="home_data_view_number" style="color: #5F9BFD">520</span>-->
+<!--                        <span class="home_data_view_title">人已核对</span>-->
+<!--                    </div>-->
+<!--                    <div class="home_data_view_body">-->
+<!--                        <span class="home_data_view_number" style="color: #cf3b3f">16</span>-->
+<!--                        <span class="home_data_view_title">人未核对</span>-->
+<!--                    </div>-->
+<!--                    <div class="home_data_view_body">-->
+<!--                        <span class="home_data_view_number">97.01%</span>-->
+<!--                        <span class="home_data_view_title">核对率</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
-        <div class="home_data_view">
-            <span class="home_data_view_content_title">某某数据表名</span>
-            <div class="home_data_view_content">
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number">536</span>
-                    <span class="home_data_view_title">条数据</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number" style="color: #5F9BFD">520</span>
-                    <span class="home_data_view_title">人已核对</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number" style="color: #cf3b3f">16</span>
-                    <span class="home_data_view_title">人未核对</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number">97.01%</span>
-                    <span class="home_data_view_title">核对率</span>
-                </div>
-            </div>
-        </div>
-        <div class="home_data_view">
-            <span class="home_data_view_content_title">某某数据表名</span>
-            <div class="home_data_view_content">
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number">536</span>
-                    <span class="home_data_view_title">条数据</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number" style="color: #5F9BFD">520</span>
-                    <span class="home_data_view_title">人已核对</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number" style="color: #cf3b3f">16</span>
-                    <span class="home_data_view_title">人未核对</span>
-                </div>
-                <div class="home_data_view_body">
-                    <span class="home_data_view_number">97.01%</span>
-                    <span class="home_data_view_title">核对率</span>
-                </div>
-            </div>
-        </div>
+
 <!--bottom-->
     <span class="span_fixed_home">-</span>
 
