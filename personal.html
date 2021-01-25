@@ -20,8 +20,47 @@
 </head>
 <body>
     <script type="text/javascript" src="js/panel_menu.js"></script>
+    
     <div class="panel_body panel_body_mine" id="panel_body_mine">
         <script type="text/javascript" src="js/header.js"></script>
+        <div class="me_func_body" id="panel_body_menu">
+            <div class="me_func_item" onclick="changePage('info')">
+                <img class="me_func_item_img" src="images/ic_mine.png"/>
+                <span class="me_func_item_title">用户信息</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('security')">
+                <img class="me_func_item_img" src="images/ic_security.png"/>
+                <span class="me_func_item_title">账号安全</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('message')">
+                <img class="me_func_item_img" src="images/ic_message.png"/>
+                <span class="me_func_item_title">消息</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('notice')">
+                <img class="me_func_item_img" src="images/ic_notice.png"/>
+                <span class="me_func_item_title">公告</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('pay')">
+                <img class="me_func_item_img" src="images/ic_pay.png"/>
+                <span class="me_func_item_title">打赏</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('about')">
+                <img class="me_func_item_img" src="images/ic_about.png"/>
+                <span class="me_func_item_title">关于</span>
+            </div>
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_info" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_security" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_message" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_notice" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_pay" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_about" style="display: none;">
+        </div>
     </div>
 
     <script type="text/javascript" src="js/dialogs.js"></script>

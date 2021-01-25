@@ -1,3 +1,5 @@
+var cur_page = 'menu';
+
 function init(){
     initUser();
     $('.head_back_btn').hide();
@@ -5,28 +7,89 @@ function init(){
     $("#menu_home").removeClass('panel_menu_list_selected');
     $("#menu_manage").removeClass('panel_menu_list_selected');
     $("#menu_mine").addClass('panel_menu_list_selected');
-    TBL_DATA = new Array();
-    TBL_ROW = 0;
-    TBL_COL = 0;
-    TBL_NAME = '';
-    cur_row = 0;
-    cur_col = 0;
-    modified = 0;
-    var bak_tbl_data = JSON.parse(localStorage.getItem("bak_tbl_data"));
-    var bak_tbl_row = JSON.parse(localStorage.getItem("bak_tbl_row"));
-    var bak_tbl_col = JSON.parse(localStorage.getItem("bak_tbl_col"));
-    var bak_tbl_name = JSON.parse(localStorage.getItem("bak_tbl_name"));
-    if(bak_tbl_data != undefined){
-        showDialogTip('温馨提示', '您尚有未保存的表单，要继续编辑吗？');
-        bindTipOK(function (){
-            TBL_DATA = bak_tbl_data;
-            TBL_ROW = bak_tbl_row;
-            TBL_COL = bak_tbl_col;
-            TBL_NAME = bak_tbl_name;
-            modified = 1;
-            changePage('manage');
-            renderTable();
-            hideDialogTip();
+}
+
+function changePage(p){
+    // panel_body_menu, panel_body_info, panel_body_security, panel_body_message, panel_body_notice, panel_body_pay, panel_body_about
+    /////
+    var obj = $('#panel_body_menu');
+    //check cur page
+    if(cur_page == 'menu'){
+        obj = $('#panel_body_menu');
+    }else if(cur_page == 'info'){
+        obj = $('#panel_body_info');
+    }else if(cur_page == 'security'){
+        obj = $('#panel_body_security');
+    }else if(cur_page == 'message'){
+        obj = $('#panel_body_message');
+    }else if(cur_page == 'notice'){
+        obj = $('#panel_body_notice');
+    }else if(cur_page == 'pay'){
+        obj = $('#panel_body_pay');
+    }else if(cur_page == 'about'){
+        obj = $('#panel_body_about');
+    }
+    //navigator
+    if(p == 'menu'){
+        obj.fadeOut(500,function (){
+            cur_page = 'menu';
+            setMainHeadTitle('个人中心');
+            hideBackBtn();
+            $('#panel_body_menu').fadeIn();
+        });
+    }else if(p == 'info'){
+        obj.fadeOut(500,function () {
+            cur_page = 'info';
+            setMainHeadTitle('用户信息');
+            showBackBtn(function (){
+                changePage('menu');
+            });
+            $('#panel_body_info').fadeIn();
+        });
+    }else if(p == 'security'){
+        obj.fadeOut(500,function () {
+            cur_page = 'security';
+            setMainHeadTitle('账号安全');
+            showBackBtn(function (){
+                changePage('menu');
+            });
+            $('#panel_body_security').fadeIn();
+        });
+    }else if(p == 'message'){
+        obj.fadeOut(500,function () {
+            cur_page = 'message';
+            setMainHeadTitle('消息');
+            showBackBtn(function (){
+                changePage('menu');
+            });
+            $('#panel_body_message').fadeIn();
+        });
+    }else if(p == 'notice'){
+        obj.fadeOut(500,function () {
+            cur_page = 'notice';
+            setMainHeadTitle('公告');
+            showBackBtn(function (){
+                changePage('menu');
+            });
+            $('#panel_body_notice').fadeIn();
+        });
+    }else if(p == 'pay'){
+        obj.fadeOut(500,function () {
+            cur_page = 'pay';
+            setMainHeadTitle('打赏');
+            showBackBtn(function (){
+                changePage('menu');
+            });
+            $('#panel_body_pay').fadeIn();
+        });
+    }else if(p == 'about'){
+        obj.fadeOut(500,function () {
+            cur_page = 'about';
+            setMainHeadTitle('关于');
+            showBackBtn(function (){
+                changePage('menu');
+            });
+            $('#panel_body_about').fadeIn();
         });
     }
 }
