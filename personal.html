@@ -24,27 +24,64 @@
     <div class="panel_body panel_body_mine" id="panel_body_mine">
         <script type="text/javascript" src="js/header.js"></script>
         <div class="me_func_body" id="panel_body_menu">
-            <div class="me_func_item" onclick="changePage('info')">
-                <img class="me_func_item_img" src="images/ic_mine.png"/>
-                <span class="me_func_item_title">用户信息</span>
+            <div class="me_func_item" style="position: relative;cursor: default;">
+                <img class="me_func_item_edit" id="info_edit_grey" src="images/ic_edit_grey.png" onmouseover="blueInfoEditBtn()" onmouseleave="greyInfoEditBtn()"/>
+                <img class="me_func_item_edit" id="info_edit_blue" src="images/ic_edit_blue.png" style="display: none;" onmouseover="blueInfoEditBtn()" onmouseleave="greyInfoEditBtn()"/>
+                <div class="me_func_item_avatar_body" style="position: relative;" onmouseover="showChangeAvatarBtn()" onmouseleave="hideChangeAvatarBtn()">
+                    <img class="me_func_item_avatar" src="avatar/008.jpg"/>
+                    <div class="me_func_item_avatar_change" style="display: none;">
+                        <span class="me_func_item_avatar_change_text">修改<br>头像</span>
+                    </div>
+                    <img class="me_func_item_gender" src="images/ic_gender_male.png">
+                </div>
+                <span class="me_func_item_username">GolThr</span>
             </div>
-            <div class="me_func_item" onclick="changePage('security')">
+
+            <div class="me_func_item_list">
+                <div class="me_func_item_line">
+                    <div class="item_line_left">
+                        <div class="item_line_title_body">
+                            <img class="item_line_title_img" src="images/ic_email.png"/>
+                            <span class="item_line_title">绑定邮箱</span>
+                        </div>
+                        <span class="item_line_text">1344006993@qq.com</span>
+                    </div>
+                    <div class="item_line_right">
+                        <img class="item_line_goto_img" src="images/ic_right_arrow.png"/>
+                    </div>
+                </div>
+                <div class="me_func_item_line" style="margin-top: 10px;">
+                    <div class="item_line_left">
+                        <div class="item_line_title_body">
+                            <img class="item_line_title_img" src="images/ic_phone.png"/>
+                            <span class="item_line_title">绑定手机</span>
+                        </div>
+                        <span class="item_line_text">17852651283</span>
+                    </div>
+                    <div class="item_line_right">
+                        <img class="item_line_goto_img" src="images/ic_right_arrow.png"/>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="me_func_item me_func_item_goto" onclick="changePage('security')">
                 <img class="me_func_item_img" src="images/ic_security.png"/>
                 <span class="me_func_item_title">账号安全</span>
             </div>
-            <div class="me_func_item" onclick="changePage('message')">
+            <div class="me_func_item me_func_item_goto" onclick="changePage('message')">
                 <img class="me_func_item_img" src="images/ic_message.png"/>
                 <span class="me_func_item_title">消息</span>
             </div>
-            <div class="me_func_item" onclick="changePage('notice')">
+            <div class="me_func_item me_func_item_goto" onclick="changePage('notice')">
                 <img class="me_func_item_img" src="images/ic_notice.png"/>
                 <span class="me_func_item_title">公告</span>
             </div>
-            <div class="me_func_item" onclick="changePage('pay')">
+            <div class="me_func_item me_func_item_goto" onclick="changePage('pay')">
                 <img class="me_func_item_img" src="images/ic_pay.png"/>
                 <span class="me_func_item_title">打赏</span>
             </div>
-            <div class="me_func_item" onclick="changePage('about')">
+            <div class="me_func_item me_func_item_goto" onclick="changePage('about')">
                 <img class="me_func_item_img" src="images/ic_about.png"/>
                 <span class="me_func_item_title">关于</span>
             </div>

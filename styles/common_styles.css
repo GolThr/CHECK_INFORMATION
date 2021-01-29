@@ -38,9 +38,26 @@
 
 .panel_menu_list li{
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     padding: 15px 10px;
     width: 150px;
     text-align: center;
+}
+
+.panel_menu_list li img{
+    width: 20px;
+    height: 20px;
+}
+
+.panel_menu_list li span{
+    opacity: 0;
+    width: 0;
+    height: 20px;
+    line-height: 20px;
+    text-align: left;
 }
 
 .panel_menu_list_selected{

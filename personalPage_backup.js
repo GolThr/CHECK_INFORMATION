@@ -4,7 +4,9 @@ function init(){
     initUser();
     $('.head_back_btn').hide();
     $('.head_title').text('个人中心');
-    SelectPanelMenuItem('mine');
+    $("#menu_home").removeClass('panel_menu_list_selected');
+    $("#menu_manage").removeClass('panel_menu_list_selected');
+    $("#menu_mine").addClass('panel_menu_list_selected');
 }
 
 function changePage(p){
@@ -90,22 +92,4 @@ function changePage(p){
             $('#panel_body_about').fadeIn();
         });
     }
-}
-
-function showChangeAvatarBtn(){
-    $('.me_func_item_avatar_change').show();
-}
-
-function hideChangeAvatarBtn(){
-    $('.me_func_item_avatar_change').hide();
-}
-
-function blueInfoEditBtn(){
-    $('#info_edit_blue').show();
-    $('#info_edit_grey').hide();
-}
-
-function greyInfoEditBtn(){
-    $('#info_edit_grey').show();
-    $('#info_edit_blue').hide();
 }

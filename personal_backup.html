@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查客核对</title>
+    <meta name="keywords" content="心志愿,志愿者,志愿服务"/>
+    <meta name="description" content="心志愿，用心做志愿！"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="png_favicon.png" type=" image/png">
+    <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/personal_styles.css" type="text/css"/>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/affects.js"></script>
+    <script type="text/javascript">
+        window.onload = (function () {
+            init();
+        });
+    </script>
+</head>
+<body>
+    <script type="text/javascript" src="js/panel_menu.js"></script>
+    
+    <div class="panel_body panel_body_mine" id="panel_body_mine">
+        <script type="text/javascript" src="js/header.js"></script>
+        <div class="me_func_body" id="panel_body_menu">
+            <div class="me_func_item" onclick="changePage('info')">
+                <img class="me_func_item_img" src="images/ic_mine.png"/>
+                <span class="me_func_item_title">用户信息</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('security')">
+                <img class="me_func_item_img" src="images/ic_security.png"/>
+                <span class="me_func_item_title">账号安全</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('message')">
+                <img class="me_func_item_img" src="images/ic_message.png"/>
+                <span class="me_func_item_title">消息</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('notice')">
+                <img class="me_func_item_img" src="images/ic_notice.png"/>
+                <span class="me_func_item_title">公告</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('pay')">
+                <img class="me_func_item_img" src="images/ic_pay.png"/>
+                <span class="me_func_item_title">打赏</span>
+            </div>
+            <div class="me_func_item" onclick="changePage('about')">
+                <img class="me_func_item_img" src="images/ic_about.png"/>
+                <span class="me_func_item_title">关于</span>
+            </div>
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_info" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_security" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_message" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_notice" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_pay" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_about" style="display: none;">
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/dialogs.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/personalPage.js"></script>
+</body>
+</html>

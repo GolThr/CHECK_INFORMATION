@@ -1,8 +1,6 @@
 function init(){
     initUser();
-    $("#menu_home").addClass('panel_menu_list_selected');
-    $("#menu_manage").removeClass('panel_menu_list_selected');
-    $("#menu_mine").removeClass('panel_menu_list_selected');
+    SelectPanelMenuItem('home');
 
     getHomeNumber();
     getNotice();
@@ -74,7 +72,7 @@ function renderIndexCheckTblNum(msg){
             var percent = ((n_checked / n_all) * 100).toFixed(2);
             checking_cnt++
             $("#home_data_view_checking_body").append('<div class="home_data_view">\n' +
-                '                <div class="home_data_progress_bar" style="width: '+percent+'%;"></div>\n' +
+                '                <div class="home_data_progress_bar" id="tbl_num_'+i+'" style="width: 0;"></div>\n' +
                 '                <span class="home_data_view_content_title">'+tbl_name+'</span>\n' +
                 '                <div class="home_data_view_content">\n' +
                 '                    <div class="home_data_view_body">\n' +
@@ -99,6 +97,7 @@ function renderIndexCheckTblNum(msg){
                 '                    </div>\n' +
                 '                </div>\n' +
                 '            </div>');
+            $('#tbl_num_'+i).animate({width:percent+"%"});
         }
     }
     $('#n_tbl_all').text(all_cnt);

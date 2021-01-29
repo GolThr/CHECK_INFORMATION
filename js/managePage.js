@@ -32,9 +32,9 @@ function init(){
     $('#panel_body_manage').hide();
     $('.head_back_btn').hide();
     $('.head_title').text('所有表单');
-    $("#menu_home").removeClass('panel_menu_list_selected');
-    $("#menu_manage").addClass('panel_menu_list_selected');
-    $("#menu_mine").removeClass('panel_menu_list_selected');
+
+    SelectPanelMenuItem('manage');
+
     getTableList();
 }
 

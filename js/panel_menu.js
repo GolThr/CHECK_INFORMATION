@@ -16,9 +16,9 @@ document.writeln('<div class="panel_menu">\n' +
     '    <div class="panel_menu_head">\n' +
     '        <img class="check_logo" src="images/check_logo.png" alt="logo">\n' +
     '        <ul class="panel_menu_list">\n' +
-    '            <li id="menu_home" onclick="changeMenu(\'home\')">主页</li>\n' +
-    '            <li id="menu_manage" onclick="changeMenu(\'manage_all\')">管理信息</li>\n' +
-    '            <li id="menu_mine" onclick="changeMenu(\'mine\')">个人中心</li>\n' +
+    '            <li id="menu_home" onclick="changeMenu(\'home\')" onmouseover="onMenuItemOver(\'menu_home_title\',32)" onmouseleave="onMenuItemLeave(\'menu_home_title\')"><img src="images/ic_home.png"><span id="menu_home_title">主页</span></li>\n' +
+    '            <li id="menu_manage" onclick="changeMenu(\'manage\')" onmouseover="onMenuItemOver(\'menu_manage_title\',64)" onmouseleave="onMenuItemLeave(\'menu_manage_title\')"><img src="images/ic_guanli.png"><span id="menu_manage_title">管理信息</span></li>\n' +
+    '            <li id="menu_mine" onclick="changeMenu(\'mine\')" onmouseover="onMenuItemOver(\'menu_mine_title\',64)" onmouseleave="onMenuItemLeave(\'menu_mine_title\')"><img src="images/ic_personal.png"><span id="menu_mine_title">个人中心</span></li>\n' +
     '        </ul>\n' +
     '    </div>\n' +
     '    <span class="panel_menu_exit">退出</span>\n' +
@@ -28,23 +28,69 @@ function changeMenu(p){
     if(p == "home"){
         // 主页
         location.href = 'index.html';
-    }else if(p == "manage_all"){
-        // 管理信息 - 所有表单
-        location.href = 'manage.html';
     }else if(p == "manage"){
-        // 管理信息 - 管理信息
-        $('#panel_body_manage_all').hide();
-        $('#panel_body_manage').show();
-        $("#menu_home").removeClass('panel_menu_list_selected');
-        $("#menu_manage").addClass('panel_menu_list_selected');
-        $("#menu_mine").removeClass('panel_menu_list_selected');
-        $('.head_back_btn').show();
-        $('.head_back_btn').on("click", function (){
-            changePage('manage_all');
-        });
-        $('.head_title').text('管理信息');
+        // 管理信息
+        location.href = 'manage.html';
     }else if(p == "mine"){
         // 个人中心
         location.href = 'personal.html';
+    }
+}
+
+function onMenuItemOver(obj,w){
+    $("#"+obj).stop();
+    $("#"+obj).show();
+    $("#"+obj).animate({width:w,margin:'0 0 0 10px'},200,function () {
+        $("#"+obj).animate({opacity:'1'},500);
+    });
+}
+
+function onMenuItemLeave(obj){
+    $("#"+obj).stop();
+    $("#"+obj).animate({opacity:'0'},200,function () {
+        $("#"+obj).animate({width:'0',margin:'0'},500,function () {
+            $("#"+obj).hide();
+        });
+    });
+}
+
+function SelectPanelMenuItem(p){
+    if(p == "home"){
+        // 主页
+        onMenuItemOver('menu_home_title',32);
+        $("#menu_home").addClass('panel_menu_list_selected');
+        $("#menu_manage").removeClass('panel_menu_list_selected');
+        $("#menu_mine").removeClass('panel_menu_list_selected');
+        $("#menu_home").attr('onmouseover','');
+        $("#menu_home").attr('onmouseover','');
+        $("#menu_home").attr('onmouseover','');
+        $("#menu_home").attr('onmouseleave','');
+        $("#menu_home").attr('onmouseleave','');
+        $("#menu_home").attr('onmouseleave','');
+    }else if(p == "manage"){
+        // 管理信息
+        onMenuItemOver('menu_manage_title',64);
+        $("#menu_home").removeClass('panel_menu_list_selected');
+        $("#menu_manage").addClass('panel_menu_list_selected');
+        $("#menu_mine").removeClass('panel_menu_list_selected');
+        $("#menu_manage").attr('onmouseover','');
+        $("#menu_manage").attr('onmouseover','');
+        $("#menu_manage").attr('onmouseover','');
+        $("#menu_manage").attr('onmouseleave','');
+        $("#menu_manage").attr('onmouseleave','');
+        $("#menu_manage").attr('onmouseleave','');
+    }else if(p == "mine"){
+        // 个人中心
+        onMenuItemOver('menu_mine_title',64);
+        $('#menu_mine_title').show();
+        $("#menu_home").removeClass('panel_menu_list_selected');
+        $("#menu_manage").removeClass('panel_menu_list_selected');
+        $("#menu_mine").addClass('panel_menu_list_selected');
+        $("#menu_mine").attr('onmouseover','');
+        $("#menu_mine").attr('onmouseover','');
+        $("#menu_mine").attr('onmouseover','');
+        $("#menu_mine").attr('onmouseleave','');
+        $("#menu_mine").attr('onmouseleave','');
+        $("#menu_mine").attr('onmouseleave','');
     }
 }

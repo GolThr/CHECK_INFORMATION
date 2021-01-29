@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/Exception.php';
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/SMTP.php';
-$type = $_POST["type"]; //email, phone, bind_email, bind_phone
+$type = $_POST["type"]; //verify, email, phone, bind_email, bind_phone
 
 function sendEmail($to, $subject, $message, $altMessage){
     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
@@ -142,6 +142,7 @@ $text = '<style type="text/css">
 </div>';
 $alt_message = '[查客账号中心] 尊敬的用户，您好！欢迎注册查客账号！您的验证码为：【'.$verify_code.'】';
 
+session_start();
 if($type == 'email'){
     $to = $_POST["email"];
     $subject = '查客账号中心';
@@ -149,6 +150,8 @@ if($type == 'email'){
     $flag = sendEmail($to,$subject,$message,$alt_message);
     $jsonStr = array("flag" => $flag);
     if ($flag){
+        // 存储 session 数据
+        $_SESSION['verify_code'] = $verify_code;
         $jsonStr["verify_code"] = $verify_code;
     }
     echo json_encode($jsonStr);
@@ -159,4 +162,13 @@ if($type == 'email'){
 
 }else if($type == 'bind_phone'){
 
+}else if($type == 'verify'){
+    $verify_code_input = $_POST["email"];
+    // 检索 session 数据
+    $verify_code_session = $_SESSION['verify_code'];
+    $jsonStr["flag"] = 0;
+    if($verify_code_input == $verify_code_session){
+        $jsonStr["flag"] = 1;
+    }
+    echo json_encode($jsonStr);
 }
