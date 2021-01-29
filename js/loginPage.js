@@ -1,7 +1,7 @@
-var verify_code = '';
 var verify_email = '';
 var verify_phone = '';
 var cur_page = 'login';
+var pwd_wrong_times = 0;
 
 function hideOtherPage(){
     if(cur_page == 'choose'){
@@ -53,6 +53,7 @@ function changePage(p){
             cur_page = 'email_verify';
             $('#register_sheet').show();
             $('#reg_step_body').show();
+            $('#reg_email').removeAttr('readonly');
             $('#reg_email_step_verify').fadeIn();
         });
     }else if(p == 'email_input'){
@@ -77,16 +78,27 @@ function login(){
     var password = $.trim($("#password").val());
     if(account == ""){
         $("#password").css("border-color", "#e4e4e4");
+        $("#drag").css("border-color", "#e4e4e4");
         $("#account").css("border-color", "#ff392f");
         $("#account").shake(2, 10, 400);
         //alert("请输入用户名");
         return false;
     }else if(password == ""){
         $("#account").css("border-color", "#e4e4e4");
+        $("#drag").css("border-color", "#e4e4e4");
         $("#password").css("border-color", "#ff392f");
         $("#password").shake(2, 10, 400);
         //alert("请输入密码");
         return false;
+    }else if(pwd_wrong_times >= 3){
+        if(drag_success == false){
+            $("#account").css("border-color", "#e4e4e4");
+            $("#password").css("border-color", "#e4e4e4");
+            $("#drag").css("border-color", "#ff392f");
+            $("#drag").shake(2, 10, 400);
+            //alert("请验证");
+            return false;
+        }
     }
     //ajax去服务器端校验
     var data= {"account":account,"password":password};
@@ -104,11 +116,17 @@ function login(){
                 localStorage.setItem("s_userinfo", JSON.stringify(msg));
                 location.href = "index.html";
             }else if(msg.flag == '0'){
+                pwd_wrong_times++;
                 $("#account").css("border-color", "#e4e4e4");
+                $("#drag").css("border-color", "#e4e4e4");
                 $("#password").css("border-color", "#ff392f");
                 $("#password").shake(2, 10, 400);
+                if(pwd_wrong_times >= 3){
+                    showDragBlock();
+                }
             }else{
                 $("#password").css("border-color", "#e4e4e4");
+                $("#drag").css("border-color", "#e4e4e4");
                 $("#account").css("border-color", "#ff392f");
                 $("#account").shake(2, 10, 400);
             }
@@ -176,6 +194,7 @@ function register(){
 }
 
 function getEmailVerify(obj){
+    $('#reg_email').attr('readonly','true');
     var reg_email = $.trim($('#reg_email').val());
     if(reg_email == ""){
         $("#reg_email").css("border-color", "#ff392f");
@@ -198,8 +217,11 @@ function getEmailVerify(obj){
             success: function (msg) {
                 console.log(msg);
                 if(msg['flag'] == '1'){
-                    verify_code = msg['verify_code'];
                     verify_email = reg_email;
+                }else if(msg['flag'] == '-1'){
+                    showFloatTip('该邮箱已被注册！', 'success');
+                }else{
+                    showFloatTip('注册失败！', 'success');
                 }
             },
             error: function (msg) {
@@ -230,11 +252,32 @@ $("#login_btn").click(function () {
 
 $("#reg_email_next").click(function () {
     var reg_vercode = $.trim($('#reg_email_vercode').val());
-    if(reg_vercode == "" || reg_vercode != verify_code){
+    if(reg_vercode == ""){
         $("#reg_email_vercode").css("border-color", "#ff392f");
         $("#reg_email_vercode").shake(2, 10, 400);
     }else{
-        $("#reg_email_vercode").css("border-color", "#458CFE");
-        changePage('email_input');
+        $("#reg_email_vercode").css("border-color", "#458CFE");//ajax去服务器端校验
+        var data= {"type":"verify","code_input":reg_vercode};
+        console.log("GetRegVerifyCodeAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/GetRegVerifyCode.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg['flag'] == '1'){
+                    changePage('email_input');
+                }else{
+                    showFloatTip('验证码错误或已失效！','error');
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
     }
 });

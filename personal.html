@@ -28,23 +28,23 @@
                 <img class="me_func_item_edit" id="info_edit_grey" src="images/ic_edit_grey.png" onmouseover="blueInfoEditBtn()" onmouseleave="greyInfoEditBtn()"/>
                 <img class="me_func_item_edit" id="info_edit_blue" src="images/ic_edit_blue.png" style="display: none;" onmouseover="blueInfoEditBtn()" onmouseleave="greyInfoEditBtn()"/>
                 <div class="me_func_item_avatar_body" style="position: relative;" onmouseover="showChangeAvatarBtn()" onmouseleave="hideChangeAvatarBtn()">
-                    <img class="me_func_item_avatar" src="avatar/008.jpg"/>
-                    <div class="me_func_item_avatar_change" style="display: none;">
+                    <img class="me_func_item_avatar" src="avatar/head_default.png"/>
+                    <div class="me_func_item_avatar_change" onclick="toModifyAvatar()" style="display: none;">
                         <span class="me_func_item_avatar_change_text">修改<br>头像</span>
                     </div>
                     <img class="me_func_item_gender" src="images/ic_gender_male.png">
                 </div>
-                <span class="me_func_item_username">GolThr</span>
+                <span class="me_func_item_username">Manager</span>
             </div>
 
             <div class="me_func_item_list">
-                <div class="me_func_item_line">
+                <div class="me_func_item_line" onclick="toRebindEmail()">
                     <div class="item_line_left">
                         <div class="item_line_title_body">
                             <img class="item_line_title_img" src="images/ic_email.png"/>
                             <span class="item_line_title">绑定邮箱</span>
                         </div>
-                        <span class="item_line_text">1344006993@qq.com</span>
+                        <span class="item_line_text" id="item_line_user_email">1344006993@qq.com</span>
                     </div>
                     <div class="item_line_right">
                         <img class="item_line_goto_img" src="images/ic_right_arrow.png"/>
@@ -56,7 +56,7 @@
                             <img class="item_line_title_img" src="images/ic_phone.png"/>
                             <span class="item_line_title">绑定手机</span>
                         </div>
-                        <span class="item_line_text">17852651283</span>
+                        <span class="item_line_text" id="item_line_user_phone">17852651283</span>
                     </div>
                     <div class="item_line_right">
                         <img class="item_line_goto_img" src="images/ic_right_arrow.png"/>
@@ -100,6 +100,7 @@
         </div>
     </div>
 
+    <script type="text/javascript" src="js/float_tips.js"></script>
     <script type="text/javascript" src="js/dialogs.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/personalPage.js"></script>

@@ -6,7 +6,6 @@
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
     <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
-    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key="></script>
     <style type="text/css">
         .marquee_inline_body{
             position: relative;
@@ -56,12 +55,21 @@
     <span class="main_btn" onclick="emailVerify()">验证</span>
 
 
+    <span id="test_interval_1">abc</span>
+    <span id="test_interval_2">def</span>
 
-    <script type="text/javascript">
 
-    </script><script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <script type="text/javascript">
-        document.write(returnCitySN["cip"]+','+returnCitySN["cname"])
+        var n1 = 1;
+        var n2 = 1;
+        document.write(returnCitySN["cip"]+','+returnCitySN["cname"]);
+        setInterval(function () {
+            $('#test_interval_1').text(n1++);
+        }, 1000);
+        setInterval(function () {
+            $('#test_interval_2').text(n2++);
+        }, 3000);
     </script>
     <script type="text/javascript" src="js/test.js"></script>
 </body>

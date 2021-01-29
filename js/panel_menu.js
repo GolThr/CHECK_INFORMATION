@@ -21,7 +21,7 @@ document.writeln('<div class="panel_menu">\n' +
     '            <li id="menu_mine" onclick="changeMenu(\'mine\')" onmouseover="onMenuItemOver(\'menu_mine_title\',64)" onmouseleave="onMenuItemLeave(\'menu_mine_title\')"><img src="images/ic_personal.png"><span id="menu_mine_title">个人中心</span></li>\n' +
     '        </ul>\n' +
     '    </div>\n' +
-    '    <span class="panel_menu_exit">退出</span>\n' +
+    '    <span class="panel_menu_exit" onclick="exitLogin()">退出</span>\n' +
     '</div>');
 
 function changeMenu(p){
@@ -93,4 +93,9 @@ function SelectPanelMenuItem(p){
         $("#menu_mine").attr('onmouseleave','');
         $("#menu_mine").attr('onmouseleave','');
     }
+}
+
+function exitLogin() {
+    localStorage.removeItem("s_userinfo");
+    location.href = 'login.html';
 }

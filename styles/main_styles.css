@@ -84,6 +84,70 @@ li{
     border: 2px solid rgba(95, 155, 253, 1);
 }
 
+/*滑块验证********************/
+.drag_content{
+    width: 274px;
+    height: 40px;
+    line-height: 40px;
+    background: rgba(255, 255, 255, 0);
+    position: relative;
+    margin:20px 0;
+    border-radius: 50px;
+    border: #EAEDF6 solid 2px;
+    color: #757476;
+}
+
+.drag_body:hover{
+    border-color: #458CFE;
+}
+
+.drag_bg{
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    background: #458CFE;
+    border-radius: 50px 0 0 50px;
+    z-index: -1;
+}
+
+.drag_text{
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    text-align: center;
+    user-select: none;
+}
+
+.drag_btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    cursor: move;
+    text-align: center;
+    background: #EAEDF6;
+    user-select: none;
+    color:#666;
+    border-radius: 50%;
+    line-height: 40px;
+}
+
+.drag_btn_flag{
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: rgba(0,0,0,0);
+    border-radius: 50%;
+    border: #458CFE solid 3px;
+    z-index: 5;
+}
+/******************************/
+
 /*****main_head*****/
 .main_head{
     width: 100%;
@@ -244,10 +308,14 @@ li{
     width: 100%;
 }
 
-.dialog_config_code{
+.dialog_config_code,#userinfo_name,#dialog_modify_verify_in{
     margin: 20px 0 0 0;
     width: 100%;
     text-align: center;
+}
+
+#dialog_modify_verify_in_body{
+    margin-bottom: 0;
 }
 
 .dialog_share_link,.dialog_share_code{
@@ -281,7 +349,7 @@ li{
     word-break: break-word;
 }
 
-.dialog_checkbox_item{
+.dialog_checkbox_item, .dialog_radio_item{
     cursor: pointer;
     /*width: 60px;*/
     height: 20px;
@@ -344,6 +412,15 @@ li{
 
 .dialog_btn_seco:hover{
     background: #D4D4DE;
+}
+
+.dialog_upload_avatar_display{
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    border: #EAEDF6 solid 2px;
+    margin: 10px 0 20px 0;
 }
 /*********************/
 

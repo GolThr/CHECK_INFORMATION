@@ -22,10 +22,10 @@
     <div class="dialog_body" id="dialog_publish_config" style="display: none;">
         <span class="dialog_title">配置链接</span>
         <span class="dialog_sub_title">链接密码(6位，可重写以自定义，不区分大小写)</span>
-        <input type="text" readonly="true" class="dialog_config_code main_input"/>
+        <input type="text" class="dialog_config_code main_input"/>
         <span class="dialog_sub_title">验证信息(用于用户查询属于自己的信息，可选择1~2项)</span>
         <div class="dialog_checkbox_content" id="dialog_config_verify">
-            <span class="dialog_checkbox_item" id="abc" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">abc</span>
+            <span class="dialog_checkbox_item verify_info_checkbox" id="abc" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">abc</span>
         </div>
         <div class="dialog_btn_line" id="publish_config_btn">
             <span class="dialog_btn_seco" id="publish_config_cancel">取消</span>
@@ -52,9 +52,55 @@
             <span class="dialog_btn_main" id="publish_info_ok">确定</span>
         </div>
     </div>
+    <!--dialog_edit_userinfo-->
+    <div class="dialog_body" id="dialog_edit_userinfo" style="display: none;">
+        <span class="dialog_title">编辑信息</span>
+        <span class="dialog_sub_title">用户名</span>
+        <input type="text" class="main_input" id="userinfo_name"/>
+        <span class="dialog_sub_title">性别</span>
+        <div class="dialog_checkbox_content">
+            <span class="dialog_radio_item gender_checkbox" id="gender_none" ischecked="false" onclick="checkedRadioItem('gender_radio',this)">保密</span>
+            <span class="dialog_radio_item gender_checkbox" id="gender_male" ischecked="false" onclick="checkedRadioItem('gender_radio',this)">男</span>
+            <span class="dialog_radio_item gender_checkbox" id="gender_female" ischecked="false" onclick="checkedRadioItem('gender_radio',this)">女</span>
+        </div>
+        <div class="dialog_btn_line" id="publish_config_btn">
+            <span class="dialog_btn_seco" id="edit_userinfo_cancel">取消</span>
+            <span class="dialog_btn_main" id="edit_userinfo_ok">确定</span>
+        </div>
+    </div>
+    <!--dialog_modify_verify-->
+    <div class="dialog_body" id="dialog_modify_verify" style="display: none;">
+        <span class="dialog_title">验证您的邮箱</span>
+        <span class="dialog_sub_title" id="user_current_email"></span>
+        <div class="dialog_verify_line" id="dialog_modify_verify_in_body" style="display: none;">
+            <input type="text" class="main_input" id="dialog_modify_verify_in"/>
+        </div>
+        <div class="dialog_verify_line" id="dialog_verify_line">
+            <input type="text" class="main_input" id="dialog_in_vercode" placeholder="验证码"/>
+            <button class="dialog_submit_btn_sec" id="dialog_get_vercode_btn">获取验证码</button>
+        </div>
+        <div class="dialog_btn_line" id="publish_config_btn">
+            <span class="dialog_btn_seco" id="modify_verify_cancel">取消</span>
+            <span class="dialog_btn_main" id="modify_verify_next">下一步</span>
+        </div>
+    </div>
+    <!--dialog_modify_avatar-->
+    <div class="dialog_body" id="dialog_modify_avatar" style="display: none;">
+        <span class="dialog_title">上传头像</span>
+        <span class="dialog_sub_title" id="modify_avatar_tip"></span>
+        <form action="" method="post" id="t" enctype="multipart/form-data">
+            <input type="file" name='tables_a[]' id="dialog_upload_avatar" onchange="uploadExcel()" style="display: none;">
+        </form>
+        <img class="dialog_upload_avatar_display" id="dialog_upload_avatar_btn" src="images/back_upload.png"/>
+        <div class="dialog_btn_line" id="publish_config_btn">
+            <span class="dialog_btn_seco" id="modify_avatar_cancel">取消</span>
+            <span class="dialog_btn_main" id="modify_avatar_ok">修改</span>
+        </div>
+    </div>
     <textarea type="text" id="copy_temp"></textarea>
 </div>
  */
+
 document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '    <!--dialog_tips-->\n' +
     '    <div class="dialog_body" id="dialog_tips" style="display: none;">\n' +
@@ -78,10 +124,10 @@ document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '    <div class="dialog_body" id="dialog_publish_config" style="display: none;">\n' +
     '        <span class="dialog_title">配置链接</span>\n' +
     '        <span class="dialog_sub_title">链接密码(6位，可重写以自定义，不区分大小写)</span>\n' +
-    '        <input type="text" readonly="true" class="dialog_config_code main_input"/>\n' +
+    '        <input type="text" class="dialog_config_code main_input"/>\n' +
     '        <span class="dialog_sub_title">验证信息(用于用户查询属于自己的信息，可选择1~2项)</span>\n' +
     '        <div class="dialog_checkbox_content" id="dialog_config_verify">\n' +
-    '            <span class="dialog_checkbox_item" id="abc" checked="false" disabled="false" onclick="onCheckedBox(this)">abc</span>\n' +
+    '            <span class="dialog_checkbox_item verify_info_checkbox" id="abc" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">abc</span>\n' +
     '        </div>\n' +
     '        <div class="dialog_btn_line" id="publish_config_btn">\n' +
     '            <span class="dialog_btn_seco" id="publish_config_cancel">取消</span>\n' +
@@ -106,6 +152,51 @@ document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '        <div class="dialog_btn_line" id="publish_info_btn">\n' +
     '            <span class="dialog_btn_seco" id="publish_info_copy">复制</span>\n' +
     '            <span class="dialog_btn_main" id="publish_info_ok">确定</span>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '    <!--dialog_edit_userinfo-->\n' +
+    '    <div class="dialog_body" id="dialog_edit_userinfo" style="display: none;">\n' +
+    '        <span class="dialog_title">编辑信息</span>\n' +
+    '        <span class="dialog_sub_title">用户名</span>\n' +
+    '        <input type="text" class="main_input" id="userinfo_name"/>\n' +
+    '        <span class="dialog_sub_title">性别</span>\n' +
+    '        <div class="dialog_checkbox_content">\n' +
+    '            <span class="dialog_radio_item gender_checkbox" id="gender_none" ischecked="false" onclick="checkedRadioItem(\'gender_radio\',this)">保密</span>\n' +
+    '            <span class="dialog_radio_item gender_checkbox" id="gender_male" ischecked="false" onclick="checkedRadioItem(\'gender_radio\',this)">男</span>\n' +
+    '            <span class="dialog_radio_item gender_checkbox" id="gender_female" ischecked="false" onclick="checkedRadioItem(\'gender_radio\',this)">女</span>\n' +
+    '        </div>\n' +
+    '        <div class="dialog_btn_line" id="publish_config_btn">\n' +
+    '            <span class="dialog_btn_seco" id="edit_userinfo_cancel">取消</span>\n' +
+    '            <span class="dialog_btn_main" id="edit_userinfo_ok">确定</span>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '    <!--dialog_modify_verify-->\n' +
+    '    <div class="dialog_body" id="dialog_modify_verify" style="display: none;">\n' +
+    '        <span class="dialog_title">验证您的邮箱</span>\n' +
+    '        <span class="dialog_sub_title" id="user_current_email"></span>\n' +
+    '        <div class="dialog_verify_line" id="dialog_modify_verify_in_body" style="display: none;">\n' +
+    '            <input type="text" class="main_input" id="dialog_modify_verify_in"/>\n' +
+    '        </div>\n' +
+    '        <div class="dialog_verify_line" id="dialog_verify_line">\n' +
+    '            <input type="text" class="main_input" id="dialog_in_vercode" placeholder="验证码"/>\n' +
+    '            <button class="dialog_submit_btn_sec" id="dialog_get_vercode_btn">获取验证码</button>\n' +
+    '        </div>\n' +
+    '        <div class="dialog_btn_line" id="publish_config_btn">\n' +
+    '            <span class="dialog_btn_seco" id="modify_verify_cancel">取消</span>\n' +
+    '            <span class="dialog_btn_main" id="modify_verify_next">下一步</span>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '    <!--dialog_modify_avatar-->\n' +
+    '    <div class="dialog_body" id="dialog_modify_avatar" style="display: none;">\n' +
+    '        <span class="dialog_title">上传头像</span>\n' +
+    '        <span class="dialog_sub_title" id="modify_avatar_tip"></span>\n' +
+    '        <form action="" method="post" id="t" enctype="multipart/form-data">\n' +
+    '            <input type="file" name=\'tables_a[]\' id="dialog_upload_avatar" onchange="dialogUploadAvatar()" style="display: none;">\n' +
+    '        </form>\n' +
+    '        <img class="dialog_upload_avatar_display" id="dialog_upload_avatar_btn" src="images/back_upload.png"/>\n' +
+    '        <div class="dialog_btn_line" id="publish_config_btn">\n' +
+    '            <span class="dialog_btn_seco" id="modify_avatar_cancel">取消</span>\n' +
+    '            <span class="dialog_btn_main" id="modify_avatar_ok">修改</span>\n' +
     '        </div>\n' +
     '    </div>\n' +
     '    <textarea type="text" id="copy_temp"></textarea>\n' +
@@ -181,6 +272,7 @@ function hideDialogPublishInfo(){
     $(".dialog_back").fadeOut('fast');
 }
 
+/*****DialogPublishConfig*****/
 function showDialogPublishConfig(title,col_json){
     $('.dialog_back').fadeIn('fast');
     $('#dialog_publish_config').fadeIn('fast');
@@ -190,10 +282,16 @@ function showDialogPublishConfig(title,col_json){
     checked_num = 0;
     for(var i in col_json){
         var col_name = col_json[i];
-        $('#dialog_config_verify').append('<span class="dialog_checkbox_item" id="'+col_name+'" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">'+col_name+'</span>');
+        $('#dialog_config_verify').append('<span class="dialog_checkbox_item verify_info_checkbox" id="'+col_name+'" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">'+col_name+'</span>');
     }
 }
 
+function hideDialogPublishConfig(){
+    $("#dialog_publish_config").hide();
+    $(".dialog_back").fadeOut('fast');
+}
+
+/**CheckBoxMethod**/
 function onCheckedBox(obj){
     if($(obj).attr('ischecked') == 'false'){
         checked_num++;
@@ -207,15 +305,15 @@ function onCheckedBox(obj){
     if(checked_num < 0){
         checked_num = 0;
     }else if(checked_num >= 2){
-        hideOtherCheckBox();
+        hideOtherCheckBox('verify_info_checkbox');
     }else{
-        showOtherCheckBox();
+        showOtherCheckBox('verify_info_checkbox', 'onCheckedBox(this)');
     }
 }
 
-function getCheckedItem(){
+function getCheckedItem(checkbox_class){
     var tmp = [];
-    $('.dialog_checkbox_item').each(function (index, elem){
+    $('.'+checkbox_class).each(function (index, elem){
         if($(elem).attr('ischecked') == 'true'){
             tmp.push($(elem).text());
         }
@@ -223,18 +321,18 @@ function getCheckedItem(){
     return tmp;
 }
 
-function showOtherCheckBox(){
-    $('.dialog_checkbox_item').each(function (index, elem){
+function showOtherCheckBox(checkbox_class, bind_fn_text){
+    $('.'+checkbox_class).each(function (index, elem){
         if($(elem).attr('ischecked') == 'false') {
             $(elem).attr('isdisabled', 'false');
-            $(elem).attr('onclick', 'onCheckedBox(this)');
+            $(elem).attr('onclick', bind_fn_text);
             $(elem).css({'background': '#EAEDF6', 'color': '#000'});
         }
     });
 }
 
-function hideOtherCheckBox(){
-    $('.dialog_checkbox_item').each(function (index, elem){
+function hideOtherCheckBox(checkbox_class){
+    $('.'+checkbox_class).each(function (index, elem){
         if($(elem).attr('ischecked') == 'false'){
             $(elem).attr('isdisabled','true');
             $(elem).attr('onclick', '');
@@ -242,11 +340,240 @@ function hideOtherCheckBox(){
         }
     });
 }
+/*****************************/
 
-function hideDialogPublishConfig(){
-    $("#dialog_publish_config").hide();
+/*****DialogEditUserinfo*****/
+function showDialogEditUserinfo(username, gender, ok_fn, cancel_fn){
+    $('.dialog_back').fadeIn('fast');
+    $('#dialog_edit_userinfo').fadeIn('fast');
+    $('.dialog_title').text('编辑信息');
+    $('#userinfo_name').val(username);
+    if(gender == '0'){
+        checkedRadioItem('gender_radio', $('#gender_female'));
+    }else if(gender == '1'){
+        checkedRadioItem('gender_radio', $('#gender_male'));
+    }else{
+        checkedRadioItem('gender_radio', $('#gender_none'));
+    }
+    $("#edit_userinfo_ok").unbind('click');
+    $("#edit_userinfo_ok").click(function () {
+        ok_fn();
+        hideDialogEditUserinfo();
+    });
+    $("#edit_userinfo_cancel").unbind('click');
+    if(cancel_fn == undefined){
+        $("#edit_userinfo_cancel").click(function (){
+            hideDialogEditUserinfo();
+        });
+    }else{
+        $("#edit_userinfo_cancel").click(function () {
+            cancel_fn();
+            hideDialogEditUserinfo();
+        });
+    }
+}
+
+function hideDialogEditUserinfo(){
+    $("#dialog_edit_userinfo").hide();
     $(".dialog_back").fadeOut('fast');
 }
+
+function getDialogEditUserinfoInput(text_name) {
+    if(text_name == 'username'){
+        return $('#userinfo_name').val();
+    }
+}
+
+/**RadioMethod**/
+function getRadioSelectText(checkbox_class){
+    var tmp = '';
+    $('.'+checkbox_class).each(function (index, elem){
+        if($(elem).attr('ischecked') == 'true'){
+            tmp = $(elem).text();
+        }
+    });
+    return tmp;
+}
+
+function checkedRadioItem(checkbox_class, item_obj){
+    $('.'+checkbox_class).each(function (index, elem){
+        if($(elem).attr('ischecked') == 'true'){
+            $(elem).attr('ischecked','false');
+            $(elem).css({'background': '#EAEDF6', 'color': '#000'});
+        }
+    });
+    $(item_obj).attr('ischecked', 'true');
+    $(item_obj).css({'background':'#458CFE','color':'#fff'});
+}
+/*****************************/
+
+/*****DialogModifyVerify*****/
+function showDialogModifyVerify(title, email, get_fn, next_fn, cancel_fn){
+    $('#user_current_email').show();
+    $('#dialog_verify_line').show();
+    $('#dialog_modify_verify_in_body').hide();
+    $('.dialog_title').text(title);
+    $('#user_current_email').text(email);
+    $('#modify_verify_next').text('下一步');
+    $('.dialog_back').fadeIn('fast');
+    $('#dialog_modify_verify').fadeIn('fast');
+
+    $('#dialog_get_vercode_btn').unbind('click');
+    $('#dialog_get_vercode_btn').click(function (){
+        dialogGetVerifyCode(this, get_fn);
+    });
+
+    $("#modify_verify_next").unbind('click');
+    $("#modify_verify_next").click(function () {
+        next_fn();
+    });
+    $("#modify_verify_cancel").unbind('click');
+    if(cancel_fn == undefined){
+        $("#modify_verify_cancel").click(function (){
+            hideDialogModifyVerify();
+        });
+    }else{
+        $("#modify_verify_cancel").click(function () {
+            cancel_fn();
+            hideDialogModifyVerify();
+        });
+    }
+}
+
+function hideDialogModifyVerify(){
+    $("#dialog_modify_verify").hide();
+    $(".dialog_back").fadeOut('fast');
+}
+
+function changeDialogModifyNewInPage(get_fn, next_fn){
+    $('#user_current_email').hide();
+    $('#dialog_in_vercode').val('');
+    $('#dialog_modify_verify_in_body').show();
+    $('#dialog_modify_verify_in').removeAttr('readonly');
+    $('.dialog_title').text('设置新邮箱');
+    $('#dialog_modify_verify_in').attr('placeholder','请输入新的邮箱');
+    $('#modify_verify_next').text('确定');
+    clearWaitDisplay($('#dialog_get_vercode_btn'), function () {
+        enableDialogWaitBtn($('#dialog_get_vercode_btn'), 'email', get_fn);
+    });
+    $("#modify_verify_next").unbind('click');
+    $("#modify_verify_next").click(function () {
+        next_fn();
+        hideDialogModifyVerify();
+    });
+}
+
+function enableDialogWaitBtn(obj, type, get_fn){
+    if(type == 'email'){
+        $(obj).unbind('click');
+        $(obj).click(function () {
+            dialogGetVerifyCode(this, get_fn);
+        });
+    }
+}
+
+function disableDialogWaitBtn(obj){
+    $(obj).unbind('click');
+    $(obj).click(function () {
+        showFloatTip("请求过于频繁，过一会儿再试吧！","success");
+    });
+}
+
+function dialogGetVerifyCode(obj, get_fn){
+    disableDialogWaitBtn(obj, 'email');
+    waitTimeDisplay(60, obj, function () {
+        enableDialogWaitBtn(obj, 'email', get_fn);
+    });
+    get_fn();
+}
+
+function disableDialogModifyInNew() {
+    $('#dialog_modify_verify_in').attr('readonly','true');
+}
+
+function getDialogModifyInVerCode() {
+    var tmp = $('#dialog_in_vercode').val();
+    if(tmp == ''){
+        $('#dialog_in_vercode').css("border-color", "#ff392f");
+        $("#dialog_in_vercode").shake(2, 10, 400);
+    }
+    return tmp;
+}
+
+function getDialogModifyInNew() {
+    var tmp = $('#dialog_modify_verify_in').val();
+    if(tmp == ''){
+        $('#dialog_modify_verify_in').css("border-color", "#ff392f");
+        $("#dialog_modify_verify_in").shake(2, 10, 400);
+    }
+    return tmp;
+}
+/*****************************/
+
+/*****DialogModifyAvatar*****/
+function showDialogModifyAvatar(avatar, ok_fn, cancel_fn){
+    $('.dialog_title').text('上传头像');
+    $('#modify_avatar_tip').text('点击下方图片上传新头像, 不超过5MB, 支持jpg, png格式');
+    $("#dialog_upload_avatar_btn").attr('src', avatar);
+    $('.dialog_back').fadeIn('fast');
+    $('#dialog_modify_avatar').fadeIn('fast');
+
+    $("#dialog_upload_avatar_btn").unbind('click');
+    $('#dialog_upload_avatar_btn').click(function () {
+        $('#dialog_upload_avatar').click();
+    });
+
+    $("#modify_avatar_ok").unbind('click');
+    $("#modify_avatar_ok").click(function () {
+        ok_fn();
+    });
+    $("#modify_avatar_cancel").unbind('click');
+    if(cancel_fn == undefined){
+        $("#modify_avatar_cancel").click(function (){
+            hideDialogModifyVerify();
+        });
+    }else{
+        $("#modify_avatar_cancel").click(function () {
+            cancel_fn();
+            hideDialogModifyVerify();
+        });
+    }
+}
+
+function hideDialogModifyAvatar(){
+    $("#dialog_modify_avatar").hide();
+    $(".dialog_back").fadeOut('fast');
+}
+
+function dialogUploadAvatar(){
+    /*获得文件*/
+    var fileArray = document.getElementById('dialog_upload_avatar').files[0];
+    /*初始化 FormData 对象 文件处理对象  序列化表单数据*/
+    var formData = new FormData();
+    /*给对象中添加文件信息，没有对象或者没有文件信息后台是得不到的*/
+    formData.append('file', fileArray);
+    formData.append('op', 'avatar');
+    formData.append('uuid', s_userinfo.uuid);
+    /*jquery ajax 方法*/
+    $.ajax({
+        url: "server/ModifyUserInfo.php",/*传向后台服务器文件*/
+        type: 'POST',    /*传递方法 */
+        data:formData,  /*要带的值，在这里只能带一个formdata ，不可以增加其他*/
+        //传递的数据
+        dataType : 'json',  //传递数据的格式
+        async:false, //这是重要的一步，防止重复提交的
+        cache: false,  //设置为faldbconfig.phpse，上传文件不需要缓存。
+        contentType: false,//设置为false,因为是构造的FormData对象,所以这里设置为false。
+        processData: false,//设置为false,因为data值是FormData对象，不需要对数据做处理。
+        success: function (msg){
+            console.log(msg);
+        },
+        error: function () {
+            alert("上传错误！");
+        }
+    });
+}
+/*****************************/
 
 function bindTipOK(fn){
     $("#tip_ok").unbind('click');

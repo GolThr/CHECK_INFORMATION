@@ -281,8 +281,8 @@ function renderTableList(msg){
 function getTableList(){
     //ajax去服务器端校验
     var data= {"uuid":s_userinfo.uuid};
-    console.log(data);
     console.log("GetTableListAjax");
+    console.log(data);
     $.ajax({
         url: "server/GetTableList.php", //后台请求数据
         dataType: "json",
@@ -403,7 +403,7 @@ function delTable(tbl_name){
 function checkConfigRight(tbl_name){
     showFloatTip('检测配置是否符合要求，注意选中的验证信息的列中不可有重复的信息！', 'success');
     var code = $.trim($('.dialog_config_code').val());
-    var ver_col = getCheckedItem();
+    var ver_col = getCheckedItem('verify_info_checkbox');
     if(code == ""){
         $(".dialog_config_code").css("border-color", "#ff392f");
         $(".dialog_config_code").shake(2, 10, 400);

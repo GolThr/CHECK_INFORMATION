@@ -1,11 +1,12 @@
 <?php
+include("dbconfig.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/Exception.php';
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/SMTP.php';
-$type = $_POST["type"]; //verify, email, phone, bind_email, bind_phone
+$type = $_POST["type"]; //verify, email, phone, bind_email, bind_phone, get_email_code, get_phone_code
 
 function sendEmail($to, $subject, $message, $altMessage){
     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
@@ -133,6 +134,7 @@ $text = '<style type="text/css">
             <span class="email_title">尊敬的用户，您好！</span>
             <span class="email_text">欢迎注册查客账号！您的验证码为：</span>
             <span class="email_verify_code">'.$verify_code.'</span>
+            <span class="email_text">验证码在1分钟内有效，请及时使用。</span>
         </div>
         <div class="email_footer">
             <span class="email_text">查客账号中心</span>
@@ -145,15 +147,32 @@ $alt_message = '[查客账号中心] 尊敬的用户，您好！欢迎注册查�
 session_start();
 if($type == 'email'){
     $to = $_POST["email"];
-    $subject = '查客账号中心';
-    $message = $text;
-    $flag = sendEmail($to,$subject,$message,$alt_message);
-    $jsonStr = array("flag" => $flag);
-    if ($flag){
-        // 存储 session 数据
-        $_SESSION['verify_code'] = $verify_code;
-        $jsonStr["verify_code"] = $verify_code;
+    $flag = 0;  // 0: error, 1: success, -1: duplicate
+    // check email
+    $sql = "SELECT COUNT(*) AS cnt FROM s_userinfo WHERE email='$to'";
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        $cnt_row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
+        if($cnt_row){
+            if($cnt_row["cnt"] != 1){
+                $flag = 1;
+            }else{
+                $flag = -1;
+            }
+        }
     }
+    if($flag == 1){
+        // send email
+        $subject = '查客账号中心';
+        $message = $text;
+        $flag = sendEmail($to,$subject,$message,$alt_message);
+        if ($flag){
+            // 存储 session 数据
+            $_SESSION['verify_code'] = $verify_code;
+            $_SESSION['verify_time'] = time();
+        }
+    }
+    $jsonStr = array("flag" => $flag);
     echo json_encode($jsonStr);
 }else if($type == 'phone'){
     $to = $_POST["phone"];
@@ -163,12 +182,33 @@ if($type == 'email'){
 }else if($type == 'bind_phone'){
 
 }else if($type == 'verify'){
-    $verify_code_input = $_POST["email"];
+    $verify_code_input = $_POST["code_input"];
+    $cur_time = time();
     // 检索 session 数据
     $verify_code_session = $_SESSION['verify_code'];
+    $verify_time_session = $_SESSION['verify_time'];
+
     $jsonStr["flag"] = 0;
-    if($verify_code_input == $verify_code_session){
-        $jsonStr["flag"] = 1;
+    if($cur_time - $verify_time_session < 60){
+        if($verify_code_input == $verify_code_session){
+            $jsonStr["flag"] = 1;
+        }
     }
     echo json_encode($jsonStr);
+}else if($type == 'get_email_code'){
+    $to = $_POST["email"];
+    $flag = 0;  // 0: error, 1: success, -1: duplicate
+    // send email
+    $subject = '查客账号中心';
+    $message = $text;
+    $flag = sendEmail($to,$subject,$message,$alt_message);
+    if ($flag){
+        // 存储 session 数据
+        $_SESSION['verify_code'] = $verify_code;
+        $_SESSION['verify_time'] = time();
+    }
+    $jsonStr = array("flag" => $flag);
+    echo json_encode($jsonStr);
+}else if($type == 'get_phone_code'){
+
 }

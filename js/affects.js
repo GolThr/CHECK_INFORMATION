@@ -31,25 +31,24 @@ function waitToLogin(time){
     }
 }
 
+var interval;
 var org_text = '';
-function waitDisplayRun(time, obj, ok_fn){
-    if(time > 0){
-        $(obj).text(time+'s');
-        setTimeout(function () {
-            time--;
-            waitDisplayRun(time, obj, ok_fn);
-        }, 1000);
-    }else if(time == 0){
-        waitTimeDone(obj);
-        ok_fn();
-    }
-}
-
-function waitTimeDone(obj){
-    $(obj).text(org_text);
-}
-
 function waitTimeDisplay(time, obj, ok_fn){
     org_text = $(obj).text();
-    waitDisplayRun(time, obj, ok_fn);
+    clearInterval(interval);
+    interval = setInterval(function (){
+        time--;
+        $(obj).text(time+'s');
+        if(time == 0){
+            clearInterval(interval);
+            $(obj).text(org_text);
+            ok_fn();
+        }
+    }, 1000);
+}
+
+function clearWaitDisplay(obj, ok_fn) {
+    clearInterval(interval);
+    $(obj).text(org_text);
+    ok_fn();
 }
