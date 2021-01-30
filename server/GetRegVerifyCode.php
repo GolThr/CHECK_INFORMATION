@@ -197,15 +197,28 @@ if($type == 'email'){
     echo json_encode($jsonStr);
 }else if($type == 'get_email_code'){
     $to = $_POST["email"];
-    $flag = 0;  // 0: error, 1: success, -1: duplicate
-    // send email
-    $subject = '查客账号中心';
-    $message = $text;
-    $flag = sendEmail($to,$subject,$message,$alt_message);
-    if ($flag){
-        // 存储 session 数据
-        $_SESSION['verify_code'] = $verify_code;
-        $_SESSION['verify_time'] = time();
+    $flag = 0;  // 0: error, 1: success
+    // check email
+    $sql = "SELECT COUNT(*) AS cnt FROM s_userinfo WHERE email='$to'";
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        $cnt_row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
+        if($cnt_row){
+            if($cnt_row["cnt"] == 1){
+                $flag = 1;
+            }
+        }
+    }
+    if($flag == 1){
+        // send email
+        $subject = '查客账号中心';
+        $message = $text;
+        $flag = sendEmail($to,$subject,$message,$alt_message);
+        if ($flag){
+            // 存储 session 数据
+            $_SESSION['verify_code'] = $verify_code;
+            $_SESSION['verify_time'] = time();
+        }
     }
     $jsonStr = array("flag" => $flag);
     echo json_encode($jsonStr);

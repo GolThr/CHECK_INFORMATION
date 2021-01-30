@@ -191,7 +191,7 @@ document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '        <span class="dialog_title">上传头像</span>\n' +
     '        <span class="dialog_sub_title" id="modify_avatar_tip"></span>\n' +
     '        <form action="" method="post" id="t" enctype="multipart/form-data">\n' +
-    '            <input type="file" name=\'tables_a[]\' id="dialog_upload_avatar" onchange="dialogUploadAvatar()" style="display: none;">\n' +
+    '            <input type="file" name=\'tables_a[]\' id="dialog_upload_avatar" onchange="dialogUploadAvatarChange()" style="display: none;">\n' +
     '        </form>\n' +
     '        <img class="dialog_upload_avatar_display" id="dialog_upload_avatar_btn" src="images/back_upload.png"/>\n' +
     '        <div class="dialog_btn_line" id="publish_config_btn">\n' +
@@ -526,6 +526,7 @@ function showDialogModifyAvatar(avatar, ok_fn, cancel_fn){
     $("#modify_avatar_ok").unbind('click');
     $("#modify_avatar_ok").click(function () {
         ok_fn();
+        hideDialogModifyVerify();
     });
     $("#modify_avatar_cancel").unbind('click');
     if(cancel_fn == undefined){
@@ -545,33 +546,14 @@ function hideDialogModifyAvatar(){
     $(".dialog_back").fadeOut('fast');
 }
 
-function dialogUploadAvatar(){
-    /*获得文件*/
+function dialogUploadAvatarChange() {
     var fileArray = document.getElementById('dialog_upload_avatar').files[0];
-    /*初始化 FormData 对象 文件处理对象  序列化表单数据*/
-    var formData = new FormData();
-    /*给对象中添加文件信息，没有对象或者没有文件信息后台是得不到的*/
-    formData.append('file', fileArray);
-    formData.append('op', 'avatar');
-    formData.append('uuid', s_userinfo.uuid);
-    /*jquery ajax 方法*/
-    $.ajax({
-        url: "server/ModifyUserInfo.php",/*传向后台服务器文件*/
-        type: 'POST',    /*传递方法 */
-        data:formData,  /*要带的值，在这里只能带一个formdata ，不可以增加其他*/
-        //传递的数据
-        dataType : 'json',  //传递数据的格式
-        async:false, //这是重要的一步，防止重复提交的
-        cache: false,  //设置为faldbconfig.phpse，上传文件不需要缓存。
-        contentType: false,//设置为false,因为是构造的FormData对象,所以这里设置为false。
-        processData: false,//设置为false,因为data值是FormData对象，不需要对数据做处理。
-        success: function (msg){
-            console.log(msg);
-        },
-        error: function () {
-            alert("上传错误！");
-        }
-    });
+    $('#dialog_upload_avatar_btn').attr('src',getObjectURL(fileArray));
+}
+
+function getDialogUploadAvatar() {
+    var fileArray = document.getElementById('dialog_upload_avatar').files[0];
+    return fileArray;
 }
 /*****************************/
 

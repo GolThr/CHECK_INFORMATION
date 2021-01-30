@@ -42,12 +42,13 @@ if($op == "info"){
     //1.文件类型
     //2.文件大小
     //3.保存的文件名不重复
-    $flag = 0; // 0: error, 1: success, 2: to big, 3: file type error
+    //flag  0: error, 1: success, 2: to big, 3: file type error
     if($arr["size"] > 5242880){
         $flag = 2;
     }else if($arr["type"] != "image/jpeg" && $arr["type"] != "image/png"){
         $flag = 3;
     }else{
+        $flag = 1;
         $file_type = '';
         if($arr["type"] != "image/jpeg"){
             $file_type = '.jpg';
@@ -62,15 +63,16 @@ if($op == "info"){
         $filename = "../avatar/" . $uuid . $file_type;
         $new_avatar = "avatar/" . $uuid . $file_type;
         //保存之前判断该文件是否存在
-        if(file_exists($old_avatar)){
-            unlink($old_avatar);
+        if($old_avatar != "../avatar/head_default.png"){
+            if(file_exists($old_avatar)){
+                unlink($old_avatar);
+            }
         }
         if (file_exists($filename)) {
-            echo "该文件已存在";
             unlink($filename);
             //chmod($filename,0777);
         } else {
-            if(file_exists($old_avatar))
+            if(file_exists($filename))
                 //中文名的文件出现问题，所以需要转换编码格式
                 $filename = iconv("UTF-8", "gb2312", $filename);
             //移动临时文件到上传的文件存放的位置（核心代码）
@@ -79,11 +81,13 @@ if($op == "info"){
         }
     }
 
-    //update database
-    $sql = "UPDATE s_userinfo SET avatar='$new_avatar' WHERE uuid='$uuid'";
-    $obj = mysqli_query($link, $sql);
-    if($obj){
-        $flag = 1;
+    if($flag == 1){
+        //update database
+        $sql = "UPDATE s_userinfo SET avatar='$new_avatar' WHERE uuid='$uuid'";
+        $obj = mysqli_query($link, $sql);
+        if($obj){
+            $flag = 1;
+        }
     }
 }else if($op == "pwd"){
 

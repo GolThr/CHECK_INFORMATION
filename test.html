@@ -38,6 +38,35 @@
             font-size: 12px;
             margin-right: 10px;
         }
+
+
+        .switch_body{
+            cursor: pointer;
+            position: relative;
+            width: 50px;
+            height: 20px;
+            border-radius: 30px;
+            border: #EAEDF6 solid 2px;
+            background: #fff;
+        }
+        .switch_bg{
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            border-radius: 30px 0 0 30px;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: #458CFE;
+        }
+        .switch_btn{
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 100%;
+            border-radius: 50%;
+            background: #EAEDF6;
+        }
     </style>
 </head>
 <body>
@@ -52,24 +81,36 @@
 
     <span class="main_btn" onclick="getEmailVerify()">获取验证码</span>
     <input type="text" class="main_input" id="reg_email"/>
-    <span class="main_btn" onclick="emailVerify()">验证</span>
 
 
-    <span id="test_interval_1">abc</span>
-    <span id="test_interval_2">def</span>
+    <!--滑动开关-->
+    <div class="switch_body" ischecked="false" id="switch">
+        <div class="switch_bg" id="switch_bg"></div>
+        <div class="switch_btn" id="switch_btn"></div>
+    </div>
+
 
 
     <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <script type="text/javascript">
-        var n1 = 1;
-        var n2 = 1;
         document.write(returnCitySN["cip"]+','+returnCitySN["cname"]);
-        setInterval(function () {
-            $('#test_interval_1').text(n1++);
-        }, 1000);
-        setInterval(function () {
-            $('#test_interval_2').text(n2++);
-        }, 3000);
+        $('#switch').click(function (){
+            var sw = $('#switch');
+            var sw_bg = $('#switch_bg');
+            var sw_btn = $('#switch_btn');
+            var w = sw.width();
+            var bg_end_w = w - 10;
+            var btn_end_w = w - 20;
+            if(sw.attr('ischecked') == 'false'){
+                sw.attr('ischecked', 'true');
+                sw_btn.animate({left:btn_end_w}, 200);
+                sw_bg.animate({width:bg_end_w}, 200);
+            }else{
+                sw.attr('ischecked', 'false');
+                sw_btn.animate({left:0}, 200);
+                sw_bg.animate({width:0}, 200);
+            }
+        });
     </script>
     <script type="text/javascript" src="js/test.js"></script>
 </body>

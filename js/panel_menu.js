@@ -41,14 +41,14 @@ function onMenuItemOver(obj,w){
     $("#"+obj).stop();
     $("#"+obj).show();
     $("#"+obj).animate({width:w,margin:'0 0 0 10px'},200,function () {
-        $("#"+obj).animate({opacity:'1'},500);
+        $("#"+obj).animate({opacity:'1'},200);
     });
 }
 
 function onMenuItemLeave(obj){
     $("#"+obj).stop();
     $("#"+obj).animate({opacity:'0'},200,function () {
-        $("#"+obj).animate({width:'0',margin:'0'},500,function () {
+        $("#"+obj).animate({width:'0',margin:'0'},200,function () {
             $("#"+obj).hide();
         });
     });

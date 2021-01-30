@@ -3,6 +3,44 @@ var verify_phone = '';
 var cur_page = 'login';
 var pwd_wrong_times = 0;
 
+var login_loc = '';
+function AMapGetPosition(){
+    var mapObj = new AMap.Map('iCenter');
+    mapObj.plugin('AMap.Geolocation', function() {
+        var geolocation = new AMap.Geolocation({
+            // 是否使用高精度定位，默认：true
+            enableHighAccuracy: true,
+            // 设置定位超时时间，默认：无穷大
+            timeout: 10000,
+            // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+            buttonOffset: new AMap.Pixel(10, 20),
+            //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: true,
+            //  定位按钮的排放位置,  RB表示右下
+            buttonPosition: 'RB'
+        })
+
+        geolocation.getCurrentPosition()
+        AMap.event.addListener(geolocation, 'complete', onComplete)
+        AMap.event.addListener(geolocation, 'error', onError)
+
+        function onComplete (data) {
+            // data是具体的定位信息
+            login_loc = data['addressComponent']['province'] + ',' + data['addressComponent']['city'];
+            showLoginPage();
+        }
+
+        function onError (data) {
+            // 定位出错
+        }
+    })
+}
+AMapGetPosition();
+
+function showLoginPage(){
+    $('#login_body').slideDown();
+}
+
 function hideOtherPage(){
     if(cur_page == 'choose'){
         $('#register_sheet').hide();
@@ -101,7 +139,7 @@ function login(){
         }
     }
     //ajax去服务器端校验
-    var data= {"account":account,"password":password};
+    var data= {"account":account,"password":password,"ip":returnCitySN['cip'],"loc":login_loc};
     console.log("LoginAjax");
     console.log(data);
     $.ajax({
@@ -145,29 +183,29 @@ function register(){
     var repwd = $.trim($("#reg_email_repwd").val());
     if(acc == ""){
         $("#reg_email_username").css("border-color", "#ff392f");
-        $("#reg_email_pwd").css("border-color", "#458CFE");
-        $("#reg_email_repwd").css("border-color", "#458CFE");
+        $("#reg_email_pwd").css("border-color", "#EAEDF6");
+        $("#reg_email_repwd").css("border-color", "#EAEDF6");
         $("#reg_email_username").shake(2, 10, 400);
     }else if(pwd == ""){
-        $("#reg_email_username").css("border-color", "#458CFE");
+        $("#reg_email_username").css("border-color", "#EAEDF6");
         $("#reg_email_pwd").css("border-color", "#ff392f");
-        $("#reg_email_repwd").css("border-color", "#458CFE");
-        $("#reg_email_username").shake(2, 10, 400);
+        $("#reg_email_repwd").css("border-color", "#EAEDF6");
+        $("#reg_email_pwd").shake(2, 10, 400);
     }else if(repwd == ""){
-        $("#reg_email_username").css("border-color", "#458CFE");
-        $("#reg_email_pwd").css("border-color", "#458CFE");
+        $("#reg_email_username").css("border-color", "#EAEDF6");
+        $("#reg_email_pwd").css("border-color", "#EAEDF6");
         $("#reg_email_repwd").css("border-color", "#ff392f");
-        $("#reg_email_username").shake(2, 10, 400);
-    }else if(repwd == ""){
+        $("#reg_email_repwd").shake(2, 10, 400);
+    }else if(repwd != pwd){
         showFloatTip('两次密码输入不一致，请重新输入！', 'error');
-        $("#reg_email_username").css("border-color", "#458CFE");
-        $("#reg_email_pwd").css("border-color", "#458CFE");
+        $("#reg_email_username").css("border-color", "#EAEDF6");
+        $("#reg_email_pwd").css("border-color", "#EAEDF6");
         $("#reg_email_repwd").css("border-color", "#ff392f");
-        $("#reg_email_username").shake(2, 10, 400);
+        $("#reg_email_repwd").shake(2, 10, 400);
     }else{
-        $("#reg_email_username").css("border-color", "#458CFE");
-        $("#reg_email_pwd").css("border-color", "#458CFE");
-        $("#reg_email_repwd").css("border-color", "#458CFE");
+        $("#reg_email_username").css("border-color", "#EAEDF6");
+        $("#reg_email_pwd").css("border-color", "#EAEDF6");
+        $("#reg_email_repwd").css("border-color", "#EAEDF6");
         //ajax去服务器端校验
         var data= {"type":"email","email":verify_email,"acc":acc,"pwd":pwd};
         console.log("RegisterAjax");

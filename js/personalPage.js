@@ -1,4 +1,6 @@
 var cur_page = 'menu';
+var showAllLog = 'less';   // less: show less, all: show all
+var showAllLogWidth = 0;
 
 function init(){
     initUser();
@@ -54,6 +56,7 @@ function changePage(p){
                 changePage('menu');
             });
             $('#panel_body_security').fadeIn();
+            showAllLoginLog();
         });
     }else if(p == 'message'){
         obj.fadeOut(500,function () {
@@ -135,6 +138,7 @@ function modifyUserInfo(){
             success: function (msg) {
                 console.log(msg);
                 if(msg.flag == '1'){
+                    showFloatTip('修改信息成功！', 'success');
                     localStorage.removeItem("s_userinfo");
                     localStorage.setItem("s_userinfo", JSON.stringify(msg));
                     initUser();
@@ -151,7 +155,46 @@ function modifyUserInfo(){
 }
 
 function toModifyAvatar() {
-    showDialogModifyAvatar(s_userinfo.avatar);
+    showDialogModifyAvatar(s_userinfo.avatar, function () {
+        /*获得文件*/
+        var fileArray = getDialogUploadAvatar();
+        /*初始化 FormData 对象 文件处理对象  序列化表单数据*/
+        var formData = new FormData();
+        /*给对象中添加文件信息，没有对象或者没有文件信息后台是得不到的*/
+        formData.append('file', fileArray);
+        formData.append('op', 'avatar');
+        formData.append('uuid', s_userinfo.uuid);
+        /*jquery ajax 方法*/
+        $.ajax({
+            url: "server/ModifyUserInfo.php",/*传向后台服务器文件*/
+            type: 'POST',    /*传递方法 */
+            data:formData,  /*要带的值，在这里只能带一个formdata ，不可以增加其他*/
+            //传递的数据
+            dataType : 'json',  //传递数据的格式
+            async:false, //这是重要的一步，防止重复提交的
+            cache: false,  //设置为faldbconfig.phpse，上传文件不需要缓存。
+            contentType: false,//设置为false,因为是构造的FormData对象,所以这里设置为false。
+            processData: false,//设置为false,因为data值是FormData对象，不需要对数据做处理。
+            success: function (msg){
+                console.log(msg);
+                if(msg['flag'] == '1'){
+                    showFloatTip('修改头像成功！', 'success');
+                    localStorage.removeItem("s_userinfo");
+                    localStorage.setItem("s_userinfo", JSON.stringify(msg));
+                    initUser();
+                    renderPersonalMenuInfo();
+                    location.reload();
+                }else if(msg['flag'] == '2'){
+                    showFloatTip('图片过大, 只支持5MB以内的图片。', 'error');
+                }else if(msg['flag'] == '3'){
+                    showFloatTip('图片格式不支持，只支持jpg或png格式的图片。', 'error');
+                }
+            },
+            error: function () {
+                alert("上传错误！");
+            }
+        });
+    });
 }
 
 function toRebindEmail(){
@@ -272,9 +315,9 @@ function rebindUserEmail(email){
         success: function (msg) {
             console.log(msg);
             if(msg.flag == '1'){
+                showFloatTip('成功绑定新邮箱！', 'success');
                 localStorage.removeItem("s_userinfo");
                 localStorage.setItem("s_userinfo", JSON.stringify(msg));
-                showFloatTip('成功绑定新邮箱！', 'success');
                 initUser();
                 renderPersonalMenuInfo();
             }
@@ -303,6 +346,82 @@ function blueInfoEditBtn(){
 function greyInfoEditBtn(){
     $('#info_edit_grey').show();
     $('#info_edit_blue').hide();
+}
+
+function showAllLoginLog() {
+    var displayBody = $('#login_history_content');
+    var chPWD = $('#changePWD');
+    var op_list = $('#security_option_list');
+    var showAllBtn = $('#showAllLogBtn');
+    if(showAllLog == 'all'){
+        showAllLog = 'less';
+        displayBody.animate({'width':showAllLogWidth,'height':'250px'},200,function () {
+            displayBody.css('width','100%');
+            chPWD.fadeIn();
+            op_list.fadeIn();
+            $(showAllBtn).text('查看所有>');
+        });
+    }
+}
+
+function showAllLogToggle(){
+    var displayBody = $('#login_history_content');
+    var chPWD = $('#changePWD');
+    var op_list = $('#security_option_list');
+    var showAllBtn = $('#showAllLogBtn');
+    if(showAllLog == 'less'){
+        showAllLogWidth = $('#login_history_content').width();
+        showAllLog = 'all';
+        chPWD.hide();
+        op_list.hide();
+        displayBody.css('width',showAllLogWidth);
+        displayBody.animate({'width':'100%','height':'auto'},200);
+        showAllBtn.text('收起>');
+    }else{
+        showAllLog = 'less';
+        displayBody.animate({'width':showAllLogWidth,'height':'250px'},200,function () {
+            displayBody.css('width','100%');
+            chPWD.fadeIn();
+            op_list.fadeIn();
+            showAllBtn.text('查看所有>');
+        });
+    }
+}
+
+function switcherTwiceClicked(){
+    var sw = $('#switcher_twice');
+    var sw_bg = $('#switcher_twice_bg');
+    var sw_btn = $('#switcher_twice_btn');
+    var w = sw.width();
+    var bg_end_w = w - 10;
+    var btn_end_w = w - 20;
+    if(sw.attr('ischecked') == 'false'){
+        sw.attr('ischecked', 'true');
+        sw_btn.animate({left:btn_end_w}, 200);
+        sw_bg.animate({width:bg_end_w}, 200);
+    }else{
+        sw.attr('ischecked', 'false');
+        sw_btn.animate({left:0}, 200);
+        sw_bg.animate({width:0}, 200);
+    }
+}
+
+function switcherLoctechClicked(){
+    var sw = $('#switcher_loctech');
+    var sw_bg = $('#switcher_loctech_bg');
+    var sw_btn = $('#switcher_loctech_btn');
+    var w = sw.width();
+    var bg_end_w = w - 10;
+    var btn_end_w = w - 20;
+    if(sw.attr('ischecked') == 'false'){
+        sw.attr('ischecked', 'true');
+        sw_btn.animate({left:btn_end_w}, 200);
+        sw_bg.animate({width:bg_end_w}, 200);
+    }else{
+        sw.attr('ischecked', 'false');
+        sw_btn.animate({left:0}, 200);
+        sw_bg.animate({width:0}, 200);
+    }
 }
 
 $('#info_edit_blue').click(function () {

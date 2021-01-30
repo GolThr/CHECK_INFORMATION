@@ -86,9 +86,87 @@
                 <span class="me_func_item_title">关于</span>
             </div>
         </div>
-        <div class="panel_body_mine_page" id="panel_body_info" style="display: none;">
-        </div>
         <div class="panel_body_mine_page" id="panel_body_security" style="display: none;">
+            <div class="security_login_history_body">
+                <div class="security_login_history_content" id="login_history_content">
+                    <div class="security_login_history_title_body">
+                        <span class="security_login_history_title">登录记录</span>
+                        <span class="security_login_history_title" id="showAllLogBtn" onclick="showAllLogToggle()">查看所有&gt;</span>
+                    </div>
+                    <table class="security_login_history_table" style="border-collapse:separate; border-spacing:0;">
+                        <tr>
+                            <th>方式</th>
+                            <th>平台</th>
+                            <th>IP</th>
+                            <th>地址</th>
+                            <th>时间</th>
+                        </tr>
+                        <tr>
+                            <td>邮箱</td>
+                            <td>网页端</td>
+                            <td>192.168.1.136</td>
+                            <td>山东省,淄博市</td>
+                            <td>2021.01.30</td>
+                        </tr>
+                        <tr>
+                            <td>邮箱</td>
+                            <td>Android</td>
+                            <td>192.168.1.136</td>
+                            <td>山东省,淄博市</td>
+                            <td>2021.01.30</td>
+                        </tr>
+                        <tr>
+                            <td>邮箱</td>
+                            <td>Android</td>
+                            <td>192.168.1.136</td>
+                            <td>山东省,淄博市</td>
+                            <td>2021.01.30</td>
+                        </tr>
+                        <tr>
+                            <td>邮箱</td>
+                            <td>网页端</td>
+                            <td>192.168.1.136</td>
+                            <td>山东省,淄博市</td>
+                            <td>2021.01.30</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="me_func_item me_func_item_goto" id="changePWD" style="width:200px;height:250px;margin-right: 0;">
+                    <img class="me_func_item_img" src="images/ic_pwd.png"/>
+                    <span class="me_func_item_title">修改密码</span>
+                </div>
+            </div>
+            <div class="main_card_body security_option_list" id="security_option_list">
+                <div class="security_option_list_item" onclick="switcherTwiceClicked()">
+                    <div class="security_option_list_item_title">
+                        <span>二次登录验证</span>
+                        <span>登录时需要验证邮箱或手机号</span>
+                    </div>
+                    <!--滑动开关-->
+                    <div class="switcher_body" ischecked="false" id="switcher_twice">
+                        <div class="switcher_bg" id="switcher_twice_bg"></div>
+                        <div class="switcher_btn" id="switcher_twice_btn"></div>
+                    </div>
+                </div>
+                <div class="security_option_list_item" onclick="switcherLoctechClicked()">
+                    <div class="security_option_list_item_title">
+                        <span>异地登录保护</span>
+                        <span>异地登录时需要验证邮箱或手机号</span>
+                    </div>
+                    <!--滑动开关-->
+                    <div class="switcher_body" ischecked="false" id="switcher_loctech">
+                        <div class="switcher_bg" id="switcher_loctech_bg"></div>
+                        <div class="switcher_btn" id="switcher_loctech_btn"></div>
+                    </div>
+                </div>
+                <div class="security_option_list_item">
+                    <div class="security_option_list_item_title">
+                        <span style="color: #cf3b3f;">注销账号</span>
+                        <span>将永久注销您的账号，请谨慎操作</span>
+                    </div>
+                    <img src="images/ic_right_arrow.png"/>
+                </div>
+            </div>
         </div>
         <div class="panel_body_mine_page" id="panel_body_message" style="display: none;">
         </div>
@@ -100,8 +178,8 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="js/float_tips.js"></script>
     <script type="text/javascript" src="js/dialogs.js"></script>
+    <script type="text/javascript" src="js/float_tips.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/personalPage.js"></script>
 </body>
