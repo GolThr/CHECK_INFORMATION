@@ -58,10 +58,10 @@ $jsonStr = array();
 for($i = 0; $i < 1; $i++){
     if($i == 0){
         $sql="SELECT * FROM s_userinfo WHERE email='$account'";
-        $method = 'email';
+        $method = '邮箱';
     }else{
         $sql="SELECT * FROM s_userinfo WHERE phone_number='$account'";
-        $method = 'phone';
+        $method = '手机';
     }
     $obj=mysqli_query($link,$sql);
     if($obj){

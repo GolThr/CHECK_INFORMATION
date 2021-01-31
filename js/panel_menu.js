@@ -96,6 +96,7 @@ function SelectPanelMenuItem(p){
 }
 
 function exitLogin() {
-    localStorage.removeItem("s_userinfo");
+    // localStorage.removeItem("s_userinfo");
+    Cookies.remove("s_userinfo");
     location.href = 'login.html';
 }

@@ -213,7 +213,7 @@ var qrcode = new QRCode("dialog_qrcode", {
 });
 
 function showCheckShareInfo(msg){
-    var link = 'http://www.golthrcloud.tk/check.html?s='+msg['share_id'];
+    var link = agreement + '://' + domain + '/check.html?s=' + msg['share_id'];
     var pwd = msg['share_pwd'];
     var vercols = msg['share_vercol'];
     var check_info = '';

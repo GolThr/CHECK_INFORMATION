@@ -6,7 +6,8 @@ include("dbconfig.php");
  * avatar: modify user avatar,
  * pwd: modify user password,
  * email: rebind email,
- * phone: rebind phone_number
+ * phone: rebind phone_number,
+ * verify: verify user old password
  */
 
 $op = $_POST["op"];
@@ -90,7 +91,13 @@ if($op == "info"){
         }
     }
 }else if($op == "pwd"){
+    $new_pwd = $_POST["pwd"];
 
+    $sql = "UPDATE s_userinfo SET pwd='$new_pwd' WHERE uuid='$uuid'";
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        $flag = 1;
+    }
 }else if($op == "email"){
     $new_email = $_POST["email"];
 
@@ -101,6 +108,18 @@ if($op == "info"){
     }
 }else if($op == "phone"){
 
+}else if($op == "verify"){
+    $old_pwd = $_POST["old_pwd"];
+
+    $sql = "SELECT pwd FROM s_userinfo WHERE uuid='$uuid'";
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        if($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
+            if($row['pwd'] == $old_pwd){
+                $flag = 1;
+            }
+        }
+    }
 }
 
 $sql = "SELECT * FROM s_userinfo WHERE uuid='$uuid'";

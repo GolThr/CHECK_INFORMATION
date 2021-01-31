@@ -151,7 +151,8 @@ function login(){
             console.log("success!");
             console.log(msg);
             if(msg.flag == '1'){
-                localStorage.setItem("s_userinfo", JSON.stringify(msg));
+                // localStorage.setItem("s_userinfo", JSON.stringify(msg));
+                Cookies.set('s_userinfo', JSON.stringify(msg), {expires: 1});
                 location.href = "index.html";
             }else if(msg.flag == '0'){
                 pwd_wrong_times++;
@@ -238,7 +239,7 @@ function getEmailVerify(obj){
         $("#reg_email").css("border-color", "#ff392f");
         $("#reg_email").shake(2, 10, 400);
     }else{
-        $("#reg_email").css("border-color", "#458CFE");
+        $("#reg_email").css("border-color", "#EAEDF6");
         disableWaitBtn(obj, 'email');
         waitTimeDisplay(60, obj, function () {
             enableWaitBtn(obj, 'email');

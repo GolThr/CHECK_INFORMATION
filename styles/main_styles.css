@@ -90,6 +90,47 @@ li{
     box-shadow: 0 0 5px 2px #F2F2F2;
 }
 
+.main_verify_line{
+    width: 270px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main_verify_line input{
+    width: 150px;
+    height: 36px;
+    text-align: left;
+    text-indent: 1em;
+}
+
+.main_verify_line button{
+    width: 100px;
+    height: 40px;
+    margin-top: 0;
+}
+
+.main_btn_line{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.main_btn_line span:nth-child(2){
+    margin-left: 10px;
+}
+
+.main_btn_line button:nth-child(2){
+    margin-left: 10px;
+}
+
+.main_btn_line .main_btn:nth-child(2){
+    margin-left: 10px;
+}
+
 /*滑块验证********************/
 .drag_content{
     width: 274px;

@@ -11,8 +11,14 @@
     <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
     <link rel="stylesheet" href="styles/personal_styles.css" type="text/css"/>
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/js.cookie.min.js"></script>
     <script type="text/javascript" src="js/affects.js"></script>
     <script type="text/javascript">
+        var u_cookie = Cookies.get('s_userinfo');
+        if(u_cookie == undefined || u_cookie == ''){
+            console.log('未登录');
+            location.href = 'login.html';
+        }
         window.onload = (function () {
             init();
         });
@@ -93,7 +99,7 @@
                         <span class="security_login_history_title">登录记录</span>
                         <span class="security_login_history_title" id="showAllLogBtn" onclick="showAllLogToggle()">查看所有&gt;</span>
                     </div>
-                    <table class="security_login_history_table" style="border-collapse:separate; border-spacing:0;">
+                    <table class="security_login_history_table" id="security_login_history_table" style="border-collapse:separate; border-spacing:0;">
                         <tr>
                             <th>方式</th>
                             <th>平台</th>
@@ -131,9 +137,54 @@
                         </tr>
                     </table>
                 </div>
-                <div class="me_func_item me_func_item_goto" id="changePWD" style="width:200px;height:250px;margin-right: 0;">
-                    <img class="me_func_item_img" src="images/ic_pwd.png"/>
-                    <span class="me_func_item_title">修改密码</span>
+                <div class="me_func_item me_func_item_goto" id="changePWD" onclick="showChangePWDPage()">
+                    <img class="me_func_item_img" id="security_chpwd_btn_img" src="images/ic_pwd.png"/>
+                    <span class="me_func_item_title" id="security_chpwd_btn_title">修改密码</span>
+                    <div class="security_chpwd_choose_body" id="chpwd_body" style="display: none;">
+                        <div class="security_chpwd_back_title" onclick="hideChangePWDPage()">
+                            <img src="images/ic_back.png"/>
+                            <span>返回</span>
+                        </div>
+                        <span class="security_chpwd_title">修改密码</span>
+                        <div class="security_chpwd_choose_content" id="chpwd_choose">
+                            <div class="security_chpwd_choose_item me_func_item_goto" onclick="changeCHPWDPage('pwd_verify')">
+                                <img class="me_func_item_img" src="images/ic_pwd.png"/>
+                                <span class="me_func_item_title">密码验证</span>
+                            </div>
+                            <div class="security_chpwd_choose_item me_func_item_goto" onclick="changeCHPWDPage('verify');$('#chpwd_sub_title').text(s_userinfo.email);" style="margin-left: 20px;">
+                                <img class="me_func_item_img" src="images/ic_email.png"/>
+                                <span class="me_func_item_title">邮箱验证</span>
+                            </div>
+                            <div class="security_chpwd_choose_item me_func_item_goto" style="margin-left: 20px;">
+                                <img class="me_func_item_img" src="images/ic_phone.png"/>
+                                <span class="me_func_item_title">手机验证</span>
+                            </div>
+                        </div>
+                        <div class="security_chpwd_content" id="chpwd_pwd_verify" style="display: none;">
+                            <input type="password" class="main_input" id="user_old_pwd" placeholder="输入当前密码" style="width: 260px;"/>
+                            <div class="main_btn_line">
+                                <span class="security_chpwd_btn" id="security_chpwd_pwd_next_btn">下一步</span>
+                            </div>
+                        </div>
+                        <div class="security_chpwd_content" id="chpwd_verify" style="display: none;">
+                            <span class="chpwd_sub_title" id="chpwd_sub_title"></span>
+                            <div class="main_verify_line" id="chpwd_verify_line">
+                                <input type="text" class="main_input" id="chpwd_in_vercode" placeholder="验证码"/>
+                                <button class="dialog_submit_btn_sec" id="chpwd_get_vercode_btn">获取验证码</button>
+                            </div>
+                            <div class="main_btn_line">
+                                <span class="security_chpwd_btn" id="security_chpwd_next_btn">下一步</span>
+                            </div>
+                        </div>
+                        <div class="security_chpwd_content" id="chpwd_main" style="display: none;">
+                            <input type="password" class="main_input" id="reg_email_pwd" placeholder="设置密码" style="width: 260px;"/>
+                            <input type="password" class="main_input" id="reg_email_repwd" placeholder="再次输入密码" style="width: 260px;margin-top: 10px;"/>
+                            <div class="main_btn_line">
+                                <span class="security_chpwd_btn" id="security_chpwd_done_btn">修改密码</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="main_card_body security_option_list" id="security_option_list">

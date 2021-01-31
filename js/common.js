@@ -1,7 +1,28 @@
+var agreement = 'http';
+var domain = 'www.chake.ml';
+
 var s_userinfo;
 function initUser() {
+    // localStorage为H5新增存储方式，永久存储，低版本浏览器可能不兼容
+    // 为方便设置有效期，登录信息使用cookie存储
+    var u_cookie = Cookies.get('s_userinfo');
+    if(u_cookie == undefined || u_cookie == ''){
+        console.log('未登录');
+        location.href = 'login.html';
+    }else{
+        //已登录
+        s_userinfo = JSON.parse(u_cookie);
+        $('.user_name').text(s_userinfo.user_name);
+        $('.user_avatar').attr("src", s_userinfo.avatar);
+    }
+}
+
+function initUserLocalStorage() {
+    // localStorage为H5新增存储方式，永久存储，低版本浏览器可能不兼容
+    // 为方便设置有效期，登录信息使用cookie存储
     s_userinfo = JSON.parse(localStorage.getItem("s_userinfo"));
-    console.log(s_userinfo);
+    // console.log('Cookie:'+Cookies.get('s_userinfo'));
+    // console.log(JSON.parse(Cookies.get('s_userinfo')));
     if(s_userinfo == null || s_userinfo.flag != "1"){
         console.log('未登录');
         location.href = 'login.html';
@@ -10,35 +31,4 @@ function initUser() {
         $('.user_name').text(s_userinfo.user_name);
         $('.user_avatar').attr("src", s_userinfo.avatar);
     }
-}
-
-function getVerCode(){
-    var tmp = ['a','b','c','d','e','f','g','h','i','j','k','5','6','7','8','9','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4']
-    var code = "";
-    for(var i = 0; i < 6; i++){
-        code += tmp[Math.floor((Math.random() * 35) + 0)]
-    }
-    return code;
-}
-
-function getQueryVariable(variable){
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
-    }
-    return(false);
-}
-
-function getObjectURL(file) {
-    var url = null ;
-    if (window.createObjectURL!=undefined) { // basic
-        url = window.createObjectURL(file) ;
-    } else if (window.URL!=undefined) { // mozilla(firefox)
-        url = window.URL.createObjectURL(file) ;
-    } else if (window.webkitURL!=undefined) { // webkit or chrome
-        url = window.webkitURL.createObjectURL(file) ;
-    }
-    return url ;
 }

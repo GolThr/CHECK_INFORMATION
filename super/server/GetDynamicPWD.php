@@ -1,14 +1,14 @@
 <?php
-include("dbconfig.php");
-include("sendEmail.php");
+include("../../server/dbconfig.php");
+include("../../server/sendEmail.php");
 
-$type = $_POST["type"]; //verify, email, phone, bind_email, bind_phone, get_email_code, get_phone_code
+$type = $_POST["type"]; //verify, email
 
 function getVerCode(){
-    $tmp = ['0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9'];
+    $tmp = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '0','1','2', 'I', 'J', 'K', 'L', 'M','3','4','5', 'N', 'O', 'P', 'Q', 'R','6','7','8', 'S', 'T', 'U', 'V', 'W','9', 'X', 'Y', 'Z'];
     $code = "";
     for($i = 0; $i < 6; $i++){
-        $code = $code . $tmp[rand(0, 19)];
+        $code = $code . $tmp[rand(0, 35)];
     }
     return $code;
 }
@@ -94,10 +94,10 @@ $text = '<style type="text/css">
             <img class="email_logo" src="https://golthr.gitee.io/outer/check_logo.png"/>
         </div>
         <div class="email_content">
-            <span class="email_title">尊敬的用户，您好！</span>
-            <span class="email_text">欢迎注册查客账号！您的验证码为：</span>
+            <span class="email_title">管理员，您好！</span>
+            <span class="email_text">欢迎登录查客后台管理页面！您的动态密码为：</span>
             <span class="email_verify_code">'.$verify_code.'</span>
-            <span class="email_text">验证码在1分钟内有效，请及时使用。</span>
+            <span class="email_text">请妥善保管您的动态密码。动态密码在1分钟内有效，请及时使用。</span>
         </div>
         <div class="email_footer">
             <span class="email_text">查客账号中心</span>
@@ -105,31 +105,29 @@ $text = '<style type="text/css">
         </div>
     </div>
 </div>';
-$alt_message = '[查客账号中心] 尊敬的用户，您好！欢迎注册查客账号！您的验证码为：【'.$verify_code.'】';
+$alt_message = '[查客账号中心] 管理员，您好！欢迎登录查客后台管理页面！您的动态密码为：【'.$verify_code.'】 请妥善保管您的动态密码。动态密码在1分钟内有效，请及时使用。';
 
 session_start();
-if($type == 'email'){
+if($type == 'email') {
     $to = $_POST["email"];
-    $flag = 0;  // 0: error, 1: success, -1: duplicate
+    $flag = 0;  // 0: error, 1: duplicate
     // check email
-    $sql = "SELECT COUNT(*) AS cnt FROM s_userinfo WHERE email='$to'";
+    $sql = "SELECT COUNT(*) AS cnt FROM s_manager WHERE email='$to'";
     $obj = mysqli_query($link, $sql);
-    if($obj){
-        $cnt_row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
-        if($cnt_row){
-            if($cnt_row["cnt"] != 1){
+    if ($obj) {
+        $cnt_row = mysqli_fetch_array($obj, MYSQLI_ASSOC);
+        if ($cnt_row) {
+            if ($cnt_row["cnt"] == 1) {
                 $flag = 1;
-            }else{
-                $flag = -1;
             }
         }
     }
-    if($flag == 1){
+    if ($flag == 1) {
         // send email
         $subject = '查客账号中心';
         $message = $text;
-        $flag = sendEmail($to,$subject,$message,$alt_message);
-        if ($flag){
+        $flag = sendEmail($to, $subject, $message, $alt_message);
+        if ($flag) {
             // 存储 session 数据
             $_SESSION['verify_code'] = $verify_code;
             $_SESSION['verify_time'] = time();
@@ -137,13 +135,6 @@ if($type == 'email'){
     }
     $jsonStr = array("flag" => $flag);
     echo json_encode($jsonStr);
-}else if($type == 'phone'){
-    $to = $_POST["phone"];
-
-}else if($type == 'bind_email'){
-
-}else if($type == 'bind_phone'){
-
 }else if($type == 'verify'){
     $verify_code_input = strtoupper($_POST["code_input"]);
     $cur_time = time();
@@ -158,33 +149,4 @@ if($type == 'email'){
         }
     }
     echo json_encode($jsonStr);
-}else if($type == 'get_email_code'){
-    $to = $_POST["email"];
-    $flag = 0;  // 0: error, 1: success
-    // check email
-    $sql = "SELECT COUNT(*) AS cnt FROM s_userinfo WHERE email='$to'";
-    $obj = mysqli_query($link, $sql);
-    if($obj){
-        $cnt_row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
-        if($cnt_row){
-            if($cnt_row["cnt"] == 1){
-                $flag = 1;
-            }
-        }
-    }
-    if($flag == 1){
-        // send email
-        $subject = '查客账号中心';
-        $message = $text;
-        $flag = sendEmail($to,$subject,$message,$alt_message);
-        if ($flag){
-            // 存储 session 数据
-            $_SESSION['verify_code'] = $verify_code;
-            $_SESSION['verify_time'] = time();
-        }
-    }
-    $jsonStr = array("flag" => $flag);
-    echo json_encode($jsonStr);
-}else if($type == 'get_phone_code'){
-
 }
