@@ -11,7 +11,7 @@ function init(){
 }
 
 function changePage(p){
-    // panel_body_menu, panel_body_info, panel_body_security, panel_body_message, panel_body_notice, panel_body_pay, panel_body_about
+    // panel_body_menu, panel_body_info, panel_body_security, panel_body_message, panel_body_notice, panel_body_feedback, panel_body_pay, panel_body_about
     /////
     var obj = $('#panel_body_menu');
     //check cur page
@@ -25,6 +25,8 @@ function changePage(p){
         obj = $('#panel_body_message');
     }else if(cur_page == 'notice'){
         obj = $('#panel_body_notice');
+    }else if(cur_page == 'feedback'){
+        obj = $('#panel_body_feedback');
     }else if(cur_page == 'pay'){
         obj = $('#panel_body_pay');
     }else if(cur_page == 'about'){
@@ -58,6 +60,7 @@ function changePage(p){
             showLessLoginLog();
             hideChangePWDPage();
             initLoginLogList();
+            initSecurityOptionList();
         });
     }else if(p == 'message'){
         obj.fadeOut(500,function () {
@@ -76,6 +79,15 @@ function changePage(p){
                 changePage('menu');
             });
             $('#panel_body_notice').fadeIn();
+        });
+    }else if(p == 'feedback'){
+        obj.fadeOut(500,function () {
+            cur_page = 'feedback';
+            setMainHeadTitle('反馈');
+            showBackBtn(function (){
+                changePage('menu');
+            });
+            $('#panel_body_feedback').fadeIn();
         });
     }else if(p == 'pay'){
         obj.fadeOut(500,function () {
@@ -96,6 +108,32 @@ function changePage(p){
             $('#panel_body_about').fadeIn();
         });
     }
+}
+
+function initSecurityOptionList(){
+    //ajax去服务器端校验
+    var data= {"op":"get","uuid":s_userinfo.uuid};
+    console.log("UserSettingsOperateAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/UserSettingsOperate.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg['flag'] == '1'){
+                renderSecurityOptionList(msg['settings']);
+            }else{
+                showFloatTip('读取用户配置失败！', 'error');
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
 }
 
 function initLoginLogList(){
@@ -171,6 +209,19 @@ function renderLoginLogList(msg){
     $('#security_login_history_table').append('<tr><th>方式</th><th>平台</th><th>IP</th><th>地址</th><th>时间</th></tr>');
     for(var i in msg){
         $('#security_login_history_table').append('<tr><td>'+msg[i]['method']+'</td><td>'+msg[i]['platform']+'</td><td>'+msg[i]['ip']+'</td><td>'+msg[i]['loc']+'</td><td>'+msg[i]['time']+'</td></tr>');
+    }
+}
+
+function renderSecurityOptionList(msg){
+    if(msg['twice_verify'] == 'on'){
+        switcherTwiceOpen();
+    }else{
+        switcherTwiceClose();
+    }
+    if(msg['loc_verify'] == 'on'){
+        switcherLoctechOpen();
+    }else{
+        switcherLoctechClose();
     }
 }
 
@@ -523,7 +574,33 @@ function changeCHPWDPage(p) {
     }
 }
 
-function switcherTwiceClicked(){
+function switcherTwiceChange(s) {   // s: on, off
+    if(s == 'on' || s == 'off'){
+        //ajax去服务器端校验
+        var data= {"op":"modify_twice","uuid":s_userinfo.uuid,"new_val":s};
+        console.log("UserSettingsOperateAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/UserSettingsOperate.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg['flag'] != '1'){
+                    showFloatTip('配置失败，请重试！', 'error');
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    }
+}
+
+function switcherTwiceToggle(){
     var sw = $('#switcher_twice');
     var sw_bg = $('#switcher_twice_bg');
     var sw_btn = $('#switcher_twice_btn');
@@ -534,14 +611,68 @@ function switcherTwiceClicked(){
         sw.attr('ischecked', 'true');
         sw_btn.animate({left:btn_end_w}, 200);
         sw_bg.animate({width:bg_end_w}, 200);
+        switcherTwiceChange('on');
     }else{
         sw.attr('ischecked', 'false');
         sw_btn.animate({left:0}, 200);
         sw_bg.animate({width:0}, 200);
+        switcherTwiceChange('off');
     }
 }
 
-function switcherLoctechClicked(){
+// private use
+function switcherTwiceOpen(){
+    var sw = $('#switcher_twice');
+    var sw_bg = $('#switcher_twice_bg');
+    var sw_btn = $('#switcher_twice_btn');
+    var w = sw.width();
+    var bg_end_w = w - 10;
+    var btn_end_w = w - 20;
+    sw.attr('ischecked', 'true');
+    sw_btn.animate({left:btn_end_w}, 200);
+    sw_bg.animate({width:bg_end_w}, 200);
+}
+
+// private use
+function switcherTwiceClose(){
+    var sw = $('#switcher_twice');
+    var sw_bg = $('#switcher_twice_bg');
+    var sw_btn = $('#switcher_twice_btn');
+    var w = sw.width();
+    var bg_end_w = w - 10;
+    var btn_end_w = w - 20;
+    sw.attr('ischecked', 'false');
+    sw_btn.animate({left:0}, 200);
+    sw_bg.animate({width:0}, 200);
+}
+
+function switcherLoctechChange(s) {   // s: on, off
+    if(s == 'on' || s == 'off'){
+        //ajax去服务器端校验
+        var data= {"op":"modify_loc","uuid":s_userinfo.uuid,"new_val":s};
+        console.log("UserSettingsOperateAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/UserSettingsOperate.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg['flag'] != '1'){
+                    showFloatTip('配置失败，请重试！', 'error');
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    }
+}
+
+function switcherLoctechToggle(){
     var sw = $('#switcher_loctech');
     var sw_bg = $('#switcher_loctech_bg');
     var sw_btn = $('#switcher_loctech_btn');
@@ -552,11 +683,39 @@ function switcherLoctechClicked(){
         sw.attr('ischecked', 'true');
         sw_btn.animate({left:btn_end_w}, 200);
         sw_bg.animate({width:bg_end_w}, 200);
+        switcherLoctechChange('on');
     }else{
         sw.attr('ischecked', 'false');
         sw_btn.animate({left:0}, 200);
         sw_bg.animate({width:0}, 200);
+        switcherLoctechChange('off');
     }
+}
+
+// private use
+function switcherLoctechOpen(){
+    var sw = $('#switcher_loctech');
+    var sw_bg = $('#switcher_loctech_bg');
+    var sw_btn = $('#switcher_loctech_btn');
+    var w = sw.width();
+    var bg_end_w = w - 10;
+    var btn_end_w = w - 20;
+    sw.attr('ischecked', 'true');
+    sw_btn.animate({left:btn_end_w}, 200);
+    sw_bg.animate({width:bg_end_w}, 200);
+}
+
+// private use
+function switcherLoctechClose(){
+    var sw = $('#switcher_loctech');
+    var sw_bg = $('#switcher_loctech_bg');
+    var sw_btn = $('#switcher_loctech_btn');
+    var w = sw.width();
+    var bg_end_w = w - 10;
+    var btn_end_w = w - 20;
+    sw.attr('ischecked', 'false');
+    sw_btn.animate({left:0}, 200);
+    sw_bg.animate({width:0}, 200);
 }
 
 function enableWaitBtn(obj, type){
@@ -565,6 +724,14 @@ function enableWaitBtn(obj, type){
 
 function disableWaitBtn(obj, type){
     $('#get_email_ver_btn').attr('onclick', 'showFloatTip("请求过于频繁，过一会儿再试吧！","success")');
+}
+
+function logoffAcc(){
+    showDialogTip('确认要注销吗', '该操作将会永久注销您的账号，包括您账号中包含的数据也将一并删除。若您账号中包含重要数据，请谨慎操作。点击下方确认将视为您已知晓该事项。');
+    bindTipOK(function () {
+        window.open('goodbye.html');
+        hideDialogTip();
+    });
 }
 
 $('#info_edit_blue').click(function () {

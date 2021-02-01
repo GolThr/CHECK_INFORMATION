@@ -7,142 +7,37 @@
     <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
     <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
     <style type="text/css">
-        .marquee_inline_body{
-            position: relative;
-            width: 100%;
-            height: 15px;
-        }
-        .marquee_inline_content{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            left: 20px;
-            right: 20px;
-            bottom: 0;
-            height: 15px;
-            padding: 5px 0;
-            margin: 0 20px;
-            border-radius: 20px;
-            background: #ffde6f;
-        }
-        .marquee_inline_img{
-            width: auto;
-            height: 15px;
-            margin-left: 20px;
-        }
-        .marquee_inline_text{
-            color: #000;
-            font-size: 12px;
-            margin-right: 10px;
-        }
-
-
-        .switch_body{
-            cursor: pointer;
-            position: relative;
-            width: 50px;
-            height: 20px;
-            border-radius: 30px;
-            border: #EAEDF6 solid 2px;
-            background: #fff;
-        }
-        .switch_bg{
-            position: absolute;
-            width: 10px;
-            height: 100%;
-            border-radius: 30px 0 0 30px;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            background: #458CFE;
-        }
-        .switch_btn{
-            position: absolute;
-            left: 0;
-            width: 20px;
-            height: 100%;
-            border-radius: 50%;
-            background: #EAEDF6;
-        }
-
-
-        .test_lr_body{
-            display: flex;
-            flex-direction: row;
-            position: relative;
-            width: 100%;
-            background: #EAEDF6;
-        }
-        .test_lr_body div:nth-child(1){
-            width: 300px;
-            height: 150px;
-            background: #458CFE;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        .test_lr_body div:nth-child(2){
-            width: 100px;
-            height: 150px;
-            background: #458CFE;
-            position: absolute;
-            right: 0;
-            top: 0;
+        select{
+            background:#fafdfe;
+            height:28px;
+            width:180px;
+            line-height:28px;
+            border:1px solid #9bc0dd;
+            -moz-border-radius:2px;
+            -webkit-border-radius:2px;
+            border-radius:2px;
+            outline: none;
         }
     </style>
 </head>
 <body>
-    <script type="text/javascript" src="js/float_tips.js"></script>
 
-    <div class="marquee_inline_body">
-        <div class="marquee_inline_content">
-            <img class="marquee_inline_img" src="images/ic_warning.png"/>
-            <marquee class="marquee_inline_text">那么默认情况下，水平滚动的文字背景与文字同高、与浏览器窗口同宽，使用  width  和  height  参数调整其水平和垂直的范围。</marquee>
-        </div>
-    </div>
-
-    <span class="main_btn" onclick="getEmailVerify()">获取验证码</span>
-    <input type="text" class="main_input" id="reg_email"/>
-
-
-    <!--滑动开关-->
-    <div class="switch_body" ischecked="false" id="switch">
-        <div class="switch_bg" id="switch_bg"></div>
-        <div class="switch_btn" id="switch_btn"></div>
-    </div>
+    <select>
+        <option>选项1</option>
+        <option>选项2</option>
+        <option>选项3</option>
+        <option>选项4</option>
+        <option>选项5</option>
+        <option>选项6</option>
+        <option>选项7</option>
+        <option>选项8</option>
+        <option>选项9</option>
+        <option>选项10</option>
+    </select>
 
 
-    <div class="test_lr_body">
-        <div id="test_l" onclick="$('#test_l').hide();$('#test_r').show();"></div>
-        <div id="test_r" onclick="$('#test_l').show();$('#test_r').hide();"></div>
-    </div>
-
-
-
-    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <script type="text/javascript">
-        document.write(returnCitySN["cip"]+','+returnCitySN["cname"]);
-        $('#switch').click(function (){
-            var sw = $('#switch');
-            var sw_bg = $('#switch_bg');
-            var sw_btn = $('#switch_btn');
-            var w = sw.width();
-            var bg_end_w = w - 10;
-            var btn_end_w = w - 20;
-            if(sw.attr('ischecked') == 'false'){
-                sw.attr('ischecked', 'true');
-                sw_btn.animate({left:btn_end_w}, 200);
-                sw_bg.animate({width:bg_end_w}, 200);
-            }else{
-                sw.attr('ischecked', 'false');
-                sw_btn.animate({left:0}, 200);
-                sw_bg.animate({width:0}, 200);
-            }
-        });
+
     </script>
-    <script type="text/javascript" src="js/test.js"></script>
 </body>
 </html>

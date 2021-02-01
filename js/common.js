@@ -1,5 +1,6 @@
 var agreement = 'http';
 var domain = 'www.chake.ml';
+var version = 'alpha_1.0.0';
 
 var s_userinfo;
 function initUser() {

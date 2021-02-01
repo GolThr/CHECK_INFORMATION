@@ -1,0 +1,267 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.background_header{
+    width: 100%;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.background_header_img{
+    width: 30%;
+    height: auto;
+}
+
+.background_footer{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: right;
+    width: 100%;
+    height: 320px;
+    position: absolute;
+    content: "";
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.background_footer_img{
+    width: 10%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.title{
+    margin-top: 32px;
+    font-size: 32px;
+    color: #000;
+}
+
+.subtitle{
+    margin-top: 10px;
+    font-size: 20px;
+    color: #000;
+}
+
+.sheet{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.sheet_logo{
+    width: 110px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.login_func_line{
+    width: 260px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.login_btn_line{
+    width: 270px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login_func_title{
+    cursor: pointer;
+    font-size: 14px;
+    color: #458CFE;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.login_func_title:hover{
+    text-decoration-line: underline;
+}
+
+.sheet input{
+    width: 260px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 13px;
+    color: #000;
+    margin: 15px 0;
+}
+
+.submit_btn{
+    cursor: pointer;
+    width: 125px;
+    height: 40px;
+    border-radius: 50px;
+    background: #458CFE;
+    color: #fff;
+    border: 0;
+    margin-top: 20px;
+    box-shadow: 0 0 5px 2px #C3DCFF;
+}
+
+.submit_btn_sec{
+    cursor: pointer;
+    width: 125px;
+    height: 40px;
+    border-radius: 50px;
+    background: #EAEDF6;
+    color: #000;
+    border: 0;
+    margin-top: 20px;
+    box-shadow: 0 0 5px 2px #F2F2F2;
+}
+
+.submit_btn:hover{
+     background: #1571ff;
+ }
+
+.submit_btn_sec:hover{
+    background: #D4D4DE;
+}
+
+.submit_btn a{
+    padding: 16px 24px;
+    color: #fff;
+}
+
+.submit_btn a:link{
+    color: #fff;
+    text-decoration: none;
+}
+
+.submit_btn a:visited{
+    color: #fff;
+    text-decoration: none;
+}
+
+.submit_btn a:hover{
+    color: #fff;
+    text-decoration: none;
+    background: rgba(69, 140, 255, 0.6);
+}
+
+.reg_logo{
+    width: 130px;
+    height: auto;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}
+
+.reg_title{
+    font-size: 35px;
+    margin-bottom: 50px;
+}
+
+.reg_choose_body{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.reg_choose_item{
+    cursor: pointer;
+    padding: 50px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #EAEDF6;
+    box-shadow: 0 0 5px 2px #F2F2F2;
+    transition: transform 500ms;
+}
+
+.reg_choose_item:hover{
+    transform: scale(1.1);
+}
+
+.reg_choose_img{
+    width: auto;
+    height: 60px;
+}
+
+.reg_choose_title{
+    font-size: 16px;
+    color: #000;
+    margin-top: 50px;
+}
+
+.reg_step_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.reg_need_verify_line{
+    width: 270px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reg_step_body input{
+    text-indent: 1em;
+    text-align: left;
+}
+
+.reg_need_verify_line input{
+    width: 150px;
+    text-align: left;
+    text-indent: 1em;
+}
+
+.reg_need_verify_line button{
+    width: 100px;
+    height: 44px;
+    margin-top: 0;
+}
+
+.reg_done_img{
+    width: 200px;
+    height: 200px;
+}
+
+.reg_done_right{
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+}
+
+.reg_done_right span{
+    margin-bottom: 10px;
+}
+
+.reg_done_textarea{
+    width: 100%;
+    height: 130px;
+    padding: 10px;
+    resize: none;
+    border: #EAEDF6 solid 2px;
+    border-radius: 10px;
+    outline: none;
+    margin-bottom: 10px;
+}

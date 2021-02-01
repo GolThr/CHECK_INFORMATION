@@ -83,6 +83,10 @@
                 <img class="me_func_item_img" src="images/ic_notice.png"/>
                 <span class="me_func_item_title">公告</span>
             </div>
+            <div class="me_func_item me_func_item_goto" onclick="changePage('feedback')">
+                <img class="me_func_item_img" src="images/ic_feedback.png"/>
+                <span class="me_func_item_title">反馈</span>
+            </div>
             <div class="me_func_item me_func_item_goto" onclick="changePage('pay')">
                 <img class="me_func_item_img" src="images/ic_pay.png"/>
                 <span class="me_func_item_title">打赏</span>
@@ -106,34 +110,6 @@
                             <th>IP</th>
                             <th>地址</th>
                             <th>时间</th>
-                        </tr>
-                        <tr>
-                            <td>邮箱</td>
-                            <td>网页端</td>
-                            <td>192.168.1.136</td>
-                            <td>山东省,淄博市</td>
-                            <td>2021.01.30</td>
-                        </tr>
-                        <tr>
-                            <td>邮箱</td>
-                            <td>Android</td>
-                            <td>192.168.1.136</td>
-                            <td>山东省,淄博市</td>
-                            <td>2021.01.30</td>
-                        </tr>
-                        <tr>
-                            <td>邮箱</td>
-                            <td>Android</td>
-                            <td>192.168.1.136</td>
-                            <td>山东省,淄博市</td>
-                            <td>2021.01.30</td>
-                        </tr>
-                        <tr>
-                            <td>邮箱</td>
-                            <td>网页端</td>
-                            <td>192.168.1.136</td>
-                            <td>山东省,淄博市</td>
-                            <td>2021.01.30</td>
                         </tr>
                     </table>
                 </div>
@@ -188,7 +164,7 @@
                 </div>
             </div>
             <div class="main_card_body security_option_list" id="security_option_list">
-                <div class="security_option_list_item" onclick="switcherTwiceClicked()">
+                <div class="security_option_list_item" onclick="switcherTwiceToggle()">
                     <div class="security_option_list_item_title">
                         <span>二次登录验证</span>
                         <span>登录时需要验证邮箱或手机号</span>
@@ -199,7 +175,7 @@
                         <div class="switcher_btn" id="switcher_twice_btn"></div>
                     </div>
                 </div>
-                <div class="security_option_list_item" onclick="switcherLoctechClicked()">
+                <div class="security_option_list_item" onclick="switcherLoctechToggle()">
                     <div class="security_option_list_item_title">
                         <span>异地登录保护</span>
                         <span>异地登录时需要验证邮箱或手机号</span>
@@ -210,7 +186,7 @@
                         <div class="switcher_btn" id="switcher_loctech_btn"></div>
                     </div>
                 </div>
-                <div class="security_option_list_item">
+                <div class="security_option_list_item" onclick="logoffAcc()">
                     <div class="security_option_list_item_title">
                         <span style="color: #cf3b3f;">注销账号</span>
                         <span>将永久注销您的账号，请谨慎操作</span>
@@ -222,6 +198,8 @@
         <div class="panel_body_mine_page" id="panel_body_message" style="display: none;">
         </div>
         <div class="panel_body_mine_page" id="panel_body_notice" style="display: none;">
+        </div>
+        <div class="panel_body_mine_page" id="panel_body_feedback" style="display: none;">
         </div>
         <div class="panel_body_mine_page" id="panel_body_pay" style="display: none;">
         </div>

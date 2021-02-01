@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>注销账号 - 查客核对</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="png_favicon.png" type=" image/png">
+    <link rel="stylesheet" href="styles/main_styles.css" type="text/css">
+    <link rel="stylesheet" href="styles/goodbye_styles.css" type="text/css">
+    <link rel="stylesheet" href="styles/footer_web_style.css" type="text/css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/js.cookie.min.js"></script>
+    <script type="text/javascript" src="js/animation.js"></script>
+    <script type="text/javascript" src="js/affects.js"></script>
+    <script type="text/javascript">
+        var u_cookie = Cookies.get('s_userinfo');
+        if(u_cookie == undefined || u_cookie == ''){
+            console.log('未登录');
+            location.href = 'login.html';
+        }
+        window.onload = (function () {
+            init();
+        });
+    </script>
+<body>
+    <div class="background_header">
+        <img class="background_header_img" src="images/background_pop_header.png" onclick=""/>
+    </div>
+
+    <div class="sheet">
+        <img class="reg_logo" src="images/check_logo_rgb.png"/>
+        <div class="reg_step_body" id="pwd_verify">
+            <span class="reg_title">验证您的密码</span>
+            <input type="password" class="main_input" id="pwd_verify_in" placeholder="密码" style="text-indent: 0;text-align: center;"/>
+            <button class="submit_btn" type="submit" id="pwd_verify_btn" style="width: 270px;">验证</button>
+        </div>
+        <div class="reg_step_body" id="reg_choose" style="display: none;">
+            <span class="reg_title">选择验证方式</span>
+            <div class="reg_choose_body">
+                <div class="reg_choose_item" onclick="changePage('verify')">
+                    <img class="reg_choose_img" src="images/ic_email.png"/>
+                    <span class="reg_choose_title">邮箱验证</span>
+                </div>
+                <div class="reg_choose_item" style="margin-left: 40px;">
+                    <img class="reg_choose_img" src="images/ic_phone.png"/>
+                    <span class="reg_choose_title">手机验证</span>
+                </div>
+            </div>
+        </div>
+        <div class="reg_step_body" id="reg_email_step_verify" style="display: none;">
+            <span class="reg_title">注销账号</span>
+            <input type="text" class="main_input" id="reg_email" placeholder="输入您的邮箱"/>
+            <div class="reg_need_verify_line">
+                <input type="text" class="main_input" id="reg_email_vercode" placeholder="验证码"/>
+                <button class="submit_btn_sec" id="get_email_ver_btn" onclick="getEmailVerify(this)">获取验证码</button>
+            </div>
+            <button class="submit_btn" type="submit" style="width: 270px;" id="reg_email_next">确定注销</button>
+        </div>
+        <div class="reg_step_body" id="done_sheet" style="display: none;">
+            <span class="reg_title">账户注销成功</span>
+            <div class="reg_choose_body" style="align-items: flex-start;">
+                <img class="reg_done_img" src="images/back_thanks.png"/>
+                <div class="reg_done_right">
+                    <span>感谢您这段时间的支持和使用，</span>
+                    <span>欢迎留下您的意见和建议，我们将继续改进</span>
+                    <textarea class="reg_done_textarea" placeholder="请输入您的意见或建议"></textarea>
+                </div>
+            </div>
+            <button class="submit_btn" type="submit" style="width: 270px;" onclick="">反馈</button>
+        </div>
+    </div>
+
+    <div class="background_footer">
+        <img class="background_footer_img" src="images/background_pop_footer.png" onclick=""/>
+    </div>
+    <div class="footer">
+        <span class="footer_title">Copyright © 2021.GolThr All rights reserved.</span>
+        <span class="footer_detail">Developed by 宋宜鑫.</span>
+    </div>
+
+    <script type="text/javascript" src="js/float_tips.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/goodbyePage.js"></script>
+</body>
+</html>
