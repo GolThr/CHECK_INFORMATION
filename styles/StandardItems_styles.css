@@ -1,0 +1,501 @@
+body{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    font-family: 等线;
+}
+
+.std_title{
+    color: #458CFE;
+    font-size: 18px;
+    padding: 20px 0;
+}
+
+/*****main_styles.css*****/
+
+.main_btn_line{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.main_btn_line span:nth-child(2){
+    margin-left: 10px;
+}
+
+.main_btn_line button:nth-child(2){
+    margin-left: 10px;
+}
+
+.main_btn_line .main_btn:nth-child(2){
+    margin-left: 10px;
+}
+
+.dialog_btn_main{
+    cursor: pointer;
+    width: 40px;
+    height: 20px;
+    padding: 5px;
+    line-height: 20px;
+    text-align: center;
+    background: #458CFE;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.dialog_btn_main:hover{
+    background: #1571ff;
+}
+
+.dialog_btn_seco{
+    cursor: pointer;
+    width: 40px;
+    height: 20px;
+    padding: 5px;
+    line-height: 20px;
+    text-align: center;
+    background: #EAEDF6;
+    border-radius: 10px;
+    color: #000;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.dialog_btn_seco:hover{
+    background: #D4D4DE;
+}
+/*************************/
+
+
+/*****main_select_list*****/
+/* border style */
+.main_select_list_borderstyle{
+    cursor: pointer;
+    width: 100px;
+    height: 36px;
+    border-radius: 10px;
+    border: #EAEDF6 solid 2px;
+    background: #fff;
+    position: relative;
+}
+.main_select_list_borderstyle:hover{
+    border-color: #458CFE;
+}
+.main_select_list_borderstyle .main_select_item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 0 10px 10px;
+    border: #EAEDF6 solid 2px;
+    background: #fff;
+    position: absolute;
+    top: 36px;
+    left: -2px;
+    width: 100%;
+    display: none;
+}
+.main_select_list_borderstyle .main_select_item:hover{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 0 10px 10px;
+    border: solid 2px;
+    border-color: #EAEDF6 #458CFE #458CFE #458CFE;
+    background: #fff;
+    position: absolute;
+    top: 36px;
+    left: -2px;
+    width: 100%;
+    display: none;
+}
+/* card style */
+.main_select_list_cardstyle{
+    cursor: pointer;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 5px 2px #F2F2F2;
+    position: relative;
+}
+.main_select_list_cardstyle:hover{
+    background: #EAEDF6;
+}
+.main_select_list_cardstyle .main_select_item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 0 10px 10px;
+    background: #fff;
+    box-shadow: 0 4px 5px 2px #F2F2F2;
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    display: none;
+}
+/**/
+.main_select_item span{
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 14px;
+    text-align: center;
+}
+.main_select_item span:hover{
+    background: #EAEDF6;
+}
+.main_select_arrow{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 15px;
+    right: 10px;
+    transition: transform 200ms;
+}
+.main_select_arrow_down{
+    transform: rotate(180deg);
+}
+.main_select_default{
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 24px;
+}
+/**************************/
+
+/*滑块验证********************/
+.drag_content{
+    width: 274px;
+    height: 40px;
+    line-height: 40px;
+    background: rgba(255, 255, 255, 0);
+    position: relative;
+    border-radius: 50px;
+    border: #EAEDF6 solid 2px;
+    color: #757476;
+}
+
+.drag_body:hover{
+    border-color: #458CFE;
+}
+
+.drag_bg{
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    background: #458CFE;
+    border-radius: 50px 0 0 50px;
+    z-index: -1;
+}
+
+.drag_text{
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    text-align: center;
+    user-select: none;
+}
+
+.drag_btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    cursor: move;
+    text-align: center;
+    background: #EAEDF6;
+    user-select: none;
+    color:#666;
+    border-radius: 50%;
+    line-height: 40px;
+}
+
+.drag_btn_flag{
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: rgba(0,0,0,0);
+    border-radius: 50%;
+    border: #458CFE solid 3px;
+    z-index: 5;
+}
+/******************************/
+
+/*****marquee_inline*****/
+.marquee_inline_body{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 15px;
+    padding: 5px 0;
+    border-radius: 20px;
+    background: #ffde6f;
+}
+
+.marquee_inline_img{
+    width: auto;
+    height: 15px;
+    margin: 0 20px;
+}
+
+.marquee_inline_text{
+    color: #000;
+    font-size: 12px;
+}
+/************************/
+
+/*****switcher_btn*****/
+.switcher_body{
+    cursor: pointer;
+    position: relative;
+    width: 40px;
+    height: 20px;
+    border-radius: 30px;
+    border: #e6e6e6 solid 2px;
+    background: #e6e6e6;
+}
+
+.switcher_bg{
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    border-radius: 30px 0 0 30px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #458CFE;
+}
+
+.switcher_btn{
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 100%;
+    border-radius: 50%;
+    background: #fff;
+}
+/**********************/
+
+/*****Calendar*****/
+/* border style */
+.main_calendar_borderstyle{
+    cursor: pointer;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    background: #fff;
+    border: #EAEDF6 solid 2px;
+    position: relative;
+}
+.main_calendar_borderstyle .main_calendar_select_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #fff;
+    border: #EAEDF6 solid 2px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    display: none;
+}
+.main_calendar_borderstyle:hover{
+    border-color: #458CFE;
+}
+/* card style */
+.main_calendar_cardstyle{
+    cursor: pointer;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 5px 2px #F2F2F2;
+    position: relative;
+}
+.main_calendar_cardstyle .main_calendar_select_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 5px 2px #F2F2F2;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    display: none;
+}
+.main_calendar_cardstyle:hover{
+    background: #EAEDF6;
+}
+.main_calendar_select_header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 40px;
+}
+.main_calendar_pre_m,.main_calendar_next_m{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+.main_calendar_pre_m:before{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 5px;
+}
+.main_calendar_pre_m:after{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: 5px;
+}
+.main_calendar_next_m:before{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 5px;
+}
+.main_calendar_next_m:after{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(-45deg);
+    position: absolute;
+    bottom: 5px;
+}
+.main_calendar_select_header img{
+    width: 20px;
+    height: 20px;
+}
+.main_calendar_select_header_body{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+.main_calendar_select_header_body span{
+    text-align: center;
+    color: #000;
+    font-size: 14px;
+}
+.main_calendar_select_title{
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    color: #458CFE;
+    height: 30px;
+}
+.main_calendar_select_title span{
+    line-height: 30px;
+    width: 30px;
+    text-align: center;
+}
+.main_calendar_select_week{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 14px;
+    color: #000;
+    height: 30px;
+}
+.main_calendar_select_week span{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    text-align: center;
+}
+.main_calendar_select_week_active:hover{
+    color: #000;
+    background: #EAEDF6;
+}
+.main_calendar_select_week_grey{
+    color: #9fa7ad;
+}
+.main_calendar_select_week_grey:hover{
+    color: #9fa7ad;
+    background: #fff;
+}
+.main_calendar_selected{
+    color: #fff;
+    background: #458CFE;
+}
+.main_calendar_selected:hover{
+    color: #fff;
+    background: #458CFE;
+}
+.main_calendar_arrow{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 15px;
+    right: 10px;
+    transition: transform 200ms;
+}
+.main_select_arrow_down{
+    transform: rotate(180deg);
+}
+.main_select_placeholder{
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 24px;
+}
+/******************/

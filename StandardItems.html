@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>标准样式示例</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="styles/StandardItems_styles.css" type="text/css"/>
+</head>
+<body>
+
+    <span class="std_title">滚动通知</span>
+    <!--滚动通知-->
+    <div class="marquee_inline_body">
+        <img class="marquee_inline_img" src="images/ic_warning.png"/>
+        <marquee class="marquee_inline_text">那么默认情况下，水平滚动的文字背景与文字同高、与浏览器窗口同宽，使用  width  和  height  参数调整其水平和垂直的范围。</marquee>
+        <img class="marquee_inline_img" onclick="hideMarqueeInline()" src="images/ic_close.png"/>
+    </div>
+
+    <span class="std_title">滑动验证</span>
+    <!--滑动验证-->
+    <div class="drag_content" id="drag">
+        <div class="drag_bg"></div>
+        <div class="drag_text" onselectstart="return false;">请拖动滑块验证</div>
+        <div class="drag_btn">
+            <div class="drag_btn_flag"></div>
+        </div>
+    </div>
+
+    <span class="std_title">滑动开关</span>
+    <!--滑动开关-->
+    <div class="switcher_body" ischecked="false" id="switcher" onclick="switcherToggle()">
+        <div class="switcher_bg" id="switcher_bg"></div>
+        <div class="switcher_btn" id="switcher_btn"></div>
+    </div>
+
+    <span class="std_title">单选列表-卡片样式</span>
+    <!--单选列表-->
+    <div class="main_select_list_cardstyle" id="select1" onclick="mainSelectListToggleById('select1')">
+        <img class="main_select_arrow" src="images/ic_down_arrow.png"/>
+        <span class="main_select_default">123</span>
+        <div class="main_select_item">
+            <span>123</span>
+            <span>456</span>
+            <span>789</span>
+            <span>101</span>
+            <span>112</span>
+            <span>133</span>
+        </div>
+    </div>
+
+    <span class="std_title">单选列表-边框样式</span>
+    <!--单选列表-->
+    <div class="main_select_list_borderstyle" id="select2" onclick="mainSelectListToggleById('select2')">
+        <img class="main_select_arrow" src="images/ic_down_arrow.png"/>
+        <span class="main_select_default">123</span>
+        <div class="main_select_item">
+            <span>123</span>
+            <span>456</span>
+            <span>789</span>
+            <span>101</span>
+            <span>112</span>
+            <span>133</span>
+        </div>
+    </div>
+
+    <span class="std_title">日历选取-卡片样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式)</span>
+    <!--日历选取-->
+    <div class="main_calendar_cardstyle" id="calendar1" onclick="mainCalendarToggleById('calendar1')">
+        <img class="main_calendar_arrow" src="images/ic_down_arrow.png"/>
+        <span class="main_select_placeholder">请选择日期</span>
+        <div class="main_calendar_select_body">
+            <div class="main_btn_line" style="justify-content: flex-end;">
+                <span class="dialog_btn_seco">取消</span>
+                <span class="dialog_btn_main">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <span class="std_title">日历选取-边框样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式)</span>
+    <!--日历选取-->
+    <div class="main_calendar_borderstyle" id="calendar2" onclick="mainCalendarToggleById('calendar2')">
+        <img class="main_calendar_arrow" src="images/ic_down_arrow.png"/>
+        <span class="main_select_placeholder">请选择日期</span>
+        <div class="main_calendar_select_body">
+            <div class="main_btn_line" style="justify-content: flex-end;">
+                <span class="dialog_btn_seco">取消</span>
+                <span class="dialog_btn_main">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/StandardItemsPage.js"></script>
+</body>
+</html>
