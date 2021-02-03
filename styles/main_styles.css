@@ -40,6 +40,7 @@ li{
     background: #fff;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 5px #F2F2F2;
+    font-size: 14px;
 }
 
 .main_btn:hover{
@@ -246,6 +247,212 @@ li{
     right: 24px;
 }
 /**************************/
+
+/*****Calendar*****/
+/* border style */
+.main_calendar_borderstyle{
+    cursor: pointer;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    background: #fff;
+    border: #EAEDF6 solid 2px;
+    position: relative;
+}
+.main_calendar_borderstyle .main_calendar_select_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #fff;
+    border: #EAEDF6 solid 2px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    display: none;
+}
+.main_calendar_borderstyle:hover{
+    border-color: #458CFE;
+}
+/* card style */
+.main_calendar_cardstyle{
+    cursor: pointer;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 5px 2px #F2F2F2;
+    position: relative;
+}
+.main_calendar_cardstyle .main_calendar_select_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 5px 2px #F2F2F2;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    display: none;
+}
+.main_calendar_cardstyle:hover{
+    background: #EAEDF6;
+}
+.main_calendar_select_header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 40px;
+}
+.main_calendar_pre_m,.main_calendar_next_m{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+.main_calendar_pre_m:before{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 5px;
+}
+.main_calendar_pre_m:after{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: 5px;
+}
+.main_calendar_next_m:before{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 5px;
+}
+.main_calendar_next_m:after{
+    content: "";
+    width: 12px;
+    height: 2px;
+    background: #000;
+    border-radius: 1px;
+    transform: rotate(-45deg);
+    position: absolute;
+    bottom: 5px;
+}
+.main_calendar_select_header img{
+    width: 20px;
+    height: 20px;
+}
+.main_calendar_select_header_body{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+.main_calendar_select_header_body span{
+    text-align: center;
+    color: #000;
+    font-size: 14px;
+}
+.main_calendar_select_title{
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    color: #458CFE;
+    height: 30px;
+}
+.main_calendar_select_title span{
+    line-height: 30px;
+    width: 30px;
+    text-align: center;
+}
+.main_calendar_select_week{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 14px;
+    color: #000;
+    height: 30px;
+}
+.main_calendar_select_week span{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    text-align: center;
+}
+.main_calendar_select_week_active:hover{
+    color: #000;
+    background: #EAEDF6;
+}
+.main_calendar_select_week_grey{
+    color: #9fa7ad;
+}
+.main_calendar_select_week_grey:hover{
+    color: #9fa7ad;
+    background: #fff;
+}
+.main_calendar_selected{
+    color: #fff;
+    background: #458CFE;
+}
+.main_calendar_selected:hover{
+    color: #fff;
+    background: #458CFE;
+}
+.main_calendar_arrow{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 15px;
+    right: 10px;
+    transition: transform 200ms;
+}
+.main_select_arrow_down{
+    transform: rotate(180deg);
+}
+.main_select_placeholder{
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 24px;
+}
+/******************/
 
 /*滑块验证********************/
 .drag_content{
@@ -735,3 +942,49 @@ li{
     background: #fff;
 }
 /**********************/
+
+/*****dialog_tips*****/
+.msgbox_back{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(241,246,252,0.5);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.msgbox_body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 5px 5px #F2F2F2;
+    border-radius: 10px;
+    background: #fff;
+    padding: 20px;
+    width: 400px;
+}
+
+.msgbox_title{
+    width: 100%;
+    color: #458CFE;
+    font-size: 20px;
+    text-align: left;
+}
+
+.msgbox_sub_title{
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.msgbox_content{
+    margin: 20px 0 20px 0;
+    width: 100%;
+}
+/*********************/
