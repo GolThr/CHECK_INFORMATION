@@ -11,6 +11,7 @@ function init(){
     //     $('.user_name').text(u_cookie);
     // }
     SelectPanelMenuItem('notice');
+    setMainHeadTitle('所有公告');
     initNoticeList();
 }
 
@@ -136,7 +137,7 @@ function renderNoticeList(){
             '                </div>\n' +
             '                <div class="manage_list_item_right">\n' +
             '                    <div class="manage_list_item_del_btn">\n' +
-            '                        <img class="manage_list_item_img" src="images/ic_delete_red.png" onclick="delNotice(\''+i+'\')">\n' +
+            '                        <img class="manage_list_item_img" src="../images/ic_delete_red.png" onclick="delNotice(\''+i+'\')">\n' +
             '                    </div>\n' +
             '                </div>\n' +
             '            </div>');

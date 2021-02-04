@@ -67,7 +67,7 @@ if($op == "get"){
         if($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
             $flag = 1;
             $res['notice_type'] = $row['notice_type'];
-            $tmp['summary'] = $row['summary'];
+            $res['summary'] = $row['summary'];
             $res['notice_text'] = $row['notice_text'];
             $res['pub_time'] = $row['pub_time'];
             $res['end_time'] = $row['end_time'];
