@@ -100,7 +100,9 @@ if($op == "get"){
     }else if($end_time < $today || $end_time == '请选择日期'){
         $err_code = '803';
     }else{
-        $sql = "INSERT INTO s_notice (notice_id,notice_type,summary,notice_text,end_time) VALUES ('$notice_id','$notice_type','$summary','$notice_text','$end_time')";
+        $today_ss = date("H:i:s");
+        $end_time_ss = $end_time . ' ' . $today_ss;
+        $sql = "INSERT INTO s_notice (notice_id,notice_type,summary,notice_text,end_time) VALUES ('$notice_id','$notice_type','$summary','$notice_text','$end_time_ss')";
         $obj = mysqli_query($link, $sql);
         if($obj){
             $flag = 1;

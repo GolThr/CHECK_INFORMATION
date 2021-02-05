@@ -6,7 +6,8 @@ include("../../server/getUuid.php");
  * get: get all notice,
  * view: get one notice by notice_id,
  * del: delete one notice by notice_id,
- * pub: publish notice
+ * pub: publish notice,
+ * check_u: check uuid if it is right
  *
  ** sort
  * uuid: Sort by uuid,
@@ -95,30 +96,43 @@ if($op == "get"){
     }
     $jsonStr = array("flag" => $flag);
 }else if($op == "pub"){
-//    $notice_type = $_POST["notice_type"];
-//    $summary = $_POST["summary"];
-//    $notice_text = $_POST["notice_text"];
-//    $end_time = $_POST["end_time"];
-//    $notice_id = getNewUuid();
-//
-//    $today = date("Y-m-d");
-//
-//    $err_code = '000';
-//    if($summary == ''){
-//        $err_code = '801';
-//    }else if($notice_text == ''){
-//        $err_code = '802';
-//    }else if($end_time < $today || $end_time == '请选择日期'){
-//        $err_code = '803';
-//    }else{
-//        $sql = "INSERT INTO s_notice (notice_id,notice_type,summary,notice_text,end_time) VALUES ('$notice_id','$notice_type','$summary','$notice_text','$end_time')";
-//        $obj = mysqli_query($link, $sql);
-//        if($obj){
-//            $flag = 1;
-//        }
-//    }
-//
-//    $jsonStr = array("flag" => $flag, "err_code" => $err_code);
+    $uuid = $_POST["uuid"];
+    $title = $_POST["title"];
+    $text = $_POST["text"];
+    $msg_id = getNewUuid();
+    $err_code = '000';
+
+    if($uuid == ''){
+        $err_code = '801';
+    }else if($title == ''){
+        $err_code = '802';
+    }else if($text == ''){
+        $err_code = '803';
+    }else{
+        $sql = "INSERT INTO s_messages (uuid,msg_id,msg_title,msg_text,isread) VALUES ('$uuid','$msg_id','$title','$text','0')";
+        $obj = mysqli_query($link, $sql);
+        if($obj){
+            $flag = 1;
+        }
+    }
+
+    $jsonStr = array("flag" => $flag, "err_code" => $err_code);
+}else if($op == "check_u"){
+    $u = $_POST["u"];
+    $uuid = '';
+    $user_name = '';
+
+    $sql = "SELECT user_name,uuid FROM s_userinfo WHERE uuid='$u'";
+    $obj = mysqli_query($link, $sql);
+    if($obj){
+        if($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
+            $flag = 1;
+            $uuid = $row['uuid'];
+            $user_name = $row['user_name'];
+        }
+    }
+
+    $jsonStr = array("flag" => $flag, "uuid" => $uuid, "user_name" => $user_name);
 }
 
 echo json_encode($jsonStr);

@@ -1,5 +1,7 @@
 var cur_page = 'menu';
 var showAllLog = 'less';   // less: show less, all: show all
+var notice_list = [];
+var message_list = [];
 
 function init(){
     initUser();
@@ -7,6 +9,12 @@ function init(){
     $('.head_title').text('个人中心');
     SelectPanelMenuItem('mine');
 
+    var page = getQueryVariable('page');
+    if(page == 'notice'){
+        changePage('notice');
+    }else if(page == 'message'){
+        changePage('message');
+    }
     renderPersonalMenuInfo();
 }
 
@@ -70,6 +78,7 @@ function changePage(p){
                 changePage('menu');
             });
             $('#panel_body_message').fadeIn();
+            initMessageList();
         });
     }else if(p == 'notice'){
         obj.fadeOut(500,function () {
@@ -79,6 +88,7 @@ function changePage(p){
                 changePage('menu');
             });
             $('#panel_body_notice').fadeIn();
+            initNoticeList();
         });
     }else if(p == 'feedback'){
         obj.fadeOut(500,function () {
@@ -188,6 +198,56 @@ function initLoginLogListAll(){
     });
 }
 
+function initNoticeList() {
+    //ajax去服务器端校验
+    var data= {"type":"all"};
+    console.log("GetNoticeAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/GetNotice.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg.flag == '1'){
+                notice_list = msg['notices'];
+                renderNoticeList();
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+}
+
+function initMessageList() {
+    //ajax去服务器端校验
+    var data= {"type":"get","uuid":s_userinfo.uuid};
+    console.log("GetMessageAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/GetMessage.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg.flag == '1'){
+                message_list = msg['messages'];
+                renderMessageList();
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+}
+
 function renderPersonalMenuInfo(){
     $('.me_func_item_avatar').attr('src', s_userinfo.avatar);
     $('.me_func_item_username').text(s_userinfo.user_name);
@@ -223,6 +283,129 @@ function renderSecurityOptionList(msg){
     }else{
         switcherLoctechClose();
     }
+}
+
+function renderNoticeList() {
+    var back_empty = $('#notice_back_empty');
+    var all_list = $("#notice_all_list");
+
+    if(notice_list.length == 0){
+        back_empty.show();
+        return;
+    }
+    back_empty.hide();
+    all_list.html('');
+    var btn_img = 'ic_warning.png';
+    var pub_time = '';
+    var end_time = '';
+    for(var i in notice_list){
+        if(notice_list[i]['notice_type'] == 'warning'){
+            btn_img = 'ic_warning.png';
+        }else{
+            btn_img = 'ic_serious.png';
+        }
+        pub_time = notice_list[i]["pub_time"].substring(0, 16);
+        end_time = notice_list[i]["end_time"].substring(0, 16);
+        all_list.append(
+            '<div class="all_list_item" onclick="viewNotice(\''+i+'\')">\n' +
+            '                <div class="all_list_item_left">\n' +
+            '                    <img class="all_list_item_img" src="images/'+btn_img+'">\n' +
+            '                    <div class="all_list_item_data_view_body">\n' +
+            '                       <span class="all_list_item_title">'+notice_list[i]["notice_type"]+'</span>\n' +
+            '                       <span class="all_list_item_text">(点击查看详情) '+notice_list[i]["summary"]+'</span>\n' +
+            '                       <div class="all_list_item_left_bottom">\n' +
+            '                           <span class="all_list_item_text">发布时间: '+pub_time+'</span>\n' +
+            '                           <span class="all_list_item_text" style="margin-left: 10px;">截止时间: '+end_time+'</span>\n' +
+            '                       </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>'
+        );
+    }
+}
+
+function renderMessageList(){
+    var back_empty = $('#message_back_empty');
+    var all_list = $("#message_all_list");
+
+    if(message_list.length == 0){
+        back_empty.show();
+        return;
+    }
+    back_empty.hide();
+    all_list.html('');
+    var btn_img = 'ic_warning.png';
+    var pub_time = '';
+    var end_time = '';
+    for(var i in message_list){
+        if(message_list[i]['isread'] == '1'){
+            btn_img = 'ic_success.png';
+        }else{
+            btn_img = 'ic_message_red.png';
+        }
+        pub_time = message_list[i]["pub_time"].substring(0, 19);
+        all_list.append(
+            '<div class="all_list_item" onclick="viewMessage(\''+i+'\')">\n' +
+            '                <div class="all_list_item_left">\n' +
+            '                    <img class="all_list_item_img" src="images/'+btn_img+'">\n' +
+            '                    <div class="all_list_item_data_view_body">\n' +
+            '                       <span class="all_list_item_title">'+message_list[i]["msg_title"]+'</span>\n' +
+            '                       <span class="all_list_item_text">'+message_list[i]["msg_text"]+'</span>\n' +
+            '                       <div class="all_list_item_left_bottom">\n' +
+            '                           <span class="all_list_item_text">'+pub_time+'</span>\n' +
+            '                       </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>'
+        );
+    }
+}
+
+function viewNotice(i) {
+    var type = notice_list[i]['notice_type'];
+    var summary = notice_list[i]['summary'];
+    var text = notice_list[i]['notice_text'];
+    var pub = notice_list[i]['pub_time'].substring(0, 16);
+    var end = notice_list[i]['end_time'].substring(0, 16);
+
+    showMsgBoxHtml('公告 ('+pub+' ~ '+end+')',
+        '<span class="msgbox_sub_title">摘要</span>' +
+        '<span class="msgbox_text">'+summary+'</span>'+
+        '<span class="msgbox_sub_title">内容</span>' +
+        '<span class="msgbox_text">'+text+'</span>'
+    );
+}
+
+function viewMessage(i) {
+    var title = message_list[i]['msg_title'];
+    var text = message_list[i]['msg_text'];
+    var pub = message_list[i]['pub_time'].substring(0, 16);
+
+    showMsgBoxHtml(title+' ('+pub+')',
+        '<span class="msgbox_text">'+text+'</span>'
+    );
+
+    //ajax去服务器端校验
+    var data= {"type":"read","uuid":s_userinfo.uuid,"msg_id":message_list[i]['msg_id']};
+    console.log("GetMessageAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/GetMessage.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg.flag == '1'){
+                initMessageList();
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
 }
 
 function modifyUserInfo(){

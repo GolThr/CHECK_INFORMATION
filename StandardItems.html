@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <span class="std_title">滚动通知</span>
+    <span class="std_title">滚动通知marquee(拷贝html，可能不兼容)</span>
     <!--滚动通知-->
     <div class="marquee_inline_body">
         <img class="marquee_inline_img" src="images/ic_warning.png"/>
@@ -16,7 +16,17 @@
         <img class="marquee_inline_img" onclick="hideMarqueeInline()" src="images/ic_close.png"/>
     </div>
 
-    <span class="std_title">滑动验证</span>
+    <span class="std_title">滚动通知-自制(拷贝js)</span>
+    <!--滚动通知-->
+    <div class="marquee_inline_body" id="marquee1">
+        <img class="marquee_inline_img" src="images/ic_warning.png"/>
+        <div class="marquee_inline_content">
+            <span class="marquee_inline_text">那么默认情况下，水平滚动的文字背景与文字同高、与浏览器窗口同宽，使用  width  和  height  参数调整其水平和垂直的范围。</span>
+        </div>
+        <img class="marquee_inline_img" onclick="hideMarqueeInline()" src="images/ic_close.png"/>
+    </div>
+
+    <span class="std_title">滑动验证(drag.js)</span>
     <!--滑动验证-->
     <div class="drag_content" id="drag">
         <div class="drag_bg"></div>
@@ -26,14 +36,14 @@
         </div>
     </div>
 
-    <span class="std_title">滑动开关</span>
+    <span class="std_title">滑动开关(需拷贝js)</span>
     <!--滑动开关-->
     <div class="switcher_body" ischecked="false" id="switcher" onclick="switcherToggle()">
         <div class="switcher_bg" id="switcher_bg"></div>
         <div class="switcher_btn" id="switcher_btn"></div>
     </div>
 
-    <span class="std_title">单选列表-卡片样式</span>
+    <span class="std_title">单选列表-卡片样式(需包含dropList.js)</span>
     <!--单选列表-->
     <div class="main_select_list_cardstyle" id="select1" onclick="mainSelectListToggleById('select1')">
         <img class="main_select_arrow" src="images/ic_down_arrow.png"/>
@@ -48,7 +58,7 @@
         </div>
     </div>
 
-    <span class="std_title">单选列表-边框样式</span>
+    <span class="std_title">单选列表-边框样式(需包含dropList.js)</span>
     <!--单选列表-->
     <div class="main_select_list_borderstyle" id="select2" onclick="mainSelectListToggleById('select2')">
         <img class="main_select_arrow" src="images/ic_down_arrow.png"/>
@@ -63,7 +73,7 @@
         </div>
     </div>
 
-    <span class="std_title">日历选取-卡片样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式)</span>
+    <span class="std_title">日历选取-卡片样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式，包含dropList.js)</span>
     <!--日历选取-->
     <div class="main_calendar_cardstyle" id="calendar1" onclick="mainCalendarToggleById('calendar1')">
         <img class="main_calendar_arrow" src="images/ic_down_arrow.png"/>
@@ -76,7 +86,7 @@
         </div>
     </div>
 
-    <span class="std_title">日历选取-边框样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式)</span>
+    <span class="std_title">日历选取-边框样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式，包含dropList.js)</span>
     <!--日历选取-->
     <div class="main_calendar_borderstyle" id="calendar2" onclick="mainCalendarToggleById('calendar2')">
         <img class="main_calendar_arrow" src="images/ic_down_arrow.png"/>
@@ -87,6 +97,13 @@
                 <span class="dialog_btn_main">确定</span>
             </div>
         </div>
+    </div>
+
+    <span class="std_title">隐式搜索框(需包含common.js)</span>
+    <!--隐式搜索框-->
+    <div class="main_search_cardstyle" id="search1" onmouseover="mainSearchShowById('search1', 240)" onmouseleave="mainSearchHideById('search1')">
+        <img class="main_search_img_left" src="images/ic_search.png">
+        <input type="text" placeholder="搜索...">
     </div>
 
     <script type="text/javascript" src="js/StandardItemsPage.js"></script>

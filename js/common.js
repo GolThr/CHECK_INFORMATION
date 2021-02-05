@@ -33,3 +33,57 @@ function initUserLocalStorage() {
         $('.user_avatar').attr("src", s_userinfo.avatar);
     }
 }
+
+/**
+ * 隐式搜索框
+ */
+function mainSearchShowById(id, w, search_fn) {
+    var body = $('#'+id);
+    var img = $('#'+id+' img');
+    var input = $('#'+id+' input');
+    body.attr('d', 'true');
+    body.stop();
+    body.animate({width:w+'px'}, 200);
+    input.show();
+    input.unbind('keyup');
+    input.bind('keyup', function(e) {
+        if (e.keyCode == "13") {
+            //回车执行查询
+            search_fn();
+        }
+    });
+}
+
+function mainSearchHideById(id) {
+    var body = $('#'+id);
+    var img = $('#'+id+' img');
+    var input = $('#'+id+' input');
+    if(input.val() == ''){
+        body.attr('d', 'false');
+        body.stop();
+        input.unbind('keyup');
+        input.hide();
+        body.animate({width:'50px'}, 200);
+    }
+}
+
+function mainSearchForceHideById(id) {
+    var body = $('#'+id);
+    var img = $('#'+id+' img');
+    var input = $('#'+id+' input');
+    input.val('');
+    body.attr('d', 'false');
+    body.stop();
+    input.unbind('keyup');
+    input.hide();
+    body.animate({width:'50px'}, 200);
+}
+
+function getMainSearchKeyWordById(id) {
+    return $('#'+id+' input').val();
+}
+
+function getMainSearchIsOpenById(id) {
+    var body = $('#'+id);
+    return body.attr('d');
+}

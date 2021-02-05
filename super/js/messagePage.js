@@ -13,6 +13,10 @@ function init(){
     SelectPanelMenuItem('message');
     setMainHeadTitle('所有消息');
     initMessageList();
+    var u = getQueryVariable('u');
+    if(u != ''){
+        checkUUID(u);
+    }
 }
 
 function changePage(p, subtitle) {
@@ -46,13 +50,97 @@ function changePage(p, subtitle) {
     }else if(p == 'edit'){
         obj.fadeOut(500,function () {
             cur_page = 'edit';
-            setMainHeadTitle('编辑公告');
+            setMainHeadTitle('编辑消息');
             showBackBtn(function (){
                 changePage('list');
             });
             $('#notice_edit').fadeIn();
-            changeSummaryTextarea();
+            $('#rec_info').text(subtitle);
+            changeTitleTextarea();
             changeTextTextarea();
+        });
+    }
+}
+
+function checkUUID(u) {
+    //ajax去服务器端校验
+    var data= {"op":"check_u","u":u};
+    console.log("MessageOperateAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/MessageOperate.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg.flag == '1'){
+                changePage('edit', msg['user_name']+' ('+msg['uuid']+')');
+                var pub_btn = $('#edit_pub_btn');
+                pub_btn.unbind('click');
+                pub_btn.click(function () {
+                    publishMessage(msg['uuid']);
+                });
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+}
+
+function changeTitleTextarea(){
+    var summary = $('#edit_summary').val();
+    var len = summary.length;
+    $('#edit_summary_cnt').text(len+'/50');
+}
+
+function changeTextTextarea(){
+    var text = $('#edit_text').val();
+    var len = text.length;
+    $('#edit_text_cnt').text(len+'/600');
+}
+
+function publishMessage(uuid) {
+    var title = $('#edit_summary').val();
+    var text = $('#edit_text').val();
+    if(title == ''){
+        showMsgBoxHtml('错误', '请输入标题');
+    }else if(text == ''){
+        showMsgBoxHtml('错误', '请输入消息内容');
+    }else{
+        //ajax去服务器端校验
+        var data= {"op":"pub","uuid":uuid,"title":title,"text":text};
+        console.log("MessageOperateAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/MessageOperate.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg.flag == '1'){
+                    showFloatTip('发送消息成功！', 'success');
+                    changePage('list');
+                    initNoticeList();
+                }else{
+                    if(msg['err_code'] == '801'){
+                        showMsgBoxHtml('错误', '收件人为空');
+                    }else if(msg['err_code'] == '802'){
+                        showMsgBoxHtml('错误', '标题不能为空');
+                    }else if(msg['err_code'] == '803'){
+                        showMsgBoxHtml('错误', '消息内容不能为空');
+                    }
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
         });
     }
 }
@@ -62,14 +150,18 @@ function initMessageList() {
     var s_sort_m = getMainSelectListSelectedById('select_sort_m');
     var sort = 'pub';
     var sort_m = 'desc';
-    if(s_sort == '类型'){
-        sort = 'type';
+    if(s_sort == '收件人ID'){
+        sort = 'uuid';
+    }else if(s_sort == '收件人'){
+        sort = 'name';
+    }else if(s_sort == '标题'){
+        sort = 'title';
     }else if(s_sort == '内容'){
         sort = 'text';
     }else if(s_sort == '发布时间'){
         sort = 'pub';
-    }else if(s_sort == '截止时间'){
-        sort = 'end';
+    }else if(s_sort == '是否查看'){
+        sort = 'read';
     }
     if(s_sort_m == '升序'){
         sort_m = 'asc'
@@ -125,7 +217,7 @@ function renderMessageList(){
         manage_all_list.append(
             '<div class="manage_list_item" onclick="viewMessage(\''+i+'\')">\n' +
             '   <div class="manage_list_item_left">\n' +
-            '       <img class="manage_list_item_img" src="images/'+btn_img+'">\n' +
+            '       <img class="manage_list_item_img" src="../images/'+btn_img+'">\n' +
             '       <div class="manage_list_item_data_view_body">\n' +
             '           <span class="manage_list_item_title">'+message_list[i]["msg_title"]+'</span>\n' +
             '           <span class="manage_list_item_text">'+message_list[i]["msg_text"]+'</span>\n' +

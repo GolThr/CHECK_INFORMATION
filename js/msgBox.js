@@ -40,11 +40,18 @@ function showMsgBoxHtml(title, html, ok_fn) {
         // hide
         hideMsgBoxHtml();
     });
+    var body_h = msg_back.height();
+    var msgbox_h = msgbox.height();
+    console.log(body_h+' : '+msgbox_h);
+    if(body_h > msgbox_h){
+        msgbox.css('margin-top',Math.round((body_h - msgbox_h)/2)-20+'px');
+    }
 }
 
 function hideMsgBoxHtml(){
     var msg_back = $('.msgbox_back');
     var msgbox = $('#msgbox_html');
+    msgbox.css('margin-top','0');
     msgbox.hide();
     msg_back.fadeOut('fast');
 }

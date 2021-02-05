@@ -101,7 +101,6 @@ function initNoticeList() {
 }
 
 function renderNoticeList(){
-    console.log('render');
     var back_empty = $('#back_empty');
     var manage_all_list = $("#manage_all_list");
 
@@ -115,7 +114,6 @@ function renderNoticeList(){
     var pub_time = '';
     var end_time = '';
     for(var i in notice_list){
-        console.log(i);
         if(notice_list[i]['notice_type'] == 'warning'){
             btn_img = 'ic_warning.png';
         }else{

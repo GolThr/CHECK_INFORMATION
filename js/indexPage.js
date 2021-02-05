@@ -1,9 +1,11 @@
+var notice_interval;
+
 function init(){
     initUser();
     SelectPanelMenuItem('home');
 
     getHomeNumber();
-    getNotice();
+    getCurrentNotice();
 }
 
 function getHomeNumber(){
@@ -29,9 +31,9 @@ function getHomeNumber(){
     });
 }
 
-function getNotice(){
+function getCurrentNotice(){
     //ajax去服务器端校验
-    var data= {"type":"all"};
+    var data= {"type":"effect"};
     console.log(data);
     console.log("GetNoticeAjax");
     $.ajax({
@@ -41,7 +43,7 @@ function getNotice(){
         type: "POST",
         success: function (msg) {
             console.log(msg);
-            showMarqueeInline('温馨提示', '那么默eight  参数调整其水平和垂直的范围。');
+            renderNotice(msg['notices']);
         },
         error: function (msg) {
             console.log("error!");
@@ -49,6 +51,21 @@ function getNotice(){
             alert("请求失败，请重试");
         }
     });
+}
+
+function renderNotice(msg) {
+    var n = msg.length;
+    if(n != 0){
+        showMarqueeInline('公告', msg[0]['summary'], msg[0]['notice_type']);
+        var i = 1;
+        clearInterval(notice_interval);
+        notice_interval = setInterval(function (){
+            changeMarqueeInlineText('公告', msg[i]['summary'], msg[i]['notice_type']);
+            if(++i >= n) i = 0;
+        }, 40000);
+    }else{
+        hideMarqueeInline();
+    }
 }
 
 function renderHomeNum(n_notice,n_messages){

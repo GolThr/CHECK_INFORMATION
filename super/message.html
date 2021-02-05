@@ -26,120 +26,102 @@
     </script>
 </head>
 <body>
-<script type="text/javascript" src="js/panel_menu.js"></script>
-<div class="panel_body panel_body_manage_all" id="notice_list">
-    <script type="text/javascript" src="../js/header.js"></script>
-    <div class="notice_list_header">
-        <div>
-            <span style="font-size: 14px;margin-right: 10px;">排序</span>
-            <div class="main_select_list_cardstyle" style="margin-right: 10px;" id="select_sort" onclick="mainSelectListToggleById('select_sort')">
-                <img class="main_select_arrow" src="../images/ic_down_arrow.png"/>
-                <span class="main_select_default">发布时间</span>
-                <div class="main_select_item">
-                    <span>收件人ID</span>
-                    <span>收件人</span>
-                    <span>标题</span>
-                    <span>内容</span>
-                    <span>发布时间</span>
-                    <span>是否查看</span>
+    <script type="text/javascript" src="js/panel_menu.js"></script>
+    <div class="panel_body panel_body_manage_all" id="notice_list">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="notice_list_header">
+            <div>
+                <span style="font-size: 14px;margin-right: 10px;">排序</span>
+                <div class="main_select_list_cardstyle" style="margin-right: 10px;" id="select_sort" onclick="mainSelectListToggleById('select_sort')">
+                    <img class="main_select_arrow" src="../images/ic_down_arrow.png"/>
+                    <span class="main_select_default">发布时间</span>
+                    <div class="main_select_item">
+                        <span>收件人ID</span>
+                        <span>收件人</span>
+                        <span>标题</span>
+                        <span>内容</span>
+                        <span>发布时间</span>
+                        <span>是否查看</span>
+                    </div>
                 </div>
-            </div>
-            <div class="main_select_list_cardstyle" id="select_sort_m" onclick="mainSelectListToggleById('select_sort_m')">
-                <img class="main_select_arrow" src="../images/ic_down_arrow.png"/>
-                <span class="main_select_default">降序</span>
-                <div class="main_select_item">
-                    <span>升序</span>
-                    <span>降序</span>
-                </div>
-            </div>
-        </div>
-        <div>
-            <span id="notice_list_cnt" style="font-size: 14px;margin-right: 10px;">总计20条</span>
-            <span class="main_btn" style="width: 52px;" id="refresh_btn">刷新</span>
-        </div>
-    </div>
-    <div class="manage_all_list" id="manage_all_list">
-        <div class="back_none" id="back_empty">
-            <img class="back_none_img" src="../images/back_empty.png">
-            <p class="back_none_text">什么都没有哦<br>点击右下角按钮添加表单吧</p>
-        </div>
-        <!--
-        <div class="manage_list_item" onclick="openTable('tbl_name')">
-            list_item
-        </div>
-        -->
-    </div>
-    <span class="span_fixed_manage">-</span>
-    <div class="float_add_btn" id="add_message_btn">
-        <img class="float_add_btn_img" src="../images/func_add.png">
-    </div>
-</div>
-<div class="panel_body panel_body_manage" id="notice_view" style="display: none;">
-    <script type="text/javascript" src="../js/header.js"></script>
-    <div class="func_btn_line">
-        <div class="func_btn_left">
-            <span style="font-size: 14px;margin-right: 10px;">发布时间:</span>
-            <span style="font-size: 14px;margin-right: 20px;" id="view_pub"></span>
-            <span style="font-size: 14px;margin-right: 10px;">阅读时间:</span>
-            <span style="font-size: 14px;margin-right: 20px;" id="view_end"></span>
-        </div>
-        <div class="func_btn_right">
-            <span class="main_btn" id="view_del_btn" style="width: 52px;background: #cf3b3f;color: #fff;">删除</span>
-        </div>
-    </div>
-    <div class="manage_info_table_body">
-        <span class="notice_view_subtitle">收件人信息</span>
-        <span class="notice_view_text" id="view_summary"></span>
-    </div>
-    <div class="manage_info_table_body">
-        <span class="notice_view_subtitle" id="view_title"></span>
-        <span class="notice_view_text" id="view_text"></span>
-    </div>
-</div>
-<div class="panel_body panel_body_manage" id="notice_edit" style="display: none;">
-    <script type="text/javascript" src="../js/header.js"></script>
-    <div class="func_btn_line">
-        <div class="func_btn_left">
-            <span style="font-size: 14px;margin-right: 10px;">类型</span>
-            <div class="main_select_list_cardstyle" style="margin-right: 20px;" id="edit_type" onclick="mainSelectListToggleById('edit_type')">
-                <img class="main_select_arrow" src="../images/ic_down_arrow.png"/>
-                <span class="main_select_default">warning</span>
-                <div class="main_select_item">
-                    <span>warning</span>
-                    <span>serious</span>
-                </div>
-            </div>
-            <span style="font-size: 14px;margin-right: 10px;">截止时间</span>
-            <div class="main_calendar_cardstyle" style="margin-right: 20px;" id="edit_end" onclick="mainCalendarToggleById('edit_end')">
-                <img class="main_calendar_arrow" src="../images/ic_down_arrow.png"/>
-                <span class="main_select_placeholder">请选择日期</span>
-                <div class="main_calendar_select_body">
-                    <div class="main_btn_line" style="justify-content: flex-end;">
-                        <span class="dialog_btn_seco">取消</span>
-                        <span class="dialog_btn_main">确定</span>
+                <div class="main_select_list_cardstyle" id="select_sort_m" onclick="mainSelectListToggleById('select_sort_m')">
+                    <img class="main_select_arrow" src="../images/ic_down_arrow.png"/>
+                    <span class="main_select_default">降序</span>
+                    <div class="main_select_item">
+                        <span>升序</span>
+                        <span>降序</span>
                     </div>
                 </div>
             </div>
+            <div>
+                <span id="notice_list_cnt" style="font-size: 14px;margin-right: 10px;">总计20条</span>
+                <span class="main_btn" style="width: 52px;" id="refresh_btn">刷新</span>
+            </div>
         </div>
-        <div class="func_btn_right">
-            <span class="main_btn" id="edit_pub_btn" style="width: 52px;background: #458CFE;color: #fff;">发布</span>
+        <div class="manage_all_list" id="manage_all_list">
+            <div class="back_none" id="back_empty">
+                <img class="back_none_img" src="../images/back_empty.png">
+                <p class="back_none_text">什么都没有哦<br>点击刷新试试?</p>
+            </div>
+            <!--
+            <div class="manage_list_item" onclick="openTable('tbl_name')">
+                list_item
+            </div>
+            -->
+        </div>
+        <span class="span_fixed_manage">-</span>
+        <div class="float_add_btn" id="add_message_btn">
+            <img class="float_add_btn_img" src="../images/func_add.png">
         </div>
     </div>
-    <div class="manage_info_table_body">
-        <span class="notice_view_subtitle">摘要</span>
-        <textarea class="notice_view_textarea" maxlength="140" id="edit_summary" placeholder="公告摘要将被显示在用户首页滚动横幅中，字数在140字以内。" oninput="changeSummaryTextarea()" onfocus="changeSummaryTextarea()" onblur="changeSummaryTextarea()"></textarea>
-        <span class="notice_edit_cnt" id="edit_summary_cnt">0/140</span>
+    <div class="panel_body panel_body_manage" id="notice_view" style="display: none;">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="func_btn_line">
+            <div class="func_btn_left">
+                <span style="font-size: 14px;margin-right: 10px;">发布时间:</span>
+                <span style="font-size: 14px;margin-right: 20px;" id="view_pub"></span>
+                <span style="font-size: 14px;margin-right: 10px;">阅读时间:</span>
+                <span style="font-size: 14px;margin-right: 20px;" id="view_end"></span>
+            </div>
+            <div class="func_btn_right">
+                <span class="main_btn" id="view_del_btn" style="width: 52px;background: #cf3b3f;color: #fff;">删除</span>
+            </div>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">收件人信息</span>
+            <span class="notice_view_text" id="view_summary"></span>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle" id="view_title"></span>
+            <span class="notice_view_text" id="view_text"></span>
+        </div>
     </div>
-    <div class="manage_info_table_body">
-        <span class="notice_view_subtitle">公告内容</span>
-        <textarea class="notice_view_textarea" maxlength="600" id="edit_text" placeholder="字数在600字以内。" oninput="changeTextTextarea()" onfocus="changeTextTextarea()" onblur="changeTextTextarea()"></textarea>
-        <span class="notice_edit_cnt" id="edit_text_cnt">0/600</span>
+    <div class="panel_body panel_body_manage" id="notice_edit" style="display: none;">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="func_btn_line">
+            <div class="func_btn_left">
+                <span style="font-size: 14px;margin-right: 10px;">收件人：</span>
+                <span style="font-size: 14px;" id="rec_info">GolThr (sihrgirejotgyopre)</span>
+            </div>
+            <div class="func_btn_right">
+                <span class="main_btn" id="edit_pub_btn" style="width: 52px;background: #458CFE;color: #fff;">发送</span>
+            </div>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">标题</span>
+            <input class="notice_view_textarea_title" maxlength="50" id="edit_summary" placeholder="字数在50字以内。" oninput="changeTitleTextarea()" onfocus="changeTitleTextarea()" onblur="changeTitleTextarea()"/>
+            <span class="notice_edit_cnt" id="edit_summary_cnt">0/50</span>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">消息内容</span>
+            <textarea class="notice_view_textarea" maxlength="600" id="edit_text" placeholder="字数在600字以内。" oninput="changeTextTextarea()" onfocus="changeTextTextarea()" onblur="changeTextTextarea()"></textarea>
+            <span class="notice_edit_cnt" id="edit_text_cnt">0/600</span>
+        </div>
     </div>
-</div>
 
-<script type="text/javascript" src="../js/dialogs.js"></script>
-<script type="text/javascript" src="../js/msgBox.js"></script>
-<script type="text/javascript" src="../js/float_tips.js"></script>
-<script type="text/javascript" src="js/messagePage.js"></script>
+    <script type="text/javascript" src="../js/dialogs.js"></script>
+    <script type="text/javascript" src="../js/msgBox.js"></script>
+    <script type="text/javascript" src="../js/float_tips.js"></script>
+    <script type="text/javascript" src="js/messagePage.js"></script>
 </body>
 </html>

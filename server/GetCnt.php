@@ -80,7 +80,7 @@ if($cnt_res){
     }
 }
 //cnt messages
-$sql = "SELECT COUNT(*) AS cnt FROM s_messages";
+$sql = "SELECT COUNT(*) AS cnt FROM s_messages WHERE uuid='$uuid'";
 $cnt_res = mysqli_query($link, $sql);
 if($cnt_res){
     $cnt_row = mysqli_fetch_array($cnt_res,MYSQLI_ASSOC);
