@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查客后台管理</title>
+    <meta name="keywords" content="查客核对,chake,hedui,shouji,收集,核对,信息，查客"/>
+    <meta name="description" content="查客核对，信息核对平台"/>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="../png_favicon.png" type=" image/png">
+    <link rel="stylesheet" href="../styles/main_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="../styles/common_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/feedback_styles.css" type="text/css"/>
+    <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="../js/js.cookie.min.js"></script>
+    <script type="text/javascript" src="../js/affects.js"></script>
+    <script type="text/javascript" src="../js/dropSelect.js"></script>
+    <script type="text/javascript">
+        // var u = Cookies.get('manager_email');
+        // if(u == undefined || u == ''){
+        //     console.log('未登录');
+        //     location.href = 'login.html';
+        // }
+        window.onload = (function () {
+            init();
+        });
+    </script>
+</head>
+<body>
+    <script type="text/javascript" src="js/panel_menu.js"></script>
+    <div class="panel_body panel_body_manage_all" id="notice_list">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="notice_list_header">
+            <div>
+                <span style="font-size: 14px;margin-right: 10px;">排序</span>
+                <div class="main_select_list_cardstyle" style="margin-right: 10px;" id="select_sort" onclick="mainSelectListToggleById('select_sort')">
+                    <img class="main_select_arrow" src="../images/ic_down_arrow.png"/>
+                    <span class="main_select_default">解决时间</span>
+                    <div class="main_select_item">
+                        <span>用户名</span>
+                        <span>uuid</span>
+                        <span>类型</span>
+                        <span>内容</span>
+                        <span>反馈时间</span>
+                        <span>是否解决</span>
+                        <span>解决时间</span>
+                    </div>
+                </div>
+                <div class="main_select_list_cardstyle" style="margin-right: 10px;" id="select_sort_m" onclick="mainSelectListToggleById('select_sort_m')">
+                    <img class="main_select_arrow" src="../images/ic_down_arrow.png"/>
+                    <span class="main_select_default">降序</span>
+                    <div class="main_select_item">
+                        <span>升序</span>
+                        <span>降序</span>
+                    </div>
+                </div>
+                <div class="main_search_cardstyle" id="search1" onmouseover="mainSearchShowById('search1', 240, searchFeedback)" onmouseleave="mainSearchHideById('search1')">
+                    <img class="main_search_img_left" src="../images/ic_search.png">
+                    <input type="text" placeholder="搜索...">
+                </div>
+            </div>
+            <div>
+                <span id="notice_list_cnt" style="font-size: 14px;margin-right: 10px;">总计20条</span>
+                <span class="main_btn" style="width: 52px;" id="refresh_btn">刷新</span>
+            </div>
+        </div>
+        <div class="manage_all_list" id="manage_all_list">
+            <div class="back_none" id="back_empty">
+                <img class="back_none_img" src="../images/back_empty.png">
+                <p class="back_none_text">什么都没有哦<br>点击刷新试试?</p>
+            </div>
+            <!--
+            <div class="manage_list_item" onclick="openTable('tbl_name')">
+                list_item
+            </div>
+            -->
+        </div>
+        <span class="span_fixed_manage">-</span>
+    </div>
+    <div class="panel_body panel_body_manage" id="notice_view" style="display: none;">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="func_btn_line">
+            <div class="func_btn_left">
+                <span style="font-size: 14px;margin-right: 10px;">反馈时间:</span>
+                <span style="font-size: 14px;margin-right: 20px;" id="view_pub"></span>
+                <span style="font-size: 14px;margin-right: 10px;">解决时间:</span>
+                <span style="font-size: 14px;margin-right: 20px;" id="view_end"></span>
+            </div>
+            <div class="func_btn_right">
+                <span class="main_btn" id="view_send_btn" style="width: 52px;background: #458CFE;color: #fff;">回复</span>
+            </div>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">用户信息</span>
+            <span class="notice_view_text" id="view_userinfo"></span>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">图片</span>
+            <div class="all_list_item_img_line" style="margin: 0 10px 20px 20px;" id="view_img_line"></div>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">反馈描述</span>
+            <span class="notice_view_text" id="view_text"></span>
+        </div>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">留言</span>
+            <textarea class="notice_view_textarea" maxlength="600" id="edit_words" placeholder="可为空，字数在600字以内。" oninput="changeTextTextarea()" onfocus="changeTextTextarea()" onblur="changeTextTextarea()"></textarea>
+            <span class="notice_edit_cnt" id="edit_text_cnt">0/600</span>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../js/dialogs.js"></script>
+    <script type="text/javascript" src="../js/msgBox.js"></script>
+    <script type="text/javascript" src="../js/picturePopup.js"></script>
+    <script type="text/javascript" src="../js/float_tips.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="js/feedbackPage.js"></script>
+</body>
+</html>

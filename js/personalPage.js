@@ -2,6 +2,9 @@ var cur_page = 'menu';
 var showAllLog = 'less';   // less: show less, all: show all
 var notice_list = [];
 var message_list = [];
+var feedback_list = [];
+var picArray = [];
+var n_picArray = 0;
 
 function init(){
     initUser();
@@ -93,11 +96,13 @@ function changePage(p){
     }else if(p == 'feedback'){
         obj.fadeOut(500,function () {
             cur_page = 'feedback';
-            setMainHeadTitle('反馈');
+            setMainHeadTitle('我的反馈');
             showBackBtn(function (){
                 changePage('menu');
             });
             $('#panel_body_feedback').fadeIn();
+            n_picArray = 0;
+            initFeedbackList();
         });
     }else if(p == 'pay'){
         obj.fadeOut(500,function () {
@@ -116,7 +121,31 @@ function changePage(p){
                 changePage('menu');
             });
             $('#panel_body_about').fadeIn();
+            $('#version').text(version);
         });
+    }
+}
+
+function changeFeedbackPage(p){
+    var list = $('#feedback_list');
+    var edit = $('#feedback_edit');
+    if(p == 'list'){
+        list.show();
+        edit.hide();
+        setMainHeadTitle('我的反馈');
+        showBackBtn(function (){
+            changePage('menu');
+        });
+        initFeedbackList();
+    }else if(p == 'edit'){
+        list.hide();
+        edit.show();
+        setMainHeadTitle('编辑反馈');
+        showBackBtn(function (){
+            changeFeedbackPage('list');
+        });
+        n_picArray = 0;
+        picArray = [];
     }
 }
 
@@ -248,6 +277,31 @@ function initMessageList() {
     });
 }
 
+function initFeedbackList() {
+    //ajax去服务器端校验
+    var data= {"op":"get","uuid":s_userinfo.uuid};
+    console.log("FeedBackOperateAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/FeedBackOperate.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg.flag == '1'){
+                feedback_list = msg['feedbacks'];
+                renderFeedbackList();
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
+}
+
 function renderPersonalMenuInfo(){
     $('.me_func_item_avatar').attr('src', s_userinfo.avatar);
     $('.me_func_item_username').text(s_userinfo.user_name);
@@ -307,7 +361,7 @@ function renderNoticeList() {
         pub_time = notice_list[i]["pub_time"].substring(0, 16);
         end_time = notice_list[i]["end_time"].substring(0, 16);
         all_list.append(
-            '<div class="all_list_item" onclick="viewNotice(\''+i+'\')">\n' +
+            '<div class="all_list_item" style="height: 80px;" onclick="viewNotice(\''+i+'\')">\n' +
             '                <div class="all_list_item_left">\n' +
             '                    <img class="all_list_item_img" src="images/'+btn_img+'">\n' +
             '                    <div class="all_list_item_data_view_body">\n' +
@@ -345,12 +399,62 @@ function renderMessageList(){
         }
         pub_time = message_list[i]["pub_time"].substring(0, 19);
         all_list.append(
-            '<div class="all_list_item" onclick="viewMessage(\''+i+'\')">\n' +
+            '<div class="all_list_item" style="height: 80px;" onclick="viewMessage(\''+i+'\')">\n' +
             '                <div class="all_list_item_left">\n' +
             '                    <img class="all_list_item_img" src="images/'+btn_img+'">\n' +
             '                    <div class="all_list_item_data_view_body">\n' +
             '                       <span class="all_list_item_title">'+message_list[i]["msg_title"]+'</span>\n' +
             '                       <span class="all_list_item_text">'+message_list[i]["msg_text"]+'</span>\n' +
+            '                       <div class="all_list_item_left_bottom">\n' +
+            '                           <span class="all_list_item_text">'+pub_time+'</span>\n' +
+            '                       </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>'
+        );
+    }
+}
+
+function renderFeedbackList(){
+    var back_empty = $('#feedback_back_empty');
+    var all_list = $("#feedback_all_list");
+
+    if(feedback_list.length == 0){
+        back_empty.show();
+        return;
+    }
+    back_empty.hide();
+    all_list.html('');
+    var btn_img = 'ic_warning.png';
+    var title = '';
+    var pub_time = '';
+    for(var i in feedback_list){
+        if(feedback_list[i]['solved'] == '1'){
+            btn_img = 'ic_success.png';
+        }else{
+            btn_img = 'ic_message_red.png';
+        }
+        if(feedback_list[i]['type'] == 'bug'){
+            title = 'bug反馈';
+        }else{
+            title = '意见建议';
+        }
+        pub_time = feedback_list[i]["time"].substring(0, 16);
+        var img_html = '';
+        var pic_json = feedback_list[i]["pic_json"];
+        for(var j in pic_json){
+            img_html += '<img src="'+pic_json[j]+'">';
+        }
+        all_list.append(
+            '<div class="all_list_item" style="height: 140px;" onclick="viewFeedback(\''+i+'\')">\n' +
+            '                <div class="all_list_item_left">\n' +
+            '                    <img class="all_list_item_img" src="images/'+btn_img+'">\n' +
+            '                    <div class="all_list_item_data_view_body">\n' +
+            '                       <span class="all_list_item_title">'+title+'</span>\n' +
+            '                       <span class="all_list_item_text">'+feedback_list[i]["content"]+'</span>\n' +
+            '                       <div class="all_list_item_img_line">' +
+            img_html +
+            '                       </div>\n' +
             '                       <div class="all_list_item_left_bottom">\n' +
             '                           <span class="all_list_item_text">'+pub_time+'</span>\n' +
             '                       </div>\n' +
@@ -406,6 +510,24 @@ function viewMessage(i) {
             alert("请求失败，请重试");
         }
     });
+}
+
+function viewFeedback(i) {
+    var title = feedback_list[i]['type'] == 'bug' ? 'bug反馈' : '意见建议';
+    var text = feedback_list[i]['content'];
+    var pub_time = feedback_list[i]["time"].substring(0, 16);
+    var img_html = '';
+    var pic_json = feedback_list[i]["pic_json"];
+    for(var j in pic_json){
+        img_html += '<img style="cursor: pointer;" src="'+pic_json[j]+'" onclick="showPicturePopup(\''+pic_json[j]+'\')">';
+    }
+
+    showMsgBoxHtml(title+' ('+pub_time+')',
+        '<span class="msgbox_text">'+text+'</span>' +
+        '<div class="all_list_item_img_line">' +
+        img_html +
+        '</div>'
+    );
 }
 
 function modifyUserInfo(){
@@ -917,6 +1039,90 @@ function logoffAcc(){
     });
 }
 
+function del_upload_pic(obj) {
+    var upload_pic_btn = $('#upload_pic_btn');
+    var pic_id = $(obj).attr('i');
+    var upload_pic_line = $('#upload_pic_line');
+    picArray.splice(pic_id, 1);
+    n_picArray--;
+    upload_pic_line.html('');
+    for(var i = 0; i < n_picArray; i++){
+        var file = picArray[i];
+        upload_pic_line.append('<img class="upload_pic" i="'+i+'" id="upload_pic_'+i+'" src="'+getObjectURL(file)+'" onclick="del_upload_pic(this)"/>');
+    }
+    if(n_picArray < 5){
+        upload_pic_btn.show();
+    }
+}
+
+function onFilePicChange() {
+    var upload_pic_btn = $('#upload_pic_btn');
+    var upload_pic_line = $('#upload_pic_line');
+    var file = document.getElementById('upload_pic').files[0];
+    upload_pic_line.append('<img class="upload_pic" i="'+n_picArray+'" id="upload_pic_'+n_picArray+'" src="'+getObjectURL(file)+'" onclick="del_upload_pic(this)"/>');
+    picArray[n_picArray++] = file;
+    if(n_picArray >= 5){
+        upload_pic_btn.hide();
+    }
+}
+
+function sendFeedback() {
+    var type = getMainSelectListSelectedById('edit_type') == 'bug反馈' ? 'bug' : 'advise';
+    var text = $('#edit_text').val();
+    if(text == ''){
+        showMsgBoxHtml('错误', '请输入消息内容');
+    }else{
+        //ajax去服务器端校验
+        var formData = new FormData();
+        formData.append('n_picArray', n_picArray);
+        for(var i = 0; i < n_picArray; i++){
+            formData.append('pic'+i, picArray[i]);
+        }
+        formData.append('op', 'pub');
+        formData.append('text', text);
+        formData.append('uuid', s_userinfo.uuid);
+        formData.append('type', type);
+        console.log("FeedBackOperateAjax");
+        console.log(formData);
+        $.ajax({
+            url: "server/FeedBackOperate.php",/*传向后台服务器文件*/
+            type: 'POST',    /*传递方法 */
+            data:formData,  /*要带的值，在这里只能带一个formdata ，不可以增加其他*/
+            //传递的数据
+            dataType : 'json',  //传递数据的格式
+            async:false, //这是重要的一步，防止重复提交的
+            cache: false,  //设置为faldbconfig.phpse，上传文件不需要缓存。
+            contentType: false,//设置为false,因为是构造的FormData对象,所以这里设置为false。
+            processData: false,//设置为false,因为data值是FormData对象，不需要对数据做处理。
+            success: function (msg){
+                console.log(msg);
+                var err_code = msg['err_code'];
+                if(err_code == '000'){
+                    changeFeedbackPage('list');
+                    showFloatTip('上传成功', 'success');
+                }else if(err_code == '801'){
+                    showFloatTip('请先登录', 'error');
+                }else if(err_code == '802'){
+                    showFloatTip('请选择反馈类型', 'error');
+                }else if(err_code == '803'){
+                    showFloatTip('请输入反馈描述', 'error');
+                }else{
+                    showFloatTip(msg['err_text'], 'error');
+                }
+            },
+            error: function () {
+                alert("上传错误！");
+            }
+        });
+    }
+}
+
+function changeTextTextarea(){
+    var text = $('#edit_text').val();
+    var len = text.length;
+    $('#edit_text_cnt').text(len+'/600');
+}
+
 $('#info_edit_blue').click(function () {
     showDialogEditUserinfo(s_userinfo.user_name, s_userinfo.gender, function () {
         modifyUserInfo();
@@ -1045,4 +1251,8 @@ $('#security_chpwd_done_btn').click(function () {
             }
         });
     }
+});
+
+$('#edit_pub_btn').click(function () {
+    sendFeedback();
 });

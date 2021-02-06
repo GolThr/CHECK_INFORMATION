@@ -13,6 +13,7 @@
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="js/js.cookie.min.js"></script>
     <script type="text/javascript" src="js/affects.js"></script>
+    <script type="text/javascript" src="js/dropSelect.js"></script>
     <script type="text/javascript">
         var u_cookie = Cookies.get('s_userinfo');
         if(u_cookie == undefined || u_cookie == ''){
@@ -224,16 +225,74 @@
             <span class="span_fixed">-</span>
         </div>
         <div class="panel_body_mine_page" id="panel_body_feedback" style="display: none;">
+            <div class="personal_page" id="feedback_list">
+                <div class="mine_all_list" id="feedback_all_list">
+                    <div class="back_none" id="feedback_back_empty">
+                        <img class="back_none_img" src="images/back_empty.png">
+                        <p class="back_none_text">暂时还没有反馈<br>欢迎点击添加按钮向我们反馈哦~</p>
+                    </div>
+                    <!--
+                    <div class="manage_list_item" onclick="openTable('tbl_name')">
+                        list_item
+                    </div>
+                    -->
+                </div>
+                <span class="span_fixed">-</span>
+                <div class="float_add_btn" onclick="changeFeedbackPage('edit')">
+                    <img class="float_add_btn_img" src="images/func_add.png">
+                </div>
+            </div>
+            <div class="personal_page" id="feedback_edit" style="display: none;">
+                <div class="func_btn_line">
+                    <div class="func_btn_left">
+                        <span style="font-size: 14px;margin-right: 10px;">类型</span>
+                        <div class="main_select_list_cardstyle" style="margin-right: 20px;" id="edit_type" onclick="mainSelectListToggleById('edit_type')">
+                            <img class="main_select_arrow" src="images/ic_down_arrow.png"/>
+                            <span class="main_select_default">bug反馈</span>
+                            <div class="main_select_item">
+                                <span>bug反馈</span>
+                                <span>意见建议</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="func_btn_right">
+                        <div class="main_btn" style="background: #458CFE;color: #fff;" id="edit_pub_btn">
+                            <img class="main_btn_img" src="images/ic_send_grey.png"/>
+                            <span class="main_btn_text">发送</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="personal_table_body">
+                    <span class="feedback_subtitle">图片（可选，最多5张，再次点击可删除）</span>
+                    <form action="" method="post" id="t" enctype="multipart/form-data">
+                        <input type="file" name="tables_a[]" id="upload_pic" onchange="onFilePicChange()" style="display: none;">
+                    </form>
+                    <div class="upload_pic_line">
+                        <div id="upload_pic_line"></div>
+                        <img class="upload_pic" id="upload_pic_btn" src="images/ic_add_pic.png" onclick="$('#upload_pic').click()"/>
+                    </div>
+                </div>
+                <div class="personal_table_body">
+                    <span class="feedback_subtitle">反馈描述</span>
+                    <textarea class="feedback_textarea" maxlength="600" id="edit_text" placeholder="字数在600字以内。" oninput="changeTextTextarea()" onfocus="changeTextTextarea()" onblur="changeTextTextarea()"></textarea>
+                    <span class="feedback_edit_cnt" id="edit_text_cnt">0/600</span>
+                </div>
+            </div>
         </div>
         <div class="panel_body_mine_page" id="panel_body_pay" style="display: none;">
         </div>
         <div class="panel_body_mine_page" id="panel_body_about" style="display: none;">
+            <div class="about_body">
+                <img class="about_logo" src="images/check_logo_col.png">
+                <span class="about_version" id="version"></span>
+            </div>
         </div>
     </div>
 
     <script type="text/javascript" src="js/msgBox.js"></script>
     <script type="text/javascript" src="js/dialogs.js"></script>
     <script type="text/javascript" src="js/float_tips.js"></script>
+    <script type="text/javascript" src="js/picturePopup.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/personalPage.js"></script>
 </body>
