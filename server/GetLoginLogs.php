@@ -13,7 +13,7 @@ $jsonStr = array();
 
 if($type == 'all'){
     $res = array();
-    $sql = 'SELECT * FROM s_login ORDER BY time DESC';
+    $sql = "SELECT * FROM s_login WHERE uuid='$uuid' ORDER BY time DESC";
     $obj=mysqli_query($link,$sql);
     if($obj) {
         while($row = mysqli_fetch_array($obj, MYSQLI_ASSOC)) {
@@ -34,7 +34,7 @@ if($type == 'all'){
     $n = (int)$_POST["n"];
     $res = array();
     $i = 0;
-    $sql = 'SELECT * FROM s_login ORDER BY time DESC';
+    $sql = "SELECT * FROM s_login WHERE uuid='$uuid' ORDER BY time DESC";
     $obj=mysqli_query($link,$sql);
     if($obj) {
         while($row = mysqli_fetch_array($obj, MYSQLI_ASSOC)) {

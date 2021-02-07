@@ -1,6 +1,7 @@
 var verify_pwd = 0;
 var verify_ep = 0;
 var cur_page = 'pwd';
+var s_uuid = '';
 
 function init(){
     initUser();
@@ -45,7 +46,7 @@ function changePage(p){
 
 function logoff(pwd){
     //ajax去服务器端校验
-    var data= {"ver":version,"uuid":s_userinfo.uuid,"pwd":pwd};
+    var data= {"op":"logoff","ver":version,"uuid":s_userinfo.uuid,"pwd":pwd};
     console.log("UserLogOffAjax");
     console.log(data);
     $.ajax({
@@ -58,6 +59,8 @@ function logoff(pwd){
             console.log(msg);
             if(msg['flag'] == '1'){
                 changePage('done');
+                s_uuid = s_userinfo.uuid;
+                Cookies.remove("s_userinfo");
             }else{
                 showFloatTip('账号注销失败', 'error');
             }
@@ -68,6 +71,36 @@ function logoff(pwd){
             alert("请求失败，请重试");
         }
     });
+}
+
+function sendAdvise(){
+    var content = $('#reg_done_advise').val();
+    if(content != ''){
+        //ajax去服务器端校验
+        var data= {"op":"advise","ver":version,"uuid":s_uuid,"content":content};
+        console.log("UserLogOffAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/UserLogOff.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log("success!");
+                console.log(msg);
+                if(msg['flag'] == '1'){
+                    showFloatTip('反馈成功，感谢您的反馈！');
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    }else{
+        showFloatTip('请先输入反馈内容，再点击反馈哦~');
+    }
 }
 
 function getEmailVerify(obj){

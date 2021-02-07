@@ -10,8 +10,8 @@ function init(){
         //已登录
         $('.user_name').text(u_cookie);
     }
-    SelectPanelMenuItem('feedback');
-    setMainHeadTitle('所有反馈');
+    SelectPanelMenuItem('advise');
+    setMainHeadTitle('所有已注销用户的反馈');
     initFeedbackList();
 }
 
@@ -30,7 +30,7 @@ function changePage(p, subtitle) {
     if(p == 'list'){
         obj.fadeOut(500,function (){
             cur_page = 'list';
-            setMainHeadTitle('所有反馈');
+            setMainHeadTitle('所有已注销用户的反馈');
             hideBackBtn();
             $('#notice_list').fadeIn();
         });
@@ -78,10 +78,10 @@ function initFeedbackList() {
     }
     //ajax去服务器端校验
     var data= {"op":op,"sort":sort,"sort_m":sort_m,"keywords":keywords};
-    console.log("FeedBackOperateAjax");
+    console.log("AdviseOperateAjax");
     console.log(data);
     $.ajax({
-        url: "server/FeedBackOperate.php", //后台请求数据
+        url: "server/AdviseOperate.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",
@@ -93,12 +93,12 @@ function initFeedbackList() {
                     showBackBtn(function () {
                         mainSearchForceHideById('search1');
                         hideBackBtn();
-                        setMainHeadTitle('所有反馈');
+                        setMainHeadTitle('所有已注销用户的反馈');
                         renderFeedbackList();
                     });
                 }else{
                     hideBackBtn();
-                    setMainHeadTitle('所有反馈');
+                    setMainHeadTitle('所有已注销用户的反馈');
                 }
                 feedback_list = msg['feedbacks'];
                 renderFeedbackList();
@@ -212,10 +212,10 @@ function finishFeedback(i) {
     var words = $('#edit_words').val();
     //ajax去服务器端校验
     var data= {"op":"finish","id":feedback_list[i]['id'],"sol_words":words};
-    console.log("FeedBackOperateAjax");
+    console.log("AdviseOperateAjax");
     console.log(data);
     $.ajax({
-        url: "server/FeedBackOperate.php", //后台请求数据
+        url: "server/AdviseOperate.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",

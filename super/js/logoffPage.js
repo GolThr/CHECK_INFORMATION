@@ -10,8 +10,8 @@ function init(){
         //已登录
         $('.user_name').text(u_cookie);
     }
-    SelectPanelMenuItem('users');
-    setMainHeadTitle('所有用户');
+    SelectPanelMenuItem('logoff');
+    setMainHeadTitle('所有已注销的用户');
     initUserList();
 }
 
@@ -47,10 +47,10 @@ function initUserList() {
     }
     //ajax去服务器端校验
     var data= {"op":op,"sort":sort,"sort_m":sort_m,"keywords":keywords};
-    console.log("UserOperateAjax");
+    console.log("LogoffOperateAjax");
     console.log(data);
     $.ajax({
-        url: "server/UserOperate.php", //后台请求数据
+        url: "server/LogoffOperate.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",
@@ -62,12 +62,12 @@ function initUserList() {
                     showBackBtn(function () {
                         mainSearchForceHideById('search1');
                         hideBackBtn();
-                        setMainHeadTitle('所有用户');
+                        setMainHeadTitle('所有已注销的用户');
                         initUserList();
                     });
                 }else{
                     hideBackBtn();
-                    setMainHeadTitle('所有用户');
+                    setMainHeadTitle('所有已注销的用户');
                 }
                 user_list = msg['users'];
                 renderUserList();

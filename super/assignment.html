@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查客后台管理</title>
+    <meta name="keywords" content="查客核对,chake,hedui,shouji,收集,核对,信息，查客"/>
+    <meta name="description" content="查客核对，信息核对平台"/>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="../png_favicon.png" type=" image/png">
+    <link rel="stylesheet" href="../styles/main_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="../styles/common_styles.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/assignment_styles.css" type="text/css"/>
+    <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="../js/js.cookie.min.js"></script>
+    <script type="text/javascript" src="../js/affects.js"></script>
+    <script type="text/javascript" src="../js/dropSelect.js"></script>
+    <script type="text/javascript">
+        var u = Cookies.get('manager_email');
+        if(u == undefined || u == ''){
+            console.log('未登录');
+            location.href = 'login.html';
+        }
+        window.onload = (function () {
+            init();
+        });
+    </script>
+</head>
+<body>
+    <script type="text/javascript" src="js/panel_menu.js"></script>
+    <div class="panel_body panel_body_manage" id="verify">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">邮箱即为管理员账号，转让会将该邮箱的管理员权限转让给修改后的邮箱。成功后，转让之前的邮箱将不再具有管理员权限。</span>
+            <div class="reg_step_body">
+                <div>
+                    <input type="text" class="main_input" style="height: 36px;text-align: left;" id="reg_email_vercode" placeholder="动态密码"/>
+                    <button class="submit_btn_sec" id="get_old_ver">获取动态密码</button>
+                </div>
+                <button class="submit_btn" type="submit" style="width: 285px;" id="verify_old_btn">验证</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel_body panel_body_manage" id="modify" style="display: none;">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">设置新邮箱</span>
+            <div class="reg_step_body">
+                <input type="text" class="main_input" style="width: 270px;height: 36px;margin-bottom: 20px;text-align: left;" id="new_email" placeholder="管理员邮箱"/>
+                <div>
+                    <input type="text" class="main_input" style="height: 36px;text-align: left;" id="new_email_vercode" placeholder="验证码"/>
+                    <button class="submit_btn_sec" id="get_new_ver">获取验证码</button>
+                </div>
+                <button class="submit_btn" type="submit" style="width: 285px;" id="verify_new_btn">验证并转让</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel_body panel_body_manage" id="done" style="display: none;">
+        <script type="text/javascript" src="../js/header.js"></script>
+        <div class="manage_info_table_body">
+            <span class="notice_view_subtitle">转让成功</span>
+            <div class="reg_step_body">
+                <img src="../images/pic_success.png" style="width: 200px;height: auto;"/>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../js/dialogs.js"></script>
+    <script type="text/javascript" src="../js/msgBox.js"></script>
+    <script type="text/javascript" src="../js/float_tips.js"></script>
+    <script type="text/javascript" src="js/assignmentPage.js"></script>
+</body>
+</html>

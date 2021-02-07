@@ -4,12 +4,13 @@ document.writeln('<div class="panel_menu">\n' +
     '        <ul class="panel_menu_list">\n' +
     '            <li id="menu_home" onclick="changeMenu(\'home\')">主页</li>\n' +
     '            <li id="menu_users" onclick="changeMenu(\'users\')">用户</li>\n' +
+    '            <li id="menu_logoff" onclick="changeMenu(\'logoff\')">注销</li>\n' +
     '            <li id="menu_notice" onclick="changeMenu(\'notice\')">公告</li>\n' +
     '            <li id="menu_message" onclick="changeMenu(\'message\')">消息</li>\n' +
     '            <li id="menu_feedback" onclick="changeMenu(\'feedback\')">反馈</li>\n' +
     '            <li id="menu_advise" onclick="changeMenu(\'advise\')">建议</li>\n' +
-    '            <li id="menu_reward" onclick="changeMenu(\'advise\')">打赏</li>\n' +
-    '            <li id="menu_assign" onclick="changeMenu(\'advise\')">转让</li>\n' +
+    '            <li id="menu_reward" onclick="changeMenu(\'reward\')">打赏</li>\n' +
+    '            <li id="menu_assign" onclick="changeMenu(\'assign\')">转让</li>\n' +
     '        </ul>\n' +
     '    </div>\n' +
     '    <span class="panel_menu_exit">退出</span>\n' +
@@ -22,6 +23,9 @@ function changeMenu(p){
     }else if(p == "users"){
         // 用户
         location.href = 'users.html';
+    }else if(p == "logoff"){
+        // 已注销的用户
+        location.href = 'logoff.html';
     }else if(p == "notice"){
         // 公告
         location.href = 'notice.html';
@@ -46,6 +50,7 @@ function changeMenu(p){
 function SelectPanelMenuItem(p){
     var m_home = $("#menu_home");
     var m_users = $("#menu_users");
+    var m_logoff = $("#menu_logoff");
     var m_notice = $("#menu_notice");
     var m_message = $("#menu_message");
     var m_feedback = $("#menu_feedback");
@@ -56,6 +61,7 @@ function SelectPanelMenuItem(p){
         // 主页
         m_home.addClass('panel_menu_list_selected');
         m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
         m_notice.removeClass('panel_menu_list_selected');
         m_message.removeClass('panel_menu_list_selected');
         m_feedback.removeClass('panel_menu_list_selected');
@@ -67,6 +73,7 @@ function SelectPanelMenuItem(p){
         $('#menu_message_title').show();
         m_home.removeClass('panel_menu_list_selected');
         m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
         m_notice.addClass('panel_menu_list_selected');
         m_message.removeClass('panel_menu_list_selected');
         m_feedback.removeClass('panel_menu_list_selected');
@@ -78,6 +85,19 @@ function SelectPanelMenuItem(p){
         $('#menu_message_title').show();
         m_home.removeClass('panel_menu_list_selected');
         m_users.addClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
+        m_notice.removeClass('panel_menu_list_selected');
+        m_message.removeClass('panel_menu_list_selected');
+        m_feedback.removeClass('panel_menu_list_selected');
+        m_advise.removeClass('panel_menu_list_selected');
+        m_reward.removeClass('panel_menu_list_selected');
+        m_assign.removeClass('panel_menu_list_selected');
+    }else if(p == "logoff"){
+        // 已注销的用户
+        $('#menu_message_title').show();
+        m_home.removeClass('panel_menu_list_selected');
+        m_users.removeClass('panel_menu_list_selected');
+        m_logoff.addClass('panel_menu_list_selected');
         m_notice.removeClass('panel_menu_list_selected');
         m_message.removeClass('panel_menu_list_selected');
         m_feedback.removeClass('panel_menu_list_selected');
@@ -89,6 +109,7 @@ function SelectPanelMenuItem(p){
         $('#menu_message_title').show();
         m_home.removeClass('panel_menu_list_selected');
         m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
         m_notice.removeClass('panel_menu_list_selected');
         m_message.addClass('panel_menu_list_selected');
         m_feedback.removeClass('panel_menu_list_selected');
@@ -100,6 +121,7 @@ function SelectPanelMenuItem(p){
         $('#menu_message_title').show();
         m_home.removeClass('panel_menu_list_selected');
         m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
         m_notice.removeClass('panel_menu_list_selected');
         m_message.removeClass('panel_menu_list_selected');
         m_feedback.addClass('panel_menu_list_selected');
@@ -111,6 +133,7 @@ function SelectPanelMenuItem(p){
         $('#menu_message_title').show();
         m_home.removeClass('panel_menu_list_selected');
         m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
         m_notice.removeClass('panel_menu_list_selected');
         m_message.removeClass('panel_menu_list_selected');
         m_feedback.removeClass('panel_menu_list_selected');
@@ -122,6 +145,7 @@ function SelectPanelMenuItem(p){
         $('#menu_message_title').show();
         m_home.removeClass('panel_menu_list_selected');
         m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
         m_notice.removeClass('panel_menu_list_selected');
         m_message.removeClass('panel_menu_list_selected');
         m_feedback.removeClass('panel_menu_list_selected');
@@ -133,6 +157,7 @@ function SelectPanelMenuItem(p){
         $('#menu_message_title').show();
         m_home.removeClass('panel_menu_list_selected');
         m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
         m_notice.removeClass('panel_menu_list_selected');
         m_message.removeClass('panel_menu_list_selected');
         m_feedback.removeClass('panel_menu_list_selected');
