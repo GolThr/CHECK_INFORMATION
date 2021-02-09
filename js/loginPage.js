@@ -50,13 +50,18 @@ function hideOtherPage(){
     }else if(cur_page == 'email_input'){
         $('#register_sheet').hide();
         $('#reg_step_body').hide();
+    }else if(cur_page == 'login_verify_choose'){
+        $('#login_verify_sheet').hide();
+    }else if(cur_page == 'login_verify'){
+        $('#login_verify_sheet').hide();
     }
 }
 
-function changePage(p){
-    // login_sheet
-    // register_sheet { reg_choose, reg_step_body { reg_email_step_verify, reg_email_step_input } }
-    // done_sheet
+function changePage(p, type){
+    // login_sheet(login)
+    // register_sheet { reg_choose(choose), reg_step_body { reg_email_step_verify(email_verify), reg_email_step_input(email_input) } }
+    // login_verify_sheet { login_verify_choose(login_verify_choose), login_verify(login_verify) }
+    // done_sheet(done)
     /////
     var obj = $('#login_sheet');
     //check cur page
@@ -70,6 +75,10 @@ function changePage(p){
         obj = $('#reg_email_step_input');
     }else if(cur_page == 'done'){
         obj = $('#done_sheet');
+    }else if(cur_page == 'login_verify_choose'){
+        obj = $('#login_verify_choose');
+    }else if(cur_page == 'login_verify'){
+        obj = $('#login_verify');
     }
     //navigator
     if(p == 'login'){
@@ -108,6 +117,23 @@ function changePage(p){
             cur_page = 'done';
             $('#done_sheet').fadeIn();
         });
+    }else if(p == 'login_verify_choose'){
+        obj.fadeOut(500,function () {
+            hideOtherPage();
+            cur_page = 'login_verify_choose';
+            $('#login_verify_sheet').show();
+            $('#login_verify_choose').fadeIn();
+        });
+    }else if(p == 'login_verify'){
+        obj.fadeOut(500,function () {
+            hideOtherPage();
+            cur_page = 'login_verify';
+            $('#login_verify_sheet').show();
+            if(type == 'email'){
+                $('#login_verify_subtitle').text('当前邮箱: '+verify_email);
+            }
+            $('#login_verify').fadeIn();
+        });
     }
 }
 
@@ -139,7 +165,7 @@ function login(){
         }
     }
     //ajax去服务器端校验
-    var data= {"account":account,"password":password,"ip":returnCitySN['cip'],"loc":login_loc};
+    var data= {"action":"login","account":account,"password":password,"ip":returnCitySN['cip'],"loc":login_loc};
     console.log("LoginAjax");
     console.log(data);
     $.ajax({
@@ -163,6 +189,16 @@ function login(){
                 if(pwd_wrong_times >= 3){
                     showDragBlock();
                 }
+            }else if(msg.flag == '2'){
+                changePage('login_verify_choose');
+                $('#login_verify_title').text('需要二次验证');
+                verify_email = msg['email'];
+                verify_phone = msg['phone'];
+            }else if(msg.flag == '3'){
+                changePage('login_verify_choose');
+                $('#login_verify_title').text('异地登录验证');
+                verify_email = msg['email'];
+                verify_phone = msg['phone'];
             }else{
                 $("#password").css("border-color", "#e4e4e4");
                 $("#drag").css("border-color", "#e4e4e4");
@@ -274,14 +310,44 @@ function getEmailVerify(obj){
 
 function enableWaitBtn(obj, type){
     if(type == 'email'){
-        $('#get_email_ver_btn').attr('onclick', 'getEmailVerify(this)');
+        $(obj).attr('onclick', 'getEmailVerify(this)');
     }
 }
 
 function disableWaitBtn(obj, type){
     if(type == 'email'){
-        $('#get_email_ver_btn').attr('onclick', 'showFloatTip("请求过于频繁，过一会儿再试吧！","success")');
+        $(obj).attr('onclick', 'showFloatTip("请求过于频繁，过一会儿再试吧！","success")');
     }
+}
+
+function getUserEmailVerifyCode(obj) {
+    disableWaitBtn(obj, 'email');
+    waitTimeDisplay(60, obj, function () {
+        enableWaitBtn(obj, 'email');
+    });
+    //ajax去服务器端校验
+    var data= {"type":"get_email_code","email":verify_email};
+    console.log("GetRegVerifyCodeAjax");
+    console.log(data);
+    $.ajax({
+        url: "server/GetRegVerifyCode.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg['flag'] == '1'){
+                showFloatTip('验证码已发送', 'success');
+            }else{
+                showFloatTip('验证码发送失败', 'error');
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
 }
 
 //登录
@@ -308,6 +374,42 @@ $("#reg_email_next").click(function () {
                 console.log(msg);
                 if(msg['flag'] == '1'){
                     changePage('email_input');
+                }else{
+                    showFloatTip('验证码错误或已失效！','error');
+                }
+            },
+            error: function (msg) {
+                console.log("error!");
+                console.log(msg);
+                alert("请求失败，请重试");
+            }
+        });
+    }
+});
+
+$("#login_verify_next").click(function () {
+    var account = $.trim($("#account").val());
+    var password = $.trim($("#password").val());
+    var reg_vercode = $.trim($('#login_verify_vercode').val());
+    if(reg_vercode == ""){
+        $("#login_verify_vercode").css("border-color", "#ff392f");
+        $("#login_verify_vercode").shake(2, 10, 400);
+    }else{
+        $("#login_verify_vercode").css("border-color", "#458CFE");
+        //ajax去服务器端校验
+        var data= {"action":"get","account":account,"password":password,"ip":returnCitySN['cip'],"loc":login_loc,"code_input":reg_vercode};
+        console.log("LoginAjax");
+        console.log(data);
+        $.ajax({
+            url: "server/Login.php", //后台请求数据
+            dataType: "json",
+            data:data,
+            type: "POST",
+            success: function (msg) {
+                console.log(msg);
+                if(msg['flag'] == '1'){
+                    Cookies.set('s_userinfo', JSON.stringify(msg), {expires: 1});
+                    location.href = "index.html";
                 }else{
                     showFloatTip('验证码错误或已失效！','error');
                 }

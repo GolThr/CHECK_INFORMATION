@@ -2,15 +2,10 @@
 include("dbconfig.php");
 include("getUuid.php");
 
-$account = $_POST["account"];
-$pwd = $_POST["password"];
-$ip = $_POST["ip"];
-$loc = $_POST["loc"];
-
 function updateLoginInfo($link, $log_id, $uuid, $ip, $loc, $method, $platform){
     // 检查登录记录，最多记录10条信息
     $res = array();
-    $sql = 'SELECT * FROM s_login ORDER BY time DESC';
+    $sql = "SELECT * FROM s_login WHERE uuid='$uuid' ORDER BY time DESC";
     $obj=mysqli_query($link,$sql);
     if($obj) {
         while($row = mysqli_fetch_array($obj, MYSQLI_ASSOC)) {
@@ -51,34 +46,122 @@ function updateLoginInfo($link, $log_id, $uuid, $ip, $loc, $method, $platform){
     return $security;
 }
 
-//flag -> 0:wrong pwd, 1:successful, -1:wrong query
-//security -> 0: danger, 1: safe
-$method = '';
+$action = $_POST["action"];
+$account = $_POST["account"];
+$pwd = $_POST["password"];
+$ip = $_POST["ip"];
+$loc = $_POST["loc"];
+
 $jsonStr = array();
-for($i = 0; $i < 1; $i++){
-    if($i == 0){
-        $sql="SELECT * FROM s_userinfo WHERE email='$account'";
-        $method = '邮箱';
-    }else{
-        $sql="SELECT * FROM s_userinfo WHERE phone_number='$account'";
-        $method = '手机';
-    }
-    $obj=mysqli_query($link,$sql);
-    if($obj){
-        $arr=mysqli_fetch_array($obj,MYSQLI_ASSOC);
-        if($arr){
-            if($pwd == $arr['pwd']){
-                $security = updateLoginInfo($link, getNewUniqid(), $arr['uuid'], $ip, $loc, $method, '网页端');
-                $jsonStr = array('flag'=>'1', 'security' => $security, 'uuid'=>$arr['uuid'] ,'user_name'=>$arr['user_name'], 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number'], 'gender'=>$arr['gender'], 'avatar'=>$arr['avatar'], 'reg_time'=>$arr['reg_time']);
-                break;
+if($action == 'login'){
+    //flag -> 0:wrong pwd, 1:successful, -1:wrong query, 2:need verify twice, 3:need verify location
+    //security -> 0: danger, 1: safe
+    $method = '';
+    for($i = 0; $i < 1; $i++){
+        if($i == 0){
+            $sql="SELECT * FROM s_userinfo WHERE email='$account'";
+            $method = '邮箱';
+        }else{
+            $sql="SELECT * FROM s_userinfo WHERE phone_number='$account'";
+            $method = '手机';
+        }
+        $obj=mysqli_query($link,$sql);
+        if($obj){
+            $arr=mysqli_fetch_array($obj,MYSQLI_ASSOC);
+            if($arr){
+                if($pwd == $arr['pwd']){
+                    // check user settings
+                    $uuid = $arr['uuid'];
+                    $twice_verify = '';
+                    $loc_verify = '';
+                    $sql_check="SELECT twice_verify,loc_verify FROM s_settings WHERE uuid='$uuid'";
+                    $obj1=mysqli_query($link,$sql_check);
+                    if($obj1){
+                        if($row=mysqli_fetch_array($obj1,MYSQLI_ASSOC)){
+                            $twice_verify = $row['twice_verify'];
+                            $loc_verify = $row['loc_verify'];
+                        }
+                    }
+                    $login_ip = '';
+                    $login_loc = '';
+                    $sql_check = "SELECT * FROM s_login WHERE uuid='$uuid' ORDER BY time DESC";
+                    $obj1=mysqli_query($link,$sql_check);
+                    if($obj1) {
+                        if($row = mysqli_fetch_array($obj1, MYSQLI_ASSOC)) {
+                            $login_ip = $row['ip'];
+                            $login_loc = $row['loc'];
+                        }
+                    }
+                    if($twice_verify == 'on'){
+                        $jsonStr = array('flag'=>'2', 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number']);
+                    }else if($loc_verify == 'on'){
+                        if($ip == $login_ip && $loc == $login_loc){
+                            $security = updateLoginInfo($link, getNewUniqid(), $uuid, $ip, $loc, $method, '网页端');
+                            $jsonStr = array('flag'=>'1', 'security' => $security, 'uuid'=>$uuid, 'user_name'=>$arr['user_name'], 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number'], 'gender'=>$arr['gender'], 'avatar'=>$arr['avatar'], 'reg_time'=>$arr['reg_time']);
+                        }else{
+                            $jsonStr = array('flag'=>'3', 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number']);
+                        }
+                    }else{
+                        // off off
+                        $security = updateLoginInfo($link, getNewUniqid(), $uuid, $ip, $loc, $method, '网页端');
+                        $jsonStr = array('flag'=>'1', 'security' => $security, 'uuid'=>$uuid, 'user_name'=>$arr['user_name'], 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number'], 'gender'=>$arr['gender'], 'avatar'=>$arr['avatar'], 'reg_time'=>$arr['reg_time']);
+                    }
+                }else{
+                    $jsonStr = array('flag'=>'0');
+                }
             }else{
-                $jsonStr = array('flag'=>'0');
+                $jsonStr = array('flag'=>'-1');
             }
         }else{
             $jsonStr = array('flag'=>'-1');
         }
-    }else{
-        $jsonStr = array('flag'=>'-1');
+    }
+}else if($action == 'get'){
+    $verify_code_input = strtoupper($_POST["code_input"]);
+    $cur_time = time();
+    $flag = 0;
+    session_start();
+    // 检索 session 数据
+    $verify_code_session = $_SESSION['verify_code'];
+    $verify_time_session = $_SESSION['verify_time'];
+
+    if($cur_time - $verify_time_session < 60){
+        if($verify_code_input == $verify_code_session){
+            $flag = 1;
+        }
+    }
+
+    if($flag = 1){
+        $flag = 0;
+        //flag -> 0:wrong pwd, 1:successful, -1:wrong query
+        //security -> 0: danger, 1: safe
+        $method = '';
+        for($i = 0; $i < 1; $i++){
+            if($i == 0){
+                $sql="SELECT * FROM s_userinfo WHERE email='$account'";
+                $method = '邮箱';
+            }else{
+                $sql="SELECT * FROM s_userinfo WHERE phone_number='$account'";
+                $method = '手机';
+            }
+            $obj=mysqli_query($link,$sql);
+            if($obj){
+                $arr=mysqli_fetch_array($obj,MYSQLI_ASSOC);
+                if($arr){
+                    if($pwd == $arr['pwd']){
+                        $uuid = $arr['uuid'];
+                        $security = updateLoginInfo($link, getNewUniqid(), $uuid, $ip, $loc, $method, '网页端');
+                        $jsonStr = array('flag'=>'1', 'security' => $security, 'uuid'=>$uuid, 'user_name'=>$arr['user_name'], 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number'], 'gender'=>$arr['gender'], 'avatar'=>$arr['avatar'], 'reg_time'=>$arr['reg_time']);
+                    }else{
+                        $jsonStr = array('flag'=>'0');
+                    }
+                }else{
+                    $jsonStr = array('flag'=>'-1');
+                }
+            }else{
+                $jsonStr = array('flag'=>'-1');
+            }
+        }
     }
 }
 

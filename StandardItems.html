@@ -106,6 +106,15 @@
         <input type="text" placeholder="搜索...">
     </div>
 
+    <span class="std_title">分页(需包含paging.js)</span>
+    <!--分页-->
+    <div class="main_paging_cardstyle" id="paging1"></div>
+    <script type="text/javascript">
+        initMainPagingById('paging1',9,1, 8,function (p){
+            console.log('page to ' + p);
+        });
+    </script>
+
     <script type="text/javascript" src="js/StandardItemsPage.js"></script>
 </body>
 </html>

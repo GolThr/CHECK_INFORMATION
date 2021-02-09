@@ -94,9 +94,6 @@ if($op == "get"){
     if($obj){
         $flag = 1;
     }
-    $msg_id = getNewUuid();
-    $title = '反馈通知';
-    $text = '您关于';
     // send message
     $msg_id = getNewUuid();
     $title = '反馈通知';
