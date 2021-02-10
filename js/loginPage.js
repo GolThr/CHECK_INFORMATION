@@ -109,6 +109,7 @@ function changePage(p, type){
             cur_page = 'email_input';
             $('#register_sheet').show();
             $('#reg_step_body').show();
+            changePWDStrength('hide');
             $('#reg_email_step_input').fadeIn();
         });
     }else if(p == 'done'){
@@ -218,16 +219,20 @@ function register(){
     var acc = $.trim($("#reg_email_username").val());
     var pwd = $.trim($("#reg_email_pwd").val());
     var repwd = $.trim($("#reg_email_repwd").val());
-    if(acc == ""){
+    if(acc == "" || isValidLength(acc, 1, 20) || isValidReg(acc)){
         $("#reg_email_username").css("border-color", "#ff392f");
         $("#reg_email_pwd").css("border-color", "#EAEDF6");
         $("#reg_email_repwd").css("border-color", "#EAEDF6");
         $("#reg_email_username").shake(2, 10, 400);
-    }else if(pwd == ""){
+        showFloatTip('用户名1~20字符，不可有特殊违规字符!', 'error');
+        console.log('len: '+isValidLength(acc, 1, 20));
+        console.log('reg: '+isValidReg(acc));
+    }else if(pwd == "" || checkPasswordStrength(pwd) == false || isValidLength(pwd, 6, 20)){
         $("#reg_email_username").css("border-color", "#EAEDF6");
         $("#reg_email_pwd").css("border-color", "#ff392f");
         $("#reg_email_repwd").css("border-color", "#EAEDF6");
         $("#reg_email_pwd").shake(2, 10, 400);
+        showFloatTip('密码6~20位，数字、字母、特殊字母任意组合。', 'error');
     }else if(repwd == ""){
         $("#reg_email_username").css("border-color", "#EAEDF6");
         $("#reg_email_pwd").css("border-color", "#EAEDF6");
@@ -257,6 +262,12 @@ function register(){
                 console.log(msg);
                 if(msg['flag'] == '1'){
                     changePage('done');
+                }else if(msg['flag'] == '2'){
+                    showFloatTip('用户名1~20字符，不可有特殊违规字符!', 'error');
+                }else if(msg['flag'] == '3'){
+                    showFloatTip('密码6~20位，数字、字母、特殊字母任意组合。', 'error');
+                }else if(msg['flag'] == '4'){
+                    showFloatTip('请输入正确的邮箱！', 'error');
                 }
             },
             error: function (msg) {
@@ -274,6 +285,11 @@ function getEmailVerify(obj){
     if(reg_email == ""){
         $("#reg_email").css("border-color", "#ff392f");
         $("#reg_email").shake(2, 10, 400);
+    }else if(!isEmailStr(reg_email)){
+        console.log(isEmailStr(reg_email));
+        $("#reg_email").css("border-color", "#ff392f");
+        $("#reg_email").shake(2, 10, 400);
+        showFloatTip('请输入正确的邮箱！', 'error');
     }else{
         $("#reg_email").css("border-color", "#EAEDF6");
         disableWaitBtn(obj, 'email');
@@ -348,6 +364,47 @@ function getUserEmailVerifyCode(obj) {
             alert("请求失败，请重试");
         }
     });
+}
+
+function checkInputPWDStrength(obj){
+    var str = $(obj).val();
+    if(str != ''){
+        var strength = checkPasswordStrength(str);
+        changePWDStrength(strength);
+    }
+}
+
+function changePWDStrength(s){
+    var color = $('.pwd_strength_color');
+    var text = $('.pwd_strength_text');
+    console.log(s);
+    if(s == 'hard'){
+        color.css('background','#2bbd31');
+        text.css('color','#000');
+        text.text('强');
+        color.show();
+        text.show();
+    }else if(s == 'middle'){
+        color.css('background','#ffcc1f');
+        text.css('color','#000');
+        text.text('中');
+        color.show();
+        text.show();
+    }else if(s == 'weak'){
+        color.css('background','#cf3b3f');
+        text.css('color','#000');
+        text.text('弱');
+        color.show();
+        text.show();
+    }else if(s == 'hide'){
+        color.hide();
+        text.hide();
+    }else{
+        text.css('color','#cf3b3f');
+        text.text('密码不符合要求');
+        color.hide();
+        text.show();
+    }
 }
 
 //登录

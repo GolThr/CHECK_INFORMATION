@@ -95,7 +95,7 @@ $text = '<style type="text/css">
         </div>
         <div class="email_content">
             <span class="email_title">尊敬的用户，您好！</span>
-            <span class="email_text">欢迎注册查客账号！您的验证码为：</span>
+            <span class="email_text">欢迎注册使用查客账号！您的验证码为：</span>
             <span class="email_verify_code">'.$verify_code.'</span>
             <span class="email_text">验证码在1分钟内有效，请及时使用。</span>
         </div>

@@ -251,3 +251,27 @@ body{
     width: 200px;
     height: auto;
 }
+
+.pwd_strength_display{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.pwd_strength_display div{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #cf3b3f;
+    position: absolute;
+    right: 40px;
+}
+
+.pwd_strength_display span{
+    font-size: 14px;
+    color: #000;
+    position: absolute;
+    right: 20px;
+}

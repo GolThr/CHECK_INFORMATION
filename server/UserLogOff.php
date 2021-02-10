@@ -75,6 +75,14 @@ if($op == 'logoff'){
             $flag_dm = 1;
         }
 
+        // del from s_settings
+        $flag_ds = 0;
+        $sql = "DELETE FROM s_settings WHERE uuid='$uuid'";
+        $obj = mysqli_query($link, $sql);
+        if($obj){
+            $flag_ds = 1;
+        }
+
         // move s_userinfo to d_users
         $flag_mu2u = 0;
         $sql = "SELECT uuid,user_name,email,phone_number,gender,avatar,reg_time FROM s_userinfo WHERE uuid='$uuid'";
@@ -106,11 +114,12 @@ if($op == 'logoff'){
             $flag_du = 1;
         }
         $tmp = array();
-        $flag = $flag_mf2a && $flag_df && $flag_dl && $flag_dm && $flag_mu2u && $flag_du;
+        $flag = $flag_df && $flag_dl && $flag_dm && $flag_ds && $flag_mu2u && $flag_du;
         $tmp['flag_mf2a'] = $flag_mf2a;
         $tmp['flag_df'] = $flag_df;
         $tmp['flag_dl'] = $flag_dl;
         $tmp['flag_dm'] = $flag_dm;
+        $tmp['flag_ds'] = $flag_ds;
         $tmp['flag_mu2u'] = $flag_mu2u;
         $tmp['flag_du'] = $flag_du;
         $jsonStr['flags'] = $tmp;
