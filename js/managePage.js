@@ -4,6 +4,9 @@ var TBL_COL = 0;
 var TBL_NAME = '';
 var cur_row = 0;
 var cur_col = 0;
+var order_col = 0;
+var cur_order = 'asc';
+var cur_page = 1;
 var modified = 0;
 
 function changePage(p){
@@ -11,7 +14,7 @@ function changePage(p){
         $('#panel_body_manage_all').show();
         $('#panel_body_manage').hide();
         $('.head_back_btn').hide();
-        $('.head_title').text('所有表单');
+        $('.head_title').text('所有核对');
         getTableList();
     }else if(p == "manage"){
         $('#panel_body_manage_all').hide();
@@ -22,7 +25,7 @@ function changePage(p){
             getTableList();
             changePage('manage_all');
         });
-        $('.head_title').text('管理信息');
+        $('.head_title').text('编辑核对');
     }
 }
 
@@ -31,7 +34,7 @@ function init(){
     $('#panel_body_manage_all').show();
     $('#panel_body_manage').hide();
     $('.head_back_btn').hide();
-    $('.head_title').text('所有表单');
+    $('.head_title').text('所有核对');
 
     SelectPanelMenuItem('manage');
 
@@ -61,7 +64,7 @@ function uploadExcel(){
         processData: false,//设置为false,因为data值是FormData对象，不需要对数据做处理。
         success: function (msg){
             console.log(msg);
-            renderTable(msg);
+            getTable(TBL_NAME, 0, cur_order, 1);
             hideDialogTip();
         },
         error: function () {
@@ -87,6 +90,14 @@ function renderDeleteBtn(){
     }
 }
 
+function renderPropertyBtn(){
+    if(cur_col >= 0 && cur_col < 4){
+        $('.func_btn_property').addClass('btn_grey');
+    }else{
+        $('.func_btn_property').removeClass('btn_grey');
+    }
+}
+
 function renderSaveBtn(){
     if(modified == 0){
         $('.func_btn_save').addClass('btn_grey');
@@ -105,11 +116,27 @@ function onRowSelected(obj){
         $(obj).css('background', '#EAEDF6');
     }
     renderDeleteBtn();
+    renderPropertyBtn();
     console.log('cur_row:'+cur_row+', row:'+row+',   cur_col:'+cur_col);
 }
 
 function onColSelected(obj){
     var col = $(obj).attr('col');
+    console.log('#####order_col:'+order_col+', col:'+col);
+    if(order_col == col){
+        if (cur_order == 'asc'){
+            cur_order = 'desc';
+        }else {
+            cur_order = 'asc';
+        }
+    }else{
+        order_col = col;
+        cur_order = 'asc';
+    }
+    getTable(TBL_NAME, col, cur_order, 1);
+}
+
+function showColSelected(col){
     $('#row'+cur_row).css('background', 'rgba(0,0,0,0)');
     $('.col'+cur_col).css('background', 'rgba(0,0,0,0)');
     cur_row = 0;
@@ -118,7 +145,24 @@ function onColSelected(obj){
         $('.col'+col).css('background', '#EAEDF6');
     }
     renderDeleteBtn();
+    renderPropertyBtn();
     console.log('cur_col:'+cur_col+', col:'+col+',   cur_row:'+cur_row);
+}
+
+function showColOrder(col, order) {
+    var img = $('.data_order');
+    var col_img = $('#col_head_'+col+' .data_order');
+    if(order == 'asc'){
+        col_img.addClass('order_up');
+        col_img.removeClass('order_down');
+    }else{
+        col_img.removeClass('order_up');
+        col_img.addClass('order_down');
+    }
+    img.each(function (index, elem) {
+        $(elem).hide();
+        col_img.show();
+    });
 }
 
 function onInputNumberBlur(obj){
@@ -140,7 +184,7 @@ function onInputNumberBlur(obj){
         type: "POST",
         success: function (msg) {
             console.log(msg);
-            renderTable(msg);
+            getTable(TBL_NAME, order_col, cur_order, cur_page);
             hideDialogTip();
         },
         error: function (msg) {
@@ -170,7 +214,7 @@ function parseData(msg){
     console.log(TBL_COL);
 }
 
-function renderTable(msg){
+function renderTable(msg, orderByInd, order){
     clearTblArea();
     modified = 1;
     // render btn
@@ -193,14 +237,16 @@ function renderTable(msg){
     for(var j in msg['head']){
         var t = msg['head'][j];
         if(t == 'id' || t == 'ischecked' || t == 'isviewed' || t == 'checked_time'){
-            $('#row0').append('<th class="regular_col_name col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + t + '</th>');
+            $('#row0').append('<th class="regular_col_name col'+ j +'" col="'+ j +'" onclick="onColSelected(this)" id="col_head_'+j+'">' + t + '<img class="data_order order_up" src="images/ic_down.png" style="display: none;"></th>');
         }else{
-            $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + t + '</th>');
+            // $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + t + '</th>');
+            $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)" id="col_head_'+j+'">' + t + '<img class="data_order order_up" src="images/ic_down.png" style="display: none;"></th>');
         }
         if(msg['head'][j] == "id"){
             id_ind = j;
         }
     }
+    showColOrder(orderByInd, order);
     //render data
     for(var i in msg['data']){
         //row: row_id
@@ -218,6 +264,11 @@ function renderTable(msg){
             }
         }
     }
+    showColSelected(orderByInd);
+    initMainPagingById('paging1', msg['n_pages'], msg['cur_page'], 8, function (p){
+        cur_page = p;
+        getTable(TBL_NAME, order_col, cur_order, cur_page);
+    });
 }
 
 function renderTableList(msg){
@@ -345,11 +396,11 @@ function saveTBLData(){
     }
 }
 
-function getTable(tbl_name){
+function getTable(tbl_name, col, order, page){
     //ajax去服务器端校验
-    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name};
-    console.log(data);
+    var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name,"orderBy":col,"order":order,"page":page,"per":20};
     console.log("OpenTableAjax");
+    console.log(data);
     $.ajax({
         url: "server/OpenTable.php", //后台请求数据
         dataType: "json",
@@ -357,7 +408,7 @@ function getTable(tbl_name){
         type: "POST",
         success: function (msg) {
             console.log(msg);
-            renderTable(msg);
+            renderTable(msg, col, order);
         },
         error: function (msg) {
             console.log("error!");
@@ -370,8 +421,8 @@ function getTable(tbl_name){
 function openTable(tbl_name){
     TBL_NAME = tbl_name;
     changePage('manage');
-    $('.head_title').text('管理信息 - ' + tbl_name);
-    getTable(tbl_name);
+    $('.head_title').text('编辑核对 - ' + tbl_name);
+    getTable(tbl_name, 0, cur_order, 1);
 }
 
 function delTable(tbl_name){
@@ -401,16 +452,18 @@ function delTable(tbl_name){
 }
 
 function checkConfigRight(tbl_name){
-    showFloatTip('检测配置是否符合要求，注意选中的验证信息的列中不可有重复的信息！', 'success');
     var code = $.trim($('.dialog_config_code').val());
     var ver_col = getCheckedItem('verify_info_checkbox');
     if(code == ""){
         $(".dialog_config_code").css("border-color", "#ff392f");
         $(".dialog_config_code").shake(2, 10, 400);
-    }else if(ver_col == undefined){
+        showFloatTip('分享密码不能为空！', 'success');
+    }else if(ver_col == undefined || ver_col == null || ver_col.length == 0){
         $("#dialog_config_verify").css("border-color", "#ff392f");
         $("#dialog_config_verify").shake(2, 10, 400);
+        showFloatTip('请选择用户验证信息！', 'success');
     }else{
+        showFloatTip('正在检测配置是否符合要求，注意选中的验证信息的列中不可有重复的信息！', 'success');
         var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name,"s_pwd":code,"ver_col":ver_col};
         console.log("CheckConfigAjax");
         console.log(data);
@@ -421,7 +474,13 @@ function checkConfigRight(tbl_name){
             type: "POST",
             success: function (msg) {
                 console.log(msg);
-                if(msg['flags']['flag'] == 1){
+                hideDialogPublishConfig();
+                if(msg['flags']['flag'] == '0'){
+                    showDialogTip('配置错误', '请输入仅含字母数字的6位分享密码，不区分大小写。');
+                    bindTipOK(function () {
+                        hideDialogTip();
+                    });
+                }else if(msg['flags']['flag'] == 1){
                     publishCheckInfoShare(tbl_name,code,ver_col);
                 }else if(msg['flags']['check_flag'] == 0){
                     showDialogTip('配置错误', '选中的验证信息列中包含重复的信息。请选择不含重复信息的列，以方便用户准确地筛选出属于自己的信息。');
@@ -513,7 +572,6 @@ function startChecking(tbl_name){
             console.log(msg);
             showDialogPublishConfig('配置链接', msg['head']);
             bindPublishConfigNext(function (){
-                hideDialogPublishConfig();
                 checkConfigRight(tbl_name);
             });
         },
@@ -595,6 +653,22 @@ function clearTblListArea(){
 //obj
 $(".float_add_btn").click(function () {
     showDialogInput('新建表单', '输入表名');
+    // showDialogHtml('新建表单', '' +
+    //     '<input type="text" class="dialog_input main_input" style="padding: 0;" placeholder="输入表名"/>' +
+    //     '<div class="dialog_select_line">' +
+    //     '    <span>截止日期：</span>' +
+    //     '    <div class="main_calendar_borderstyle" id="calendar_create" style="height: 30px;" onclick="mainCalendarToggleById(\'calendar_create\')">\n' +
+    //     '        <img class="main_calendar_arrow" style="top: 10px;" src="images/ic_down_arrow.png"/>\n' +
+    //     '        <span class="main_select_placeholder" style="line-height: 30px;">请选择日期</span>\n' +
+    //     '        <div class="main_calendar_select_body" style="top: 40px;">\n' +
+    //     '            <div class="main_btn_line" style="justify-content: flex-end;">\n' +
+    //     '                <span class="dialog_btn_seco">取消</span>\n' +
+    //     '                <span class="dialog_btn_main">确定</span>\n' +
+    //     '            </div>\n' +
+    //     '        </div>\n' +
+    //     '    </div>' +
+    //     '</div>' +
+    //     '');
     bindInputOK(function (){
         var t_name = $.trim($('.dialog_input').val());
         if(t_name == ""){
@@ -670,7 +744,9 @@ $(".func_btn_addrow").click(function () {
         type: "POST",
         success: function (msg) {
             console.log(msg);
-            renderTable(msg);
+            order_col = 0;
+            cur_order = 'desc';
+            getTable(TBL_NAME, order_col, cur_order, 1);
         },
         error: function (msg) {
             console.log("error!");
@@ -701,7 +777,7 @@ $(".func_btn_addcol").click(function () {
                 type: "POST",
                 success: function (msg) {
                     console.log(msg);
-                    renderTable(msg);
+                    getTable(TBL_NAME, order_col, cur_order, cur_page);
                     hideDialogInput();
                 },
                 error: function (msg) {
@@ -734,7 +810,7 @@ $(".func_btn_del").click(function () {
                 type: "POST",
                 success: function (msg) {
                     console.log(msg);
-                    renderTable(msg);
+                    getTable(TBL_NAME, order_col, cur_order, cur_page);
                     hideDialogTip();
                 },
                 error: function (msg) {
@@ -756,7 +832,9 @@ $(".func_btn_del").click(function () {
                 type: "POST",
                 success: function (msg) {
                     console.log(msg);
-                    renderTable(msg);
+                    order_col = 0;
+                    cur_order = 'asc';
+                    getTable(TBL_NAME, order_col, cur_order, cur_page);
                     hideDialogTip();
                 },
                 error: function (msg) {

@@ -115,9 +115,6 @@ function renderUserList(){
             '        <span class="user_phone">手机: '+user_list[i]["phone_number"]+'</span>' +
             '        <span class="reg_time">'+reg_time+' 注册</span>' +
             '    </div>' +
-            '    <div class="user_list_item_send_btn" onclick="sendMessage('+i+')">' +
-            '        <img src="../images/ic_send_blue.png">' +
-            '    </div> ' +
             '</div>'
         );
     }

@@ -476,7 +476,7 @@ function viewNotice(i) {
         '<span class="msgbox_sub_title">摘要</span>' +
         '<span class="msgbox_text">'+summary+'</span>'+
         '<span class="msgbox_sub_title">内容</span>' +
-        '<span class="msgbox_text">'+text+'</span>'
+        '<textarea class="msgbox_text" readonly>'+text+'</textarea>'
     );
 }
 

@@ -17,7 +17,7 @@ document.writeln('<div class="panel_menu">\n' +
     '        <img class="check_logo" src="images/check_logo.png" alt="logo">\n' +
     '        <ul class="panel_menu_list">\n' +
     '            <li id="menu_home" onclick="changeMenu(\'home\')" onmouseover="onMenuItemOver(\'menu_home_title\',32)" onmouseleave="onMenuItemLeave(\'menu_home_title\')"><img src="images/ic_home.png"><span id="menu_home_title">主页</span></li>\n' +
-    '            <li id="menu_manage" onclick="changeMenu(\'manage\')" onmouseover="onMenuItemOver(\'menu_manage_title\',64)" onmouseleave="onMenuItemLeave(\'menu_manage_title\')"><img src="images/ic_guanli.png"><span id="menu_manage_title">管理信息</span></li>\n' +
+    '            <li id="menu_manage" onclick="changeMenu(\'manage\')" onmouseover="onMenuItemOver(\'menu_manage_title\',64)" onmouseleave="onMenuItemLeave(\'menu_manage_title\')"><img src="images/ic_guanli.png"><span id="menu_manage_title">核对信息</span></li>\n' +
     '            <li id="menu_mine" onclick="changeMenu(\'mine\')" onmouseover="onMenuItemOver(\'menu_mine_title\',64)" onmouseleave="onMenuItemLeave(\'menu_mine_title\')"><img src="images/ic_personal.png"><span id="menu_mine_title">个人中心</span></li>\n' +
     '        </ul>\n' +
     '    </div>\n' +

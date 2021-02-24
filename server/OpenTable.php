@@ -3,6 +3,11 @@ include("dbconfig.php");
 
 $uuid = $_POST["uuid"];
 $tbl_name = $_POST["tbl_name"];
+$orderByInd = $_POST["orderBy"];
+$order = $_POST["order"];
+$page = (int)$_POST["page"];
+$per = (int)$_POST["per"];
+
 $dbt_name = '';
 $tbl_colname_json = null;
 $ischecking = 0;
@@ -26,11 +31,29 @@ if($obj){
     }
 }
 $head = json_decode($tbl_colname_json, $assoc = FALSE);
+$orderBy = $head[$orderByInd];
+
+//cnt
+$n_data = 0;
+$sql = "SELECT COUNT(*) AS cnt FROM `$dbt_name`";
+$obj = mysqli_query($link, $sql);
+if($obj){
+    if($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
+        $n_data = (int)$row["cnt"];
+    }
+}
+$n_pages = ceil($n_data / $per);
+if($page > $n_pages){
+    $page = $n_pages;
+}else if($page < 1){
+    $page = 1;
+}
+$p_start = ($page - 1) * $per;
 
 //fetch table data
 $res = array();
 $i = 0;
-$sql = "SELECT * FROM `$dbt_name`";
+$sql = "SELECT * FROM `$dbt_name` ORDER BY " . $orderBy . " " . $order . " LIMIT " . $p_start . "," . $per;
 $obj = mysqli_query($link, $sql);
 if($obj){
     while($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
@@ -43,5 +66,5 @@ if($obj){
 }
 
 $flags = array("find_flag" => $find_flag, "open_flag" => $open_flag, "ischecking" => $ischecking);
-$jsonStr = array("flags" => $flags, "head" => $head, "data" => $res);
+$jsonStr = array("flags" => $flags, "head" => $head, "data" => $res, "n_pages" => $n_pages, "cur_page" => $page);
 echo json_encode($jsonStr);

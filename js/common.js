@@ -13,9 +13,44 @@ function initUser() {
     }else{
         //已登录
         s_userinfo = JSON.parse(u_cookie);
-        $('.user_name').text(s_userinfo.user_name);
-        $('.user_avatar').attr("src", s_userinfo.avatar);
+        if(version.substring(0, 5) == 'alpha'){
+            if(s_userinfo.alpha_code == null || s_userinfo.alpha_code == undefined || s_userinfo.alpha_code == ''){
+                location.href = 'alpha.html';
+            }else{
+                checkAlphaCode(s_userinfo.alpha_code);
+            }
+        }else{
+            $('.user_name').text(s_userinfo.user_name);
+            $('.user_avatar').attr("src", s_userinfo.avatar);
+        }
     }
+}
+
+function checkAlphaCode(code) {
+    //ajax去服务器端校验
+    var data= {"op":"check","uuid":s_userinfo.uuid,"code":code};
+    console.log(data);
+    console.log("BindAlphaCodeAjax");
+    $.ajax({
+        url: "server/BindAlphaCode.php", //后台请求数据
+        dataType: "json",
+        data:data,
+        type: "POST",
+        success: function (msg) {
+            console.log(msg);
+            if(msg['flag'] == '1'){
+                $('.user_name').text(s_userinfo.user_name);
+                $('.user_avatar').attr("src", s_userinfo.avatar);
+            }else{
+                location.href = 'alpha.html';
+            }
+        },
+        error: function (msg) {
+            console.log("error!");
+            console.log(msg);
+            alert("请求失败，请重试");
+        }
+    });
 }
 
 function initUserLocalStorage() {

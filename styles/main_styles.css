@@ -591,15 +591,16 @@ li{
     align-items: center;
     justify-content: space-between;
     width: 97%;
-    padding: 20px;
+    padding: 20px 20px 10px 20px;
 }
 
 .tips_title{
-    font-size: 22px;
+    font-size: 18px;
     color: #458CFE;
 }
 
 .inline_tips_close{
+    cursor: pointer;
     width: 20px;
     height: auto;
     background: #fff;
@@ -613,6 +614,7 @@ li{
 .inline_tips_text{
     width: 97%;
     margin-bottom: 20px;
+    font-size: 14px;
 }
 /*********************/
 
@@ -671,6 +673,25 @@ li{
     margin: 20px 0 20px 0;
     width: 100%;
     text-align: left;
+}
+
+.dialog_html_content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.dialog_select_line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
 }
 
 .dialog_input{
@@ -1006,15 +1027,19 @@ li{
 .msgbox_sub_title{
     width: 100%;
     text-align: left;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    color: #458CFE;
 }
 
 .msgbox_content{
-    margin: 20px 0 20px 0;
+    margin: 10px 0 10px 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .msgbox_text{
+    cursor: default;
     width: 100%;
     text-align: left;
     font-size: 14px;

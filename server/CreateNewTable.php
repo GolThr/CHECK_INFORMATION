@@ -42,11 +42,11 @@ if($row){
     }
 
     //add trigger
-    $sql = "CREATE TRIGGER `$tbl_id` BEFORE UPDATE ON `$dbt_name` FOR EACH ROW set new.checked_time=now();";
-    $obj = mysqli_query($link,$sql);
-    if($obj){
-        $trg_flag = 1;
-    }
+//    $sql = "CREATE TRIGGER `$tbl_id` BEFORE UPDATE ON `$dbt_name` FOR EACH ROW set new.checked_time=now();";
+//    $obj = mysqli_query($link,$sql);
+//    if($obj){
+//        $trg_flag = 1;
+//    }
 }
 
 $jsonStr = array("check_name" => $check_name, "reg_flag" => $reg_flag, "crt_flag" => $crt_flag, "trg_flag" => $trg_flag);

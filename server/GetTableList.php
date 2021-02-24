@@ -11,7 +11,7 @@ $cnt_checked_flag = 0;
 $cnt_viewed_flag = 0;
 
 //find table
-$sql = "SELECT tbl_name,dbt_name,ischecking FROM s_tables WHERE uuid='$uuid'";
+$sql = "SELECT tbl_name,dbt_name,ischecking FROM s_tables WHERE uuid='$uuid' ORDER BY crt_time DESC";
 $obj = mysqli_query($link, $sql);
 $i = 0;
 $res = array();

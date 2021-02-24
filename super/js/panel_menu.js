@@ -10,6 +10,7 @@ document.writeln('<div class="panel_menu">\n' +
     '            <li id="menu_feedback" onclick="changeMenu(\'feedback\')">反馈</li>\n' +
     '            <li id="menu_advise" onclick="changeMenu(\'advise\')">建议</li>\n' +
     '            <li id="menu_reward" onclick="changeMenu(\'reward\')">打赏</li>\n' +
+    '            <li id="menu_alpha" onclick="changeMenu(\'alpha\')">内测</li>\n' +
     '            <li id="menu_assign" onclick="changeMenu(\'assign\')">转让</li>\n' +
     '        </ul>\n' +
     '    </div>\n' +
@@ -41,6 +42,9 @@ function changeMenu(p){
     }else if(p == "reward"){
         // 打赏
         location.href = 'rewards.html';
+    }else if(p == "alpha"){
+        // 内测
+        location.href = 'alpha.html';
     }else if(p == "assign"){
         // 转让管理员权限
         location.href = 'assignment.html';
@@ -56,6 +60,7 @@ function SelectPanelMenuItem(p){
     var m_feedback = $("#menu_feedback");
     var m_advise = $("#menu_advise");
     var m_reward = $("#menu_reward");
+    var m_alpha = $("#menu_alpha");
     var m_assign = $("#menu_assign");
     if(p == "home"){
         // 主页
@@ -67,6 +72,7 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "notice"){
         // 公告
@@ -79,6 +85,7 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "users"){
         // 用户
@@ -91,6 +98,7 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "logoff"){
         // 已注销的用户
@@ -103,6 +111,7 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "message"){
         // 消息
@@ -115,6 +124,7 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "feedback"){
         // 用户反馈
@@ -127,6 +137,7 @@ function SelectPanelMenuItem(p){
         m_feedback.addClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "advise"){
         // 已注销用户建议
@@ -139,6 +150,7 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.addClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "reward"){
         // 打赏
@@ -151,6 +163,20 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.addClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
+        m_assign.removeClass('panel_menu_list_selected');
+    }else if(p == "alpha"){
+        // 内测
+        $('#menu_message_title').show();
+        m_home.removeClass('panel_menu_list_selected');
+        m_users.removeClass('panel_menu_list_selected');
+        m_logoff.removeClass('panel_menu_list_selected');
+        m_notice.removeClass('panel_menu_list_selected');
+        m_message.removeClass('panel_menu_list_selected');
+        m_feedback.removeClass('panel_menu_list_selected');
+        m_advise.removeClass('panel_menu_list_selected');
+        m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.addClass('panel_menu_list_selected');
         m_assign.removeClass('panel_menu_list_selected');
     }else if(p == "assign"){
         // 转让管理员权限
@@ -163,6 +189,7 @@ function SelectPanelMenuItem(p){
         m_feedback.removeClass('panel_menu_list_selected');
         m_advise.removeClass('panel_menu_list_selected');
         m_reward.removeClass('panel_menu_list_selected');
+        m_alpha.removeClass('panel_menu_list_selected');
         m_assign.addClass('panel_menu_list_selected');
     }
 }

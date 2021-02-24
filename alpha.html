@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>绑定内测码 - 查客</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="png_favicon.png" type=" image/png">
+    <link rel="stylesheet" href="styles/main_styles.css" type="text/css">
+    <link rel="stylesheet" href="styles/login_styles.css" type="text/css">
+    <link rel="stylesheet" href="styles/footer_web_style.css" type="text/css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/js.cookie.min.js"></script>
+    <script type="text/javascript" src="js/animation.js"></script>
+    <script type="text/javascript" src="js/affects.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        var u_cookie = Cookies.get('s_userinfo');
+        if(u_cookie == undefined || u_cookie == ''){
+            console.log('未登录');
+            location.href = 'login.html';
+        }
+        window.onload = (function () {
+            init();
+        });
+    </script>
+<body>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <div class="background_header">
+        <img class="background_header_img" src="images/background_pop_header.png" onclick=""/>
+    </div>
+
+    <div class="sheet" id="login_verify_sheet">
+        <img class="reg_logo" src="images/check_logo_rgb.png"/>
+        <span class="reg_title" id="login_verify_title">绑定内测码</span>
+        <div class="reg_step_body" id="login_verify">
+            <input type="text" class="main_input" id="alpha_code" style="text-align: center;text-indent: 0;" placeholder="输入内测码 (不区分大小写)"/>
+            <button class="submit_btn" type="submit" style="width: 270px;" id="bind_alpha_code">绑定</button>
+        </div>
+    </div>
+
+
+    <div class="background_footer">
+        <img class="background_footer_img" src="images/background_pop_footer.png" onclick=""/>
+    </div>
+    <div class="footer">
+        <span class="footer_title">Copyright © 2021.GolThr All rights reserved.</span>
+        <span class="footer_detail">Developed by GolThr.</span>
+    </div>
+
+    <script type="text/javascript" src="js/float_tips.js"></script>
+    <script type="text/javascript" src="js/alphaPage.js"></script>
+</body>
+</html>

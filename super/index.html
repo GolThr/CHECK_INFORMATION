@@ -12,11 +12,11 @@
     <script type="text/javascript" src="../js/js.cookie.min.js"></script>
     <script type="text/javascript" src="../js/affects.js"></script>
     <script type="text/javascript">
-        // var u = Cookies.get('manager_email');
-        // if(u == undefined || u == ''){
-        //     console.log('未登录');
-        //     location.href = 'login.html';
-        // }
+        var u = Cookies.get('manager_email');
+        if(u == undefined || u == ''){
+            console.log('未登录');
+            location.href = 'login.html';
+        }
         window.onload = (function () {
             init();
         });

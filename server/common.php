@@ -23,6 +23,16 @@ function checkPasswordStrength($pwd) {
     return true;
 }
 
+function isRightShareCode($str){
+    // 判断是否是分享密码
+    $re="/^[0-9a-zA-z]{6}$/";
+    if (preg_match($re, $str)) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
 function isValidReg($str){
     // 判断是否有列表中的危险字符
     $re="/<|>|\[|\]|\{|\}|『|』|※|○|●|◎|§|△|▲|☆|★|◇|◆|□|▼|㊣|﹋|⊕|⊙|〒|ㄅ|ㄆ|ㄇ|ㄈ|ㄉ|ㄊ|ㄋ|ㄌ|ㄍ|ㄎ|ㄏ|ㄐ|ㄑ|ㄒ|ㄓ|ㄔ|ㄕ|ㄖ|ㄗ|ㄘ|ㄙ|ㄚ|ㄛ|ㄜ|ㄝ|ㄞ|ㄟ|ㄢ|ㄣ|ㄤ|ㄥ|ㄦ|ㄧ|ㄨ|ㄩ|■|▄|▆|\*|@|#|\^|\\\/";

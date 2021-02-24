@@ -11,7 +11,8 @@
 </div>
  */
 
-document.writeln('<div class="msgbox_back" style="display: none;">\n' +
+document.writeln(
+    '<div class="msgbox_back" style="display: none;">\n' +
     '    <!--msgbox_html-->\n' +
     '    <div class="msgbox_body" id="msgbox_html" style="display: none;">\n' +
     '        <span class="msgbox_title"></span>\n' +
@@ -20,7 +21,8 @@ document.writeln('<div class="msgbox_back" style="display: none;">\n' +
     '            <span class="dialog_btn_main">确定</span>\n' +
     '        </div>\n' +
     '    </div>\n' +
-    '</div>');
+    '</div>'
+);
 
 function showMsgBoxHtml(title, html, ok_fn) {
     var msg_back = $('.msgbox_back');
@@ -40,6 +42,11 @@ function showMsgBoxHtml(title, html, ok_fn) {
         // hide
         hideMsgBoxHtml();
     });
+    //根据textarea标签内容自适应高度
+    $.each($("#msgbox_html .msgbox_content textarea"), function(i, n){
+        $(n).css("height", n.scrollHeight + "px");
+    })
+    //自適應彈窗上邊距
     var body_h = msg_back.height();
     var msgbox_h = msgbox.height();
     console.log(body_h+' : '+msgbox_h);

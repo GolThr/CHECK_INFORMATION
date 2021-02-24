@@ -5,6 +5,7 @@ var pwd_wrong_times = 0;
 
 var login_loc = '';
 function AMapGetPosition(){
+    showFloatTip('为保障您的账号安全，请允许 获取位置 权限！若允许后无效， 请尝试刷新页面。');
     var mapObj = new AMap.Map('iCenter');
     mapObj.plugin('AMap.Geolocation', function() {
         var geolocation = new AMap.Geolocation({

@@ -10,14 +10,14 @@ var n_tips = tips.length;
 var i_tips = 0;
 
 function init(){
-    // var u_cookie = Cookies.get('manager_email');
-    // if(u_cookie == undefined || u_cookie == ''){
-    //     console.log('未登录');
-    //     location.href = 'login.html';
-    // }else{
-    //     //已登录
-    //     $('.user_name').text(u_cookie);
-    // }
+    var u_cookie = Cookies.get('manager_email');
+    if(u_cookie == undefined || u_cookie == ''){
+        console.log('未登录');
+        location.href = 'login.html';
+    }else{
+        //已登录
+        $('.user_name').text(u_cookie);
+    }
     SelectPanelMenuItem('home');
     $('#home_tips').text(tips[0]);
     $('#home_tips').fadeIn(1000);

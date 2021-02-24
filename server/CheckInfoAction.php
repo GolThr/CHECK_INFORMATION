@@ -46,13 +46,14 @@ if($obj){
 }
 $head = json_decode($tbl_colname_json, $assoc = FALSE);
 
+$today = date("Y-m-d H:i:s");
 if($type == 'ok'){
     $query_ver = $_POST["query_ver"];
     //modified data
     $res = array();
     $query_head = array();
     $n_vercol = count($sha_vercol);
-    $sql = "UPDATE `$dbt_name` SET ischecked='1',isviewed='1'  WHERE ";
+    $sql = "UPDATE `$dbt_name` SET ischecked='1',isviewed='1',checked_time='$today'  WHERE ";
     for($i = 0; $i < $n_vercol; $i++){
         if($i != 0){
             $sql = $sql . " AND ";
@@ -75,13 +76,10 @@ if($type == 'ok'){
     $res = array();
     $query_head = array();
     $n_vercol = count($sha_vercol);
-    $sql = "UPDATE `$dbt_name` SET ";
+    $sql = "UPDATE `$dbt_name` SET checked_time='$today' ";
     $i = 0;
     foreach($data_col as $item) {
-        if($i != 0){
-            $sql = $sql . ",";
-        }
-        $sql = $sql . "$data_col[$i]='$data_mod[$i]'";
+        $sql = $sql . ",$data_col[$i]='$data_mod[$i]'";
         $i++;
     }
     $sql = $sql . " WHERE ";

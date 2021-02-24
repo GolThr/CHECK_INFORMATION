@@ -1,107 +1,6 @@
-/*
-<div class="dialog_back" style="display: none;">
-    <!--dialog_tips-->
-    <div class="dialog_body" id="dialog_tips" style="display: none;">
-        <span class="dialog_title"></span>
-        <span class="dialog_content"></span>
-        <div class="dialog_btn_line" id="tip_btn">
-            <span class="dialog_btn_seco" id="tip_cancel">取消</span>
-            <span class="dialog_btn_main" id="tip_ok">确定</span>
-        </div>
-    </div>
-    <!--dialog_input-->
-    <div class="dialog_body" id="dialog_input" style="display: none;">
-        <span class="dialog_title">输入列名</span>
-        <input type="text" class="dialog_input main_input" placeholder=""/>
-        <div class="dialog_btn_line" id="input_btn">
-            <span class="dialog_btn_seco" id="input_cancel">取消</span>
-            <span class="dialog_btn_main" id="input_ok">确定</span>
-        </div>
-    </div>
-    <!--dialog_publish_config-->
-    <div class="dialog_body" id="dialog_publish_config" style="display: none;">
-        <span class="dialog_title">配置链接</span>
-        <span class="dialog_sub_title">链接密码(6位，可重写以自定义，不区分大小写)</span>
-        <input type="text" class="dialog_config_code main_input"/>
-        <span class="dialog_sub_title">验证信息(用于用户查询属于自己的信息，可选择1~2项)</span>
-        <div class="dialog_checkbox_content" id="dialog_config_verify">
-            <span class="dialog_checkbox_item verify_info_checkbox" id="abc" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)">abc</span>
-        </div>
-        <div class="dialog_btn_line" id="publish_config_btn">
-            <span class="dialog_btn_seco" id="publish_config_cancel">取消</span>
-            <span class="dialog_btn_main" id="publish_config_next">下一步</span>
-        </div>
-    </div>
-    <!--dialog_publish_info-->
-    <div class="dialog_body" id="dialog_publish_info" style="display: none;">
-        <span class="dialog_title">发布成功</span>
-        <span class="dialog_sub_title">链接:</span>
-        <div class="dialog_text_content" id="dialog_share_link">
-            <input type="text" readonly="true" class="dialog_share_link"/>
-        </div>
-        <span class="dialog_sub_title">验证码:</span>
-        <div class="dialog_text_content" id="dialog_share_code">
-            <input type="text" readonly="true" class="dialog_share_code"/>
-        </div>
-        <span class="dialog_sub_title">验证信息:</span>
-        <span class="dialog_text_content" id="dialog_share_checkinfo"></span>
-        <span class="dialog_sub_title">或扫描二维码</span>
-        <div class="dialog_qrcode" id="dialog_qrcode"></div>
-        <div class="dialog_btn_line" id="publish_info_btn">
-            <span class="dialog_btn_seco" id="publish_info_copy">复制</span>
-            <span class="dialog_btn_main" id="publish_info_ok">确定</span>
-        </div>
-    </div>
-    <!--dialog_edit_userinfo-->
-    <div class="dialog_body" id="dialog_edit_userinfo" style="display: none;">
-        <span class="dialog_title">编辑信息</span>
-        <span class="dialog_sub_title">用户名</span>
-        <input type="text" class="main_input" id="userinfo_name"/>
-        <span class="dialog_sub_title">性别</span>
-        <div class="dialog_checkbox_content">
-            <span class="dialog_radio_item gender_checkbox" id="gender_none" ischecked="false" onclick="checkedRadioItem('gender_radio',this)">保密</span>
-            <span class="dialog_radio_item gender_checkbox" id="gender_male" ischecked="false" onclick="checkedRadioItem('gender_radio',this)">男</span>
-            <span class="dialog_radio_item gender_checkbox" id="gender_female" ischecked="false" onclick="checkedRadioItem('gender_radio',this)">女</span>
-        </div>
-        <div class="dialog_btn_line" id="publish_config_btn">
-            <span class="dialog_btn_seco" id="edit_userinfo_cancel">取消</span>
-            <span class="dialog_btn_main" id="edit_userinfo_ok">确定</span>
-        </div>
-    </div>
-    <!--dialog_modify_verify-->
-    <div class="dialog_body" id="dialog_modify_verify" style="display: none;">
-        <span class="dialog_title">验证您的邮箱</span>
-        <span class="dialog_sub_title" id="user_current_email"></span>
-        <div class="dialog_verify_line" id="dialog_modify_verify_in_body" style="display: none;">
-            <input type="text" class="main_input" id="dialog_modify_verify_in"/>
-        </div>
-        <div class="dialog_verify_line" id="dialog_verify_line">
-            <input type="text" class="main_input" id="dialog_in_vercode" placeholder="验证码"/>
-            <button class="dialog_submit_btn_sec" id="dialog_get_vercode_btn">获取验证码</button>
-        </div>
-        <div class="dialog_btn_line" id="publish_config_btn">
-            <span class="dialog_btn_seco" id="modify_verify_cancel">取消</span>
-            <span class="dialog_btn_main" id="modify_verify_next">下一步</span>
-        </div>
-    </div>
-    <!--dialog_modify_avatar-->
-    <div class="dialog_body" id="dialog_modify_avatar" style="display: none;">
-        <span class="dialog_title">上传头像</span>
-        <span class="dialog_sub_title" id="modify_avatar_tip"></span>
-        <form action="" method="post" id="t" enctype="multipart/form-data">
-            <input type="file" name='tables_a[]' id="dialog_upload_avatar" onchange="uploadExcel()" style="display: none;">
-        </form>
-        <img class="dialog_upload_avatar_display" id="dialog_upload_avatar_btn" src="images/back_upload.png"/>
-        <div class="dialog_btn_line" id="publish_config_btn">
-            <span class="dialog_btn_seco" id="modify_avatar_cancel">取消</span>
-            <span class="dialog_btn_main" id="modify_avatar_ok">修改</span>
-        </div>
-    </div>
-    <textarea type="text" id="copy_temp"></textarea>
-</div>
- */
 
-document.writeln('<div class="dialog_back" style="display: none;">\n' +
+document.writeln(
+    '<div class="dialog_back" style="display: none;">\n' +
     '    <!--dialog_tips-->\n' +
     '    <div class="dialog_body" id="dialog_tips" style="display: none;">\n' +
     '        <span class="dialog_title"></span>\n' +
@@ -199,8 +98,18 @@ document.writeln('<div class="dialog_back" style="display: none;">\n' +
     '            <span class="dialog_btn_main" id="modify_avatar_ok">修改</span>\n' +
     '        </div>\n' +
     '    </div>\n' +
+    '    <!--dialog_html-->\n' +
+    '    <div class="dialog_body" id="dialog_html" style="display: none;">\n' +
+    '        <span class="dialog_title"></span>\n' +
+    '        <div class="dialog_html_content"></div>\n' +
+    '        <div class="dialog_btn_line">\n' +
+    '            <span class="dialog_btn_seco" id="dialog_html_cancel">取消</span>\n' +
+    '            <span class="dialog_btn_main" id="dialog_html_ok">确定</span>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
     '    <textarea type="text" id="copy_temp"></textarea>\n' +
-    '</div>');
+    '</div>'
+);
 
 var checked_num = 0;
 
@@ -211,6 +120,42 @@ var qrcode = new QRCode("dialog_qrcode", {
     colorLight : "#ffffff",
     correctLevel : QRCode.CorrectLevel.H
 });
+
+function showDialogHtml(title, html, ok_fn, cancel_fn) {
+    var back = $('.dialog_back');
+    var dialog_body = $('#dialog_html');
+    var dialog_title = $('#dialog_html .dialog_title');
+    var dialog_html_content = $('#dialog_html .dialog_html_content');
+    var ok_btn = $('#dialog_html .dialog_btn_line .dialog_html_ok');
+    var cancel_btn = $('#dialog_html .dialog_btn_line .dialog_html_cancel');
+    back.fadeIn('fast');
+    dialog_body.fadeIn('fast');
+    dialog_title.text(title);
+    dialog_html_content.html(html);
+    cancel_btn.unbind('click');
+    cancel_btn.click(function () {
+        if(cancel_fn != undefined){
+            cancel_fn();
+        }
+        // hide
+        hideDialogHtml();
+    });
+    ok_btn.unbind('click');
+    ok_btn.click(function () {
+        if(ok_fn != undefined){
+            ok_fn();
+        }
+        // hide
+        hideDialogHtml();
+    });
+}
+
+function hideDialogHtml(){
+    var back = $('.dialog_back');
+    var dialog_body = $('#dialog_html');
+    dialog_body.hide();
+    back.fadeOut('fast');
+}
 
 function showCheckShareInfo(msg){
     var link = agreement + '://' + domain + '/check.html?s=' + msg['share_id'];
