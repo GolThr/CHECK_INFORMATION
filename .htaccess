@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.html [NC]
+
+RewriteCond %{REQUEST_URI} ^/CHECK_INFORMATION/s/ [NC]
+RewriteRule ([0-9a-zA-Z]+)$ s/check.html?s=$1 [NC]

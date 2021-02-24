@@ -123,6 +123,18 @@ function getQueryVariable(variable){
     return(false);
 }
 
+function getQueryShareId(variable){
+    var query = window.location.href;
+    var s = '';
+    for(var i = query.length - 1; i > 0; i--){
+        if(query[i] == '/'){
+            break;
+        }
+        s = query[i] + s;
+    }
+    return s;
+}
+
 function getObjectURL(file) {
     var url = null ;
     if (window.createObjectURL!=undefined) { // basic
