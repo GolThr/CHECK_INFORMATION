@@ -98,7 +98,7 @@ if($op == "get"){
     $msg_id = getNewUuid();
     $title = '反馈通知';
     $text = '您关于' . $type . '的反馈得到解决啦，快去看看吧！ 留言：' . $sol_words;
-    $sql = "INSERT INTO s_messages (uuid,msg_id,msg_title,msg_text,isread) VALUES ('$uuid','$msg_id','$title','$text','0')";
+    $sql = "INSERT INTO s_messages (uuid,msg_id,msg_title,msg_text,isread,read_time) VALUES ('$uuid','$msg_id','$title','$text','0','0-0-0')";
     $obj = mysqli_query($link, $sql);
     if($obj){
         $flag = 1;

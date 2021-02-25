@@ -101,7 +101,7 @@ if($op == "get"){
     $jsonStr = array("flag" => $flag, 'alpha_codes' => $res);
 }else if($op == 'add'){
     $code = getAlphaCode();
-    $sql = "INSERT INTO s_alpha (code,uuid) VALUES ('$code','0')";
+    $sql = "INSERT INTO s_alpha (code,uuid,used_time) VALUES ('$code','0','0-0-0')";
     $obj = mysqli_query($link, $sql);
     if($obj){
         $flag = 1;

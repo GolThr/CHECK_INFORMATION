@@ -1,5 +1,5 @@
 var agreement = 'http';
-var domain = 'www.chake.ml';
+var domain = 'www.chake.link';
 var version = 'alpha_1.0.0';
 
 var s_userinfo;
@@ -9,13 +9,13 @@ function initUser() {
     var u_cookie = Cookies.get('s_userinfo');
     if(u_cookie == undefined || u_cookie == ''){
         console.log('未登录');
-        location.href = 'login.html';
+        location.href = 'login';
     }else{
         //已登录
         s_userinfo = JSON.parse(u_cookie);
         if(version.substring(0, 5) == 'alpha'){
             if(s_userinfo.alpha_code == null || s_userinfo.alpha_code == undefined || s_userinfo.alpha_code == ''){
-                location.href = 'alpha.html';
+                location.href = 'alpha';
             }else{
                 checkAlphaCode(s_userinfo.alpha_code);
             }
@@ -42,7 +42,7 @@ function checkAlphaCode(code) {
                 $('.user_name').text(s_userinfo.user_name);
                 $('.user_avatar').attr("src", s_userinfo.avatar);
             }else{
-                location.href = 'alpha.html';
+                location.href = 'alpha';
             }
         },
         error: function (msg) {
@@ -61,7 +61,7 @@ function initUserLocalStorage() {
     // console.log(JSON.parse(Cookies.get('s_userinfo')));
     if(s_userinfo == null || s_userinfo.flag != "1"){
         console.log('未登录');
-        location.href = 'login.html';
+        location.href = 'login';
     }else{
         //已登录
         $('.user_name').text(s_userinfo.user_name);

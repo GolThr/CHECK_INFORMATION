@@ -2,9 +2,14 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+// Windows
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/Exception.php';
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'D:/xampp/php/vendor/phpmailer/phpmailer/src/SMTP.php';
+// Linux
+//require '/root/vendor/phpmailer/phpmailer/src/Exception.php';
+//require '/root/vendor/phpmailer/phpmailer/src/PHPMailer.php';
+//require '/root/vendor/phpmailer/phpmailer/src/SMTP.php';
 
 function sendEmail($to, $subject, $message, $altMessage){
     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions

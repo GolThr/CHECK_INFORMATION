@@ -19,7 +19,7 @@ function login(){
                 console.log(msg);
                 if(msg['flag'] == '1'){
                     Cookies.set('manager_email', u_email);
-                    location.href = 'index.html';
+                    location.href = 'index';
                 }else{
                     showFloatTip('动态密码错误或已失效！','error');
                 }

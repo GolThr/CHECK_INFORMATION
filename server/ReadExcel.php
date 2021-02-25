@@ -7,7 +7,10 @@ $uuid = $_POST["uuid"];
 $tbl_name = $_POST["tbl_name"];
 
 # 载入composer自动加载文件
+// Windows
 require 'D:\xampp\php\vendor/autoload.php';
+// Linux
+//require '/root/vendor/autoload.php';
 
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 
@@ -16,6 +19,9 @@ try {
 } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
     die($e->getMessage());
 }
+
+
+
 
 $sheet = $spreadsheet->getActiveSheet();
 $res = array();

@@ -521,7 +521,7 @@ function publishCheckInfoShare(tbl_name,s_pwd,ver_col){
                 showPauseBtn();
                 getTableList();
                 showFloatTip('发布成功！', 'success');
-                showCheckShareInfo(msg);
+                showCheckShareInfo(msg, tbl_name);
             }
         },
         error: function (msg) {
@@ -544,7 +544,7 @@ function getCheckShareInfo(tbl_name){
         success: function (msg) {
             console.log(msg);
             if(msg['flags']['flag'] == 1){
-                showCheckShareInfo(msg);
+                showCheckShareInfo(msg, tbl_name);
             }else if(msg['flags']['find_s_flag'] == 0){
                 showFloatTip('该表单未发起核对哦~', 'success');
             }else{

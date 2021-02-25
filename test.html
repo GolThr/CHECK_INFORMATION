@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>TEST</title>
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=6ce8043ca6b01f14e5930ac174e72916&plugin=AMap.CitySearch"></script>
     <link rel="stylesheet" href="styles/main_styles.css" type="text/css"/>
     <link rel="stylesheet" href="styles/common_styles.css" type="text/css"/>
     <style type="text/css">
@@ -41,30 +42,30 @@
 </head>
 <body>
 
-    <div class="main_paging_cardstyle" id="paging1"></div>
+    <div id="info"></div>
 
     <script type="text/javascript">
-        //ajax去服务器端校验
-        var data= {"action":"login"};
-        console.log("LoginAjax");
-        console.log(data);
-        $.ajax({
-            url: "test.php", //后台请求数据
-            dataType: "json",
-            data:data,
-            type: "POST",
-            success: function (msg) {
-                console.log("success!");
-                console.log(msg);
-            },
-            error: function (msg) {
-                console.log("error!");
-                console.log(msg);
-                alert("请求失败，请重试");
-            }
-        });
-
-
+        //获取用户所在城市信息
+        function showCityInfo() {
+            //实例化城市查询类
+            var citysearch = new AMap.CitySearch();
+            //自动获取用户IP，返回当前城市
+            citysearch.getLocalCity(function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    if (result && result.city && result.bounds) {
+                        var cityinfo = result.city;
+                        var citybounds = result.bounds;
+                        document.getElementById('info').innerHTML = '您当前所在城市：'+cityinfo;
+                        console.log(result);
+                        //地图显示当前城市
+                        // map.setBounds(citybounds);
+                    }
+                } else {
+                    document.getElementById('info').innerHTML = result.info;
+                }
+            });
+        }
+        showCityInfo();
     </script>
 </body>
 </html>

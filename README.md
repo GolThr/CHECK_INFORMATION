@@ -64,6 +64,8 @@ CHECK INFORMATION
    * ~~二次验证~~
    * ~~异地登录保护~~
    * ~~注册之后发送使用方法系统消息~~
+   * 手机注册框架
+   * 手机注册接入API
 
 6. 管理员后台管理
    * ~~界面设计：消息、公告~~
@@ -95,6 +97,7 @@ CHECK INFORMATION
 10. 部署网站
    * 注意检查Apache时区是否一致
    * 需composer安装PhpSpreadsheet、phpmailer
+   * 修改linux中php的require路径:ReadExcel.php, sendEmail.php
    * 配置htaccess
 
 ##### 附加功能

@@ -20,34 +20,34 @@ document.writeln('<div class="panel_menu">\n' +
 function changeMenu(p){
     if(p == "home"){
         // 主页
-        location.href = 'index.html';
+        location.href = 'index';
     }else if(p == "users"){
         // 用户
-        location.href = 'users.html';
+        location.href = 'users';
     }else if(p == "logoff"){
         // 已注销的用户
-        location.href = 'logoff.html';
+        location.href = 'logoff';
     }else if(p == "notice"){
         // 公告
-        location.href = 'notice.html';
+        location.href = 'notice';
     }else if(p == "message"){
         // 消息
-        location.href = 'message.html';
+        location.href = 'message';
     }else if(p == "feedback"){
         // 用户反馈
-        location.href = 'feedback.html';
+        location.href = 'feedback';
     }else if(p == "advise"){
         // 已注销用户建议
-        location.href = 'advise.html';
+        location.href = 'advise';
     }else if(p == "reward"){
         // 打赏
-        location.href = 'rewards.html';
+        location.href = 'rewards';
     }else if(p == "alpha"){
         // 内测
-        location.href = 'alpha.html';
+        location.href = 'alpha';
     }else if(p == "assign"){
         // 转让管理员权限
-        location.href = 'assignment.html';
+        location.href = 'assignment';
     }
 }
 
@@ -197,5 +197,5 @@ function SelectPanelMenuItem(p){
 function exitLogin() {
     // localStorage.removeItem("s_userinfo");
     Cookies.remove("manager_email");
-    location.href = 'login.html';
+    location.href = 'login';
 }

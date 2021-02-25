@@ -322,7 +322,8 @@ function renderLoginLogList(msg){
     $('#security_login_history_table').html('');
     $('#security_login_history_table').append('<tr><th>方式</th><th>平台</th><th>IP</th><th>地址</th><th>时间</th></tr>');
     for(var i in msg){
-        $('#security_login_history_table').append('<tr><td>'+msg[i]['method']+'</td><td>'+msg[i]['platform']+'</td><td>'+msg[i]['ip']+'</td><td>'+msg[i]['loc']+'</td><td>'+msg[i]['time']+'</td></tr>');
+        var time = msg[i]['time'].substring(0, 19);
+        $('#security_login_history_table').append('<tr><td>'+msg[i]['method']+'</td><td>'+msg[i]['platform']+'</td><td>'+msg[i]['ip']+'</td><td>'+msg[i]['loc']+'</td><td>'+time+'</td></tr>');
     }
 }
 

@@ -91,7 +91,7 @@ if($op == "get"){
             }
         }
         $pic_json = json_encode($pics_str, JSON_UNESCAPED_UNICODE);
-        $sql = "INSERT INTO s_feedbacks (id,uuid,type,content,pic_json,solved) VALUES ('$id','$uuid','$type','$text','$pic_json','0')";
+        $sql = "INSERT INTO s_feedbacks (id,uuid,type,content,pic_json,solved,sol_time) VALUES ('$id','$uuid','$type','$text','$pic_json','0','0-0-0')";
         $obj = mysqli_query($link, $sql);
         if($obj){
             $flag = 1;

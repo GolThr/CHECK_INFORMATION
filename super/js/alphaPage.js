@@ -5,7 +5,7 @@ function init(){
     var u_cookie = Cookies.get('manager_email');
     if(u_cookie == undefined || u_cookie == ''){
         console.log('未登录');
-        location.href = 'login.html';
+        location.href = 'login';
     }else{
         //已登录
         $('.user_name').text(u_cookie);
@@ -186,5 +186,9 @@ $('#add_alpha_btn').click(function () {
                 alert("请求失败，请重试");
             }
         });
+        hideDialogTip();
+    });
+    bindTipCancel(function () {
+        hideDialogTip();
     });
 });

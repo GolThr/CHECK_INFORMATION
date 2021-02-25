@@ -27,7 +27,7 @@ function waitToLogin(time){
         }, 1000);
         time--;
     }else if (time == 0){
-        location.href = "login.html";
+        location.href = "login";
     }
 }
 

@@ -135,7 +135,7 @@ if($op == 'logoff'){
     $pic_json = '[]';
     $time = date("Y-m-d H:i:s");
     $solved = '0';
-    $sql = "INSERT INTO d_advises (id,uuid,type,content,pic_json,time,solved) VALUES ('$id','$uuid','$type','$content','$pic_json','$time','$solved')";
+    $sql = "INSERT INTO d_advises (id,uuid,type,content,pic_json,time,solved,sol_time,sol_words) VALUES ('$id','$uuid','$type','$content','$pic_json','$time','$solved','0-0-0','0-0-0')";
     $obj = mysqli_query($link, $sql);
     if($obj){
         $flag = 1;

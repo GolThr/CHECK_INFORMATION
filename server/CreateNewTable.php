@@ -35,7 +35,7 @@ if($row){
     }
 
     //create table
-    $sql="CREATE TABLE `$dbt_name` (`id` int(12) unsigned NOT NULL AUTO_INCREMENT,`ischecked` int(3) unsigned NOT NULL DEFAULT 0,`isviewed` int(3) unsigned NOT NULL DEFAULT 0,`checked_time` datetime(6) NOT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+    $sql="CREATE TABLE `$dbt_name` (`id` int(12) unsigned NOT NULL AUTO_INCREMENT,`ischecked` int(3) unsigned NOT NULL DEFAULT 0,`isviewed` int(3) unsigned NOT NULL DEFAULT 0,`checked_time` datetime(6),PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
     $obj = mysqli_query($link,$sql);
     if($obj){
         $crt_flag = 0;

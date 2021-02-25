@@ -36,7 +36,27 @@ function AMapGetPosition(){
         }
     })
 }
-AMapGetPosition();
+// AMapGetPosition();
+
+//获取用户所在城市信息
+function showCityInfo() {
+    //实例化城市查询类
+    var citysearch = new AMap.CitySearch();
+    //自动获取用户IP，返回当前城市
+    citysearch.getLocalCity(function(status, result) {
+        if (status === 'complete' && result.info === 'OK') {
+            if (result && result.city && result.bounds) {
+                var cityinfo = result.city;
+                login_loc = result.province + ',' + result.city;
+                showLoginPage();
+                console.log(result);
+            }
+        } else {
+            document.getElementById('info').innerHTML = result.info;
+        }
+    });
+}
+showCityInfo();
 
 function showLoginPage(){
     $('#login_body').slideDown();
@@ -181,7 +201,7 @@ function login(){
             if(msg.flag == '1'){
                 // localStorage.setItem("s_userinfo", JSON.stringify(msg));
                 Cookies.set('s_userinfo', JSON.stringify(msg), {expires: 1});
-                location.href = "index.html";
+                location.href = "index";
             }else if(msg.flag == '0'){
                 pwd_wrong_times++;
                 $("#account").css("border-color", "#e4e4e4");
@@ -467,7 +487,7 @@ $("#login_verify_next").click(function () {
                 console.log(msg);
                 if(msg['flag'] == '1'){
                     Cookies.set('s_userinfo', JSON.stringify(msg), {expires: 1});
-                    location.href = "index.html";
+                    location.href = "index";
                 }else{
                     showFloatTip('验证码错误或已失效！','error');
                 }

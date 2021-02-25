@@ -5,7 +5,7 @@ function init(){
     var u_cookie = Cookies.get('manager_email');
     if(u_cookie == undefined || u_cookie == ''){
         console.log('未登录');
-        location.href = 'login.html';
+        location.href = 'login';
     }else{
         //已登录
         $('.user_name').text(u_cookie);
@@ -59,7 +59,7 @@ function assignManager(old_email, new_email) {
                 changePage('done');
                 Cookies.remove("manager_email");
                 setTimeout(function () {
-                    location.href = 'login.html';
+                    location.href = 'login';
                 }, 2000);
             }else{
                 showFloatTip('转让失败！', 'error');

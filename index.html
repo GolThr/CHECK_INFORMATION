@@ -17,7 +17,7 @@
         var u_cookie = Cookies.get('s_userinfo');
         if(u_cookie == undefined || u_cookie == ''){
             console.log('未登录');
-            location.href = 'login.html';
+            location.href = 'login';
         }
         window.onload = (function () {
             init();
@@ -56,11 +56,11 @@
             <div class="home_data_view" style="margin-left: 10px;height: 150px;">
                 <div class="home_data_view_content">
                     <div class="home_data_view_body">
-                        <span class="home_data_view_number home_num_clickable" onclick="location.href = 'personal.html?page=notice'" id="n_notice">0</span>
+                        <span class="home_data_view_number home_num_clickable" onclick="location.href = 'personal?page=notice'" id="n_notice">0</span>
                         <span class="home_data_view_title">公告</span>
                     </div>
                     <div class="home_data_view_body">
-                        <span class="home_data_view_number home_num_clickable" id="n_messages" onclick="location.href = 'personal.html?page=message'" style="color: #cf3b3f">0</span>
+                        <span class="home_data_view_number home_num_clickable" id="n_messages" onclick="location.href = 'personal?page=message'" style="color: #cf3b3f">0</span>
                         <span class="home_data_view_title">未读消息</span>
                     </div>
                 </div>

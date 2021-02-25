@@ -27,13 +27,13 @@ document.writeln('<div class="panel_menu">\n' +
 function changeMenu(p){
     if(p == "home"){
         // 主页
-        location.href = 'index.html';
+        location.href = 'index';
     }else if(p == "manage"){
         // 管理信息
-        location.href = 'manage.html';
+        location.href = 'manage';
     }else if(p == "mine"){
         // 个人中心
-        location.href = 'personal.html';
+        location.href = 'personal';
     }
 }
 
@@ -98,5 +98,5 @@ function SelectPanelMenuItem(p){
 function exitLogin() {
     // localStorage.removeItem("s_userinfo");
     Cookies.remove("s_userinfo");
-    location.href = 'login.html';
+    location.href = 'login';
 }

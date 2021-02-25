@@ -1,4 +1,4 @@
-var s = getQueryVariable('s');
+var s = getQueryShareId();
 var i_vercol = 0;
 var vercol_in = [];
 var col_name = [];
@@ -106,7 +106,7 @@ function renderQueryVerify(vercol){
 
 function renderLinkVerify(msg){
     setNormalHeaderTitle(msg['tbl_name']);
-    $('.link_avatar').attr("src", msg['avatar']);
+    $('.link_avatar').attr("src", '../'+msg['avatar']);
     $('.link_user').text(msg['user_name']);
 }
 
@@ -151,7 +151,7 @@ function queryLink(){
     console.log("VerifyCheckInfoLinkAjax");
     console.log(data);
     $.ajax({
-        url: "server/VerifyCheckInfoLink.php", //后台请求数据
+        url: "../server/VerifyCheckInfoLink.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",
@@ -180,7 +180,7 @@ function verifyLink(){
     console.log("VerifyCheckInfoLinkAjax");
     console.log(data);
     $.ajax({
-        url: "server/VerifyCheckInfoLink.php", //后台请求数据
+        url: "../server/VerifyCheckInfoLink.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",
@@ -236,7 +236,7 @@ function checkInfoOK(){
     console.log("CheckInfoActionAjax");
     console.log(data);
     $.ajax({
-        url: "server/CheckInfoAction.php", //后台请求数据
+        url: "../server/CheckInfoAction.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",
@@ -267,7 +267,7 @@ function checkInfoSave(){
     console.log("CheckInfoActionAjax");
     console.log(data);
     $.ajax({
-        url: "server/CheckInfoAction.php", //后台请求数据
+        url: "../server/CheckInfoAction.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",
@@ -323,7 +323,7 @@ $('#link_verify_btn').click(function (){
     console.log("VerifyCheckInfoLinkAjax");
     console.log(data);
     $.ajax({
-        url: "server/VerifyCheckInfoLink.php", //后台请求数据
+        url: "../server/VerifyCheckInfoLink.php", //后台请求数据
         dataType: "json",
         data:data,
         type: "POST",

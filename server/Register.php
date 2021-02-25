@@ -47,7 +47,7 @@ if($flag == 1){
     $msg_id = getNewUuid();
     $title = '欢迎使用查客核对平台';
     $text = "欢迎使用查客核对平台";
-    $sql = "INSERT INTO s_messages (uuid,msg_id,msg_title,msg_text,isread) VALUES ('$uuid','$msg_id','$title','$text','0')";
+    $sql = "INSERT INTO s_messages (uuid,msg_id,msg_title,msg_text,isread,read_time) VALUES ('$uuid','$msg_id','$title','$text','0','0-0-0')";
     $obj = mysqli_query($link, $sql);
 }
 

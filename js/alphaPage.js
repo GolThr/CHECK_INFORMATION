@@ -4,7 +4,7 @@ function init(){
     var u_cookie = Cookies.get('s_userinfo');
     if(u_cookie == undefined || u_cookie == ''){
         console.log('未登录');
-        location.href = 'login.html';
+        location.href = 'login';
     }else{
         //已登录
         s_userinfo = JSON.parse(u_cookie);
@@ -13,7 +13,7 @@ function init(){
                 checkAlphaCode(s_userinfo.alpha_code);
             }
         }else{
-            location.href = 'index.html';
+            location.href = 'index';
         }
     }
 }
@@ -38,7 +38,7 @@ $('#bind_alpha_code').click(function () {
                 if(msg['flag'] == '1'){
                     Cookies.remove("s_userinfo");
                     Cookies.set('s_userinfo', JSON.stringify(msg), {expires: 1});
-                    location.href = "index.html";
+                    location.href = "index";
                 }else{
                     showFloatTip('内测码不存在或已失效！', 'error');
                 }
