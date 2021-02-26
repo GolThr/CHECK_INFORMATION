@@ -52,7 +52,7 @@ function showCityInfo() {
                 console.log(result);
             }
         } else {
-            document.getElementById('info').innerHTML = result.info;
+            console.log(result);
         }
     });
 }
@@ -153,6 +153,8 @@ function changePage(p, type){
             $('#login_verify_sheet').show();
             if(type == 'email'){
                 $('#login_verify_subtitle').text('当前邮箱: '+verify_email);
+            }else if(type == 'phone'){
+                $('#login_verify_subtitle').text('当前手机: '+verify_email);
             }
             $('#login_verify').fadeIn();
         });

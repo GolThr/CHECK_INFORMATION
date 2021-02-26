@@ -1,6 +1,9 @@
 <?php
 include("server/dbconfig.php");
+// Windows
 require 'D:\xampp\php\vendor/autoload.php';
+// Linux
+//require '/root/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
