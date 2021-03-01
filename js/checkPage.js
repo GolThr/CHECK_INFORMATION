@@ -25,7 +25,11 @@ function adjustWidth(){
     if(rest > 20){
         w = minWidth + parseInt(rest / n);
     }
-    $('.info_page_item').css("width", w);
+    if(w > 40){
+        $('.info_page_item').css("width", w);
+    }else{
+        $('.info_page_item').css("width", '100%');
+    }
     console.log("win="+win+", w="+w+", rest="+rest+", n="+n);
 }
 
