@@ -29,7 +29,8 @@ if($obj){
         $find_flag = 0;
     }
 }
-$head = json_decode($tbl_colname_json, $assoc = FALSE);
+// assoc true as array, false as class object
+$head_obj = json_decode($tbl_colname_json, $assoc = TRUE);
 
 //op
 if($op == "add_row"){
@@ -41,16 +42,22 @@ if($op == "add_row"){
     }
 }else if($op == "add_col"){
     //add col
-    $sql="ALTER TABLE `$dbt_name` ADD COLUMN `$data` TEXT";
+    $col_name = $data['colname'];
+    $sql="ALTER TABLE `$dbt_name` ADD COLUMN `$col_name` TEXT";
     $obj = mysqli_query($link, $sql);
+    $t = array();
     if($obj){
-        array_push($head, $data);
+        $t['colname'] = $data['colname'];
+        $t['type'] = $data['type'];
+        $t['rule'] = $data['rule'];
+        $t['regex'] = $data['regex'];
+        array_push($head_obj, $t);
         $flag = 1;
     }else{
         $flag = 0;
     }
     //register column
-    $head_json = json_encode($head, JSON_UNESCAPED_UNICODE);
+    $head_json = json_encode($head_obj, JSON_UNESCAPED_UNICODE);
     $sql = "UPDATE s_tables SET tbl_colname_json='$head_json' WHERE tbl_id='$tbl_id'";
     $obj = mysqli_query($link, $sql);
     if($obj){
@@ -65,17 +72,17 @@ if($op == "add_row"){
     }
 }else if($op == "del_col"){
     //del col
-    $colName = $head[$data];
+    $colName = $head_obj[$data]['colname'];
     $sql="ALTER TABLE `$dbt_name` DROP COLUMN `$colName`";
     $obj = mysqli_query($link, $sql);
     if($obj){
-        array_splice($head, $data, 1);
+        array_splice($head_obj, $data, 1);
         $flag = 1;
     }else{
         $flag = 0;
     }
     //register column
-    $head_json = json_encode($head, JSON_UNESCAPED_UNICODE);
+    $head_json = json_encode($head_obj, JSON_UNESCAPED_UNICODE);
     $sql = "UPDATE s_tables SET tbl_colname_json='$head_json' WHERE tbl_id='$tbl_id'";
     $obj = mysqli_query($link, $sql);
     if($obj){
@@ -83,7 +90,7 @@ if($op == "add_row"){
     }
 }else if($op == "mod_data"){
     //modified data
-    $colName = $head[$data["col"]];
+    $colName = $head_obj[$data["col"]]['colname'];
     $text = $data["text"];
     $row = $data["row"];
     $sql = "UPDATE `$dbt_name` SET `$colName`='$text' WHERE id='$row'";
@@ -101,13 +108,13 @@ $obj = mysqli_query($link, $sql);
 if($obj){
     while($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
         $tmp = array();
-        foreach ($head as $colName){
-            $tmp[] = $row[$colName];
+        foreach ($head_obj as $colName_obj){
+            $tmp[] = $row[$colName_obj['colname']];
         }
         $res[$i++] = $tmp;
     }
 }
 
 $flags = array("find_flag" => $find_flag, "open_flag" => $open_flag, "upd_flag" => $upd_flag, "flag" => $flag);
-$jsonStr = array("flags" => $flags, "head" => $head, "data" => $res);
+$jsonStr = array("flags" => $flags, "head" => $head_obj, "data" => $res);
 echo json_encode($jsonStr);

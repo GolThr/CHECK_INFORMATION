@@ -22,12 +22,13 @@ if($obj){
         $find_flag = 0;
     }
 }
-$head = json_decode($tbl_colname_json, $assoc = FALSE);
+// assoc true as array, false as class object
+$head_obj = json_decode($tbl_colname_json, $assoc = TRUE);
 
 $option_col = array();
-foreach ($head as $col){
-    if($col != "id" && $col != "ischecked" && $col != "isviewed" && $col != "checked_time"){
-        array_push($option_col, $col);
+foreach ($head_obj as $col_obj){
+    if($col_obj['colname'] != "id" && $col_obj['colname'] != "ischecked" && $col_obj['colname'] != "isviewed" && $col_obj['colname'] != "checked_time"){
+        array_push($option_col, $col_obj['colname']);
     }
 }
 

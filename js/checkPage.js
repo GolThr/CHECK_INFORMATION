@@ -25,10 +25,15 @@ function adjustWidth(){
     if(rest > 20){
         w = minWidth + parseInt(rest / n);
     }
-    if(w > 40){
+    if(w > 100){
         $('.info_page_item').css("width", w);
     }else{
         $('.info_page_item').css("width", '100%');
+    }
+    if(w < 400){
+        $('.dialog_body').css("width", '80%');
+    }else{
+        $('.dialog_body').css("width", '400px');
     }
     console.log("win="+win+", w="+w+", rest="+rest+", n="+n);
 }
@@ -77,7 +82,7 @@ function renderQueryResult(msg){
     $('#info_page_ok').html('');
     $('#info_page_need').html('');
     for(var i in msg['head']){
-        var h = msg['head'][i];
+        var h = msg['head'][i]['colname'];
         var d = msg['data'][i];
         col_name.push(h);
         col_val.push(d);
@@ -168,7 +173,10 @@ function queryLink(){
                 showDialogTip('查询错误', '查询不到您的信息，请联系核对发起者以获取帮助。');
                 bindTipOK(function (){
                     hideDialogTip();
-                })
+                });
+                bindTipCancel(function () {
+                    hideDialogTip();
+                });
             }
         },
         error: function (msg) {
@@ -220,17 +228,26 @@ function checkInfoVerify(){
         bindTipOK(function (){
             hideDialogTip();
         });
+        bindTipCancel(function (){
+            hideDialogTip();
+        });
     }else if(f == 0){
         showDialogTip('温馨提示','信息未修改，是否确认无误？');
         bindTipOK(function () {
             hideDialogTip();
             checkInfoOK();
         });
+        bindTipCancel(function (){
+            hideDialogTip();
+        });
     }else{
         showDialogTip('温馨提示','确认保存修改的信息吗？保存之后请再次核对，信息正确后，点击“确认无误”按钮完成核对。');
         bindTipOK(function () {
             hideDialogTip();
             checkInfoSave();
+        });
+        bindTipCancel(function (){
+            hideDialogTip();
         });
     }
 }

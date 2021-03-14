@@ -31,7 +31,8 @@ if($obj){
         $find_flag = 0;
     }
 }
-$head = json_decode($tbl_colname_json, $assoc = FALSE);
+// assoc true as array, false as class object
+$head_obj = json_decode($tbl_colname_json, $assoc = TRUE);
 
 //fetch table data
 $res = array();
@@ -41,8 +42,8 @@ $obj = mysqli_query($link, $sql);
 if($obj){
     while($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
         $tmp = array();
-        foreach ($head as $colName){
-            $tmp[] = $row[$colName];
+        foreach ($head_obj as $colName_obj){
+            $tmp[] = $row[$colName_obj['colname']];
         }
         $res[$i++] = $tmp;
     }
@@ -81,8 +82,8 @@ $worksheet->setTitle('工作表格1');
 //prepare head
 $row = 1; //Excel第一行开始
 $column = 1;
-foreach ($head as $item) {
-    $worksheet->setCellValueByColumnAndRow($column, $row, $item);
+foreach ($head_obj as $item) {
+    $worksheet->setCellValueByColumnAndRow($column, $row, $item['colname']);
     $column++;
 }
 //prepare data

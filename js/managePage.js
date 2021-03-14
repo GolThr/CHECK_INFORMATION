@@ -1,4 +1,5 @@
 var TBL_DATA = new Array();
+var TBL_HEAD = new Array();
 var TBL_ROW = 0;
 var TBL_COL = 0;
 var TBL_NAME = '';
@@ -65,7 +66,6 @@ function uploadExcel(){
         success: function (msg){
             console.log(msg);
             getTable(TBL_NAME, 0, cur_order, 1);
-            hideDialogTip();
         },
         error: function () {
             alert("上传错误！");
@@ -215,6 +215,7 @@ function parseData(msg){
 }
 
 function renderTable(msg, orderByInd, order){
+    TBL_HEAD = msg['head_obj'];
     clearTblArea();
     modified = 1;
     // render btn
@@ -234,15 +235,15 @@ function renderTable(msg, orderByInd, order){
     //render header
     var id_ind = 0;
     $(".manage_info_table").append('<tr id="row0" row="0" onclick="onRowSelected(this)"></tr>');
-    for(var j in msg['head']){
-        var t = msg['head'][j];
+    for(var j in msg['head_obj']){
+        var t = msg['head_obj'][j]['colname'];
         if(t == 'id' || t == 'ischecked' || t == 'isviewed' || t == 'checked_time'){
             $('#row0').append('<th class="regular_col_name col'+ j +'" col="'+ j +'" onclick="onColSelected(this)" id="col_head_'+j+'">' + t + '<img class="data_order order_up" src="images/ic_down.png" style="display: none;"></th>');
         }else{
             // $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)">' + t + '</th>');
             $('#row0').append('<th class="col'+ j +'" col="'+ j +'" onclick="onColSelected(this)" id="col_head_'+j+'">' + t + '<img class="data_order order_up" src="images/ic_down.png" style="display: none;"></th>');
         }
-        if(msg['head'][j] == "id"){
+        if(msg['head_obj'][j]['colname'] == "id"){
             id_ind = j;
         }
     }
@@ -275,6 +276,7 @@ function renderTableList(msg){
     console.log(msg);
     console.log(msg.length);
     if(msg.length == 0){
+        clearTblListArea();
         showTblListEmpty();
         return;
     }
@@ -351,51 +353,6 @@ function getTableList(){
     });
 }
 
-function saveTBLData(){
-    if(TBL_NAME == ''){
-        showDialogInput('输入表名', '表名');
-        bindInputOK(function (){
-            var t_name = $.trim($('.dialog_input').val());
-            if(t_name == ""){
-                $(".dialog_input").css("border-color", "#ff392f");
-                $(".dialog_input").shake(2, 10, 400);
-            }else{
-                TBL_NAME = t_name;
-                $(".dialog_input").css("border-color", "#EAEDF6");
-                hideDialogInput();
-                saveTBLData();
-            }
-        });
-    }else{
-        showDialogTip('温馨提示', '正在保存。。。');
-        bindTipOK(function (){
-            hideDialogTip();
-        });
-        //ajax去服务器端校验
-        var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":TBL_DATA};
-        console.log("SaveAjax");
-        $.ajax({
-            url: "server/save_tbl_data.php", //后台请求数据
-            dataType: "json",
-            data:data,
-            type: "POST",
-            success: function (msg) {
-                modified = 0;
-                hideDialogTip();
-                $('.func_btn_save').addClass('btn_grey');
-                showDialogTip('温馨提示', '保存成功！');
-                bindTipOK(function (){
-                    hideDialogTip();
-                });
-            },
-            error: function (msg) {
-                console.log("error!");
-                alert("请求失败，请重试");
-            }
-        });
-    }
-}
-
 function getTable(tbl_name, col, order, page){
     //ajax去服务器端校验
     var data= {"uuid":s_userinfo.uuid,"tbl_name":tbl_name,"orderBy":col,"order":order,"page":page,"per":20};
@@ -409,6 +366,7 @@ function getTable(tbl_name, col, order, page){
         success: function (msg) {
             console.log(msg);
             renderTable(msg, col, order);
+            hideDialogTip();
         },
         error: function (msg) {
             console.log("error!");
@@ -670,13 +628,13 @@ $(".float_add_btn").click(function () {
     //     '</div>' +
     //     '');
     bindInputOK(function (){
-        var t_name = $.trim($('.dialog_input').val());
+        var t_name = $.trim($('#dialog_input_text').val());
         if(t_name == ""){
-            $(".dialog_input").css("border-color", "#ff392f");
-            $(".dialog_input").shake(2, 10, 400);
+            $("#dialog_input_text").css("border-color", "#ff392f");
+            $("#dialog_input_text").shake(2, 10, 400);
         }else{
             TBL_NAME = t_name;
-            $(".dialog_input").css("border-color", "#EAEDF6");
+            $("#dialog_input_text").css("border-color", "#EAEDF6");
             hideDialogInput();
             //ajax去服务器端校验
             var data= {"uuid":s_userinfo.uuid,"tbl_name":t_name};
@@ -758,16 +716,22 @@ $(".func_btn_addrow").click(function () {
 
 $(".func_btn_addcol").click(function () {
     var col_name;
-    showDialogInput("输入列名", "列名称");
-    bindInputOK(function (){
-        col_name = $.trim($('.dialog_input').val());
+    showDialogColProp("添加列", null, function (){
+        col_name = $.trim($('#col_prop_name').val());
         if(col_name == ""){
-            $(".dialog_input").css("border-color", "#ff392f");
-            $(".dialog_input").shake(2, 10, 400);
+            $("#col_prop_name").css("border-color", "#ff392f");
+            $("#col_prop_name").shake(2, 10, 400);
         }else{
-            $(".dialog_input").css("border-color", "#EAEDF6");
+            $("#col_prop_name").css("border-color", "#EAEDF6");
+            var type = getMainSelectListSelectedById('dialog_select_type');
+            var rule = getMainSelectListSelectedById('dialog_select_rule');
+            var col_prop = {"colname":col_name,"type":type,"rule":rule,"regex":""};
+            if(rule == '自定义'){
+                var regex = $('#col_prop_regex').val();
+                col_prop["regex"] = regex;
+            }
             //ajax去服务器端校验
-            var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":col_name,"op":"add_col"};
+            var data= {"uuid":s_userinfo.uuid,"tbl_name":TBL_NAME,"data":col_prop,"op":"add_col"};
             console.log(data);
             console.log("AddColAjax");
             $.ajax({
@@ -847,14 +811,6 @@ $(".func_btn_del").click(function () {
     });
 });
 
-$(".func_btn_save").click(function () {
-    if(modified == 0){
-        showDialogTip('温馨提示', '修改后再来保存哦~');
-    }else{
-        saveTBLData();
-    }
-});
-
 $(".func_btn_start").click(function () {
     startChecking(TBL_NAME);
 });
@@ -865,4 +821,12 @@ $(".func_btn_pause").click(function () {
 
 $(".func_btn_s_info").click(function () {
     getCheckShareInfo(TBL_NAME);
+});
+
+$(".func_btn_property").click(function () {
+    if(cur_col >= 4){
+        showDialogColProp('列属性 - ' + TBL_HEAD[cur_col]['colname'], TBL_HEAD[cur_col], function (){
+
+        });
+    }
 });

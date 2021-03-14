@@ -12,8 +12,8 @@ document.writeln(
     '    </div>\n' +
     '    <!--dialog_input-->\n' +
     '    <div class="dialog_body" id="dialog_input" style="display: none;">\n' +
-    '        <span class="dialog_title">输入列名</span>\n' +
-    '        <input type="text" class="dialog_input main_input" placeholder=""/>\n' +
+    '        <span class="dialog_title">添加列</span>\n' +
+    '        <input type="text" id="dialog_input_text" class="dialog_input main_input" placeholder=""/>\n' +
     '        <div class="dialog_btn_line" id="input_btn">\n' +
     '            <span class="dialog_btn_seco" id="input_cancel">取消</span>\n' +
     '            <span class="dialog_btn_main" id="input_ok">确定</span>\n' +
@@ -107,6 +107,40 @@ document.writeln(
     '            <span class="dialog_btn_main" id="dialog_html_ok">确定</span>\n' +
     '        </div>\n' +
     '    </div>\n' +
+    '    <!--dialog_col_prop-->\n' +
+    '    <div class="dialog_body" id="dialog_col_prop" style="display: none;">\n' +
+    '        <span class="dialog_title">添加列</span>\n' +
+    '        <span class="dialog_sub_title">列名称</span>\n' +
+    '        <input type="text" id="col_prop_name" class="dialog_input main_input" placeholder="列名称"/>\n' +
+    '        <div class="dialog_select_line" style="margin-top: 0;">' +
+    '            <span class="dialog_sub_title" style="margin-top: 0;width: auto;">类型</span>' +
+    '            <div class="main_select_list_borderstyle" style="height: 30px;width: 150px;" id="dialog_select_type" onclick="mainSelectListToggleById(\'dialog_select_type\')">\n' +
+    '                <img class="main_select_arrow" style="top: 10px;" src="images/ic_down_arrow.png"/>\n' +
+    '                <span class="main_select_default" style="line-height: 30px;">文本</span>\n' +
+    '                <div class="main_select_item" style="top: 30px;">\n' +
+    '                    <span>文本</span>\n' +
+    '                    <span>单选框</span>\n' +
+    '                </div>\n' +
+    '            </div>' +
+    '        </div>' +
+    '        <div class="dialog_select_line" style="margin-bottom: 20px;">' +
+    '            <span class="dialog_sub_title" style="margin-top: 0;width: auto;">输入规则</span>' +
+    '            <div class="main_select_list_borderstyle" style="height: 30px;width: 150px;" id="dialog_select_rule" onclick="mainSelectListToggleById(\'dialog_select_rule\',ToggleColPropRegexInput)">\n' +
+    '                <img class="main_select_arrow" style="top: 10px;" src="images/ic_down_arrow.png"/>\n' +
+    '                <span class="main_select_default" style="line-height: 30px;">无</span>\n' +
+    '                <div class="main_select_item" style="top: 30px;">\n' +
+    '                    <span>无</span>\n' +
+    '                    <span>数字(不限位数)</span>\n' +
+    '                    <span>自定义</span>\n' +
+    '                </div>\n' +
+    '            </div>' +
+    '        </div>' +
+    '        <input type="text" id="col_prop_regex" class="dialog_input main_input" placeholder="正则表达式" style="margin-top: 0;display: none;"/>' +
+    '        <div class="dialog_btn_line" id="input_btn">\n' +
+    '            <span class="dialog_btn_seco" id="col_prop_cancel">取消</span>\n' +
+    '            <span class="dialog_btn_main" id="col_prop_ok">确定</span>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
     '    <textarea type="text" id="copy_temp"></textarea>\n' +
     '</div>'
 );
@@ -126,8 +160,8 @@ function showDialogHtml(title, html, ok_fn, cancel_fn) {
     var dialog_body = $('#dialog_html');
     var dialog_title = $('#dialog_html .dialog_title');
     var dialog_html_content = $('#dialog_html .dialog_html_content');
-    var ok_btn = $('#dialog_html .dialog_btn_line .dialog_html_ok');
-    var cancel_btn = $('#dialog_html .dialog_btn_line .dialog_html_cancel');
+    var ok_btn = $('#dialog_html .dialog_btn_line #dialog_html_ok');
+    var cancel_btn = $('#dialog_html .dialog_btn_line #dialog_html_cancel');
     back.fadeIn('fast');
     dialog_body.fadeIn('fast');
     dialog_title.text(title);
@@ -156,6 +190,77 @@ function hideDialogHtml(){
     dialog_body.hide();
     back.fadeOut('fast');
 }
+
+/**DialogColPropMethod**/
+function showDialogColProp(title, prop, ok_fn, cancel_fn) {
+    var back = $('.dialog_back');
+    var dialog_body = $('#dialog_col_prop');
+    var dialog_title = $('#dialog_col_prop .dialog_title');
+    var ok_btn = $('#dialog_col_prop .dialog_btn_line #col_prop_ok');
+    var cancel_btn = $('#dialog_col_prop .dialog_btn_line #col_prop_cancel');
+    back.fadeIn('fast');
+    dialog_body.fadeIn('fast');
+    dialog_title.text(title);
+    var col_prop_name = $('#dialog_col_prop #col_prop_name');
+    var col_prop_regex = $('#col_prop_regex');
+    if(prop != null && prop != ''){
+        if(prop['colname'] != null && prop['colname'] != '' && prop['colname'] != undefined){
+            col_prop_name.val(prop['colname']);
+        }
+        if(prop['type'] != null && prop['type'] != '' && prop['type'] != undefined){
+            setMainSelectListSelectedById('dialog_select_type', prop['type']);
+        }
+        if(prop['rule'] != null && prop['rule'] != '' && prop['rule'] != undefined){
+            setMainSelectListSelectedById('dialog_select_rule', prop['rule']);
+            if(prop['rule'] == '自定义'){
+                col_prop_regex.show();
+            }else{
+                col_prop_regex.hide();
+            }
+        }
+        if(prop['regex'] != null && prop['regex'] != '' && prop['regex'] != undefined){
+            col_prop_regex.val(prop['regex']);
+        }
+    }else{
+        col_prop_name.val('');
+        setMainSelectListSelectedById('dialog_select_type', '文本');
+        setMainSelectListSelectedById('dialog_select_rule', '无');
+        col_prop_regex.val('');
+        col_prop_regex.hide();
+    }
+    cancel_btn.unbind('click');
+    cancel_btn.click(function () {
+        if(cancel_fn != undefined){
+            cancel_fn();
+        }
+        // hide
+        hideDialogColProp();
+    });
+    ok_btn.unbind('click');
+    ok_btn.click(function () {
+        if(ok_fn != undefined){
+            ok_fn();
+        }
+        // hide
+        hideDialogColProp();
+    });
+}
+
+function hideDialogColProp(){
+    var back = $('.dialog_back');
+    var dialog_body = $('#dialog_col_prop');
+    dialog_body.hide();
+    back.fadeOut('fast');
+}
+
+function ToggleColPropRegexInput(){
+    if(getMainSelectListSelectedById('dialog_select_rule') == '自定义'){
+        $('#col_prop_regex').show();
+    }else{
+        $('#col_prop_regex').hide();
+    }
+}
+/*****************************/
 
 function showCheckShareInfo(msg, tbl_name){
     var link = agreement + '://' + domain + '/s/' + msg['share_id'];
@@ -190,11 +295,12 @@ function hideDialogTip(){
     $(".dialog_back").fadeOut('fast');
 }
 
-function showDialogInput(title,text){
+function showDialogInput(title, text){
     $('.dialog_back').fadeIn('fast');
     $('#dialog_input').fadeIn('fast');
     $('.dialog_title').text(title);
-    $('.dialog_input').attr("placeholder", text);
+    $('#dialog_input_text').val("");
+    $('#dialog_input_text').attr("placeholder", text);
 }
 
 function hideDialogInput(){

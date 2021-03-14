@@ -78,7 +78,8 @@ if($type == 'check'){
             $find_dbt_flag = 0;
         }
     }
-    $head = json_decode($tbl_colname_json, $assoc = FALSE);
+    // assoc true as array, false as class object
+    $head_obj = json_decode($tbl_colname_json, $assoc = TRUE);
     //query info
     $res = array();
     $query_head = array();
@@ -97,12 +98,12 @@ if($type == 'check'){
     if($obj){
         $row = mysqli_fetch_array($obj,MYSQLI_ASSOC);
         if($row){
-            foreach ($head as $colName){
-                if($colName == 'id' || $colName == 'ischecked' || $colName == 'isviewed' || $colName == 'checked_time'){
+            foreach ($head_obj as $colName_obj){
+                if($colName_obj['colname'] == 'id' || $colName_obj['colname'] == 'ischecked' || $colName_obj['colname'] == 'isviewed' || $colName_obj['colname'] == 'checked_time'){
                     continue;
                 }
-                $query_head[] = $colName;
-                $res[] = $row[$colName];
+                $query_head[] = $colName_obj;
+                $res[] = $row[$colName_obj['colname']];
             }
             //set viewed
             $obj_v = mysqli_query($link, $sql_set_viewed);

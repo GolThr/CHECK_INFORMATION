@@ -691,7 +691,7 @@ li{
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    font-size: 14px;
+    margin-top: 20px;
 }
 
 .dialog_input{

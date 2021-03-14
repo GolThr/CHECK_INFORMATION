@@ -95,7 +95,7 @@ if($action == 'login'){
                     if($twice_verify == 'on'){
                         $jsonStr = array('flag'=>'2', 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number']);
                     }else if($loc_verify == 'on'){
-                        if($ip == $login_ip && $loc == $login_loc){
+                        if($loc == $login_loc){
                             $security = updateLoginInfo($link, getNewUniqid(), $uuid, $ip, $loc, $method, '网页端');
                             $jsonStr = array('flag'=>'1', 'security' => $security, 'uuid'=>$uuid, 'user_name'=>$arr['user_name'], 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number'], 'gender'=>$arr['gender'], 'avatar'=>$arr['avatar'], 'reg_time'=>$arr['reg_time'], 'alpha_code'=>$arr['alpha_code']);
                         }else{
@@ -151,7 +151,7 @@ if($action == 'login'){
                     if($pwd == $arr['pwd']){
                         $uuid = $arr['uuid'];
                         $security = updateLoginInfo($link, getNewUniqid(), $uuid, $ip, $loc, $method, '网页端');
-                        $jsonStr = array('flag'=>'1', 'security' => $security, 'uuid'=>$uuid, 'user_name'=>$arr['user_name'], 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number'], 'gender'=>$arr['gender'], 'avatar'=>$arr['avatar'], 'reg_time'=>$arr['reg_time']);
+                        $jsonStr = array('flag'=>'1', 'security' => $security, 'uuid'=>$uuid, 'user_name'=>$arr['user_name'], 'email'=>$arr['email'], 'phone_number'=>$arr['phone_number'], 'gender'=>$arr['gender'], 'avatar'=>$arr['avatar'], 'reg_time'=>$arr['reg_time'], 'alpha_code'=>$arr['alpha_code']);
                     }else{
                         $jsonStr = array('flag'=>'0');
                     }

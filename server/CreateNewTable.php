@@ -17,7 +17,22 @@ $trg_flag = 0;
 
 $tbl_id = getNewUuid();
 $dbt_name = 't_' . $tbl_id;
-$tbl_colname_json = '["id","ischecked","isviewed","checked_time"]';
+//$tbl_colname_json = '["id","ischecked","isviewed","checked_time"]';
+$tbl_colname_json = null;
+$col_tmp = array();
+$t = array();
+$t['colname'] = 'id';
+$col_tmp[] = $t;
+$t = array();
+$t['colname'] = 'ischecked';
+$col_tmp[] = $t;
+$t = array();
+$t['colname'] = 'isviewed';
+$col_tmp[] = $t;
+$t = array();
+$t['colname'] = 'checked_time';
+$col_tmp[] = $t;
+$tbl_colname_json = json_encode($col_tmp, JSON_UNESCAPED_UNICODE);
 
 //check name
 $sql="SELECT * FROM s_tables WHERE uuid='$uuid' AND tbl_name='$tbl_name'";

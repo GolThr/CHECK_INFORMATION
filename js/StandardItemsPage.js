@@ -21,7 +21,7 @@ window.onload = (function () {
  * 单选列表
  * @param id
  */
-function mainSelectListToggleById(id) {
+function mainSelectListToggleById(id, onse_fn) {
     var se_body = $('#'+id);
     var se_arrow = $('#'+id+' .main_select_arrow');
     var se_def = $('#'+id+' .main_select_default');
@@ -43,6 +43,9 @@ function mainSelectListToggleById(id) {
             $(elem).unbind('click');
             $(elem).click(function () {
                 se_def.text($(this).text());
+                if(onse_fn != undefined){
+                    onse_fn();
+                }
                 mainSelectListToggleById(id);
             });
         });
@@ -59,6 +62,10 @@ function mainSelectListToggleById(id) {
 
 function getMainSelectListSelectedById(id) {
     return  $('#'+id+' .main_select_default').text();
+}
+
+function setMainSelectListSelectedById(id, text) {
+    $('#'+id+' .main_select_default').text(text);
 }
 
 /**

@@ -30,8 +30,9 @@ if($obj){
         $find_flag = 0;
     }
 }
-$head = json_decode($tbl_colname_json, $assoc = FALSE);
-$orderBy = $head[$orderByInd];
+// assoc true as array, false as class object
+$head_obj = json_decode($tbl_colname_json, $assoc = TRUE);
+$orderBy = $head_obj[$orderByInd]['colname'];
 
 //cnt
 $n_data = 0;
@@ -58,13 +59,13 @@ $obj = mysqli_query($link, $sql);
 if($obj){
     while($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
         $tmp = array();
-        foreach ($head as $colName){
-            $tmp[] = $row[$colName];
+        foreach ($head_obj as $colName_obj){
+            $tmp[] = $row[$colName_obj['colname']];
         }
         $res[$i++] = $tmp;
     }
 }
 
 $flags = array("find_flag" => $find_flag, "open_flag" => $open_flag, "ischecking" => $ischecking);
-$jsonStr = array("flags" => $flags, "head" => $head, "data" => $res, "n_pages" => $n_pages, "cur_page" => $page);
+$jsonStr = array("flags" => $flags, "head_obj" => $head_obj, "data" => $res, "n_pages" => $n_pages, "cur_page" => $page);
 echo json_encode($jsonStr);

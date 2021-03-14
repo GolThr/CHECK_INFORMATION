@@ -61,14 +61,19 @@ if($obj){
         $find_flag = 0;
     }
 }
-$head = json_decode($tbl_colname_json, $assoc = FALSE);
+// assoc true as array, false as class object
+$head_obj = json_decode($tbl_colname_json, $assoc = TRUE);
 
 //insert column
 foreach ($res[0] as $h){
     $sql="ALTER TABLE `$dbt_name` ADD COLUMN `$h` TEXT";
     $obj = mysqli_query($link, $sql);
+    $t = array();
     if($obj){
-        array_push($head, $h);
+        $t['colname'] = $h;
+        $t['type'] = '文本';
+        $t['rule'] = '无';
+        array_push($head_obj, $t);
     }else{
         $ins_col_flag = 0;
     }
@@ -107,7 +112,7 @@ foreach ($res as $row){
 }
 
 //register column
-$head_json = json_encode($head, JSON_UNESCAPED_UNICODE);
+$head_json = json_encode($head_obj, JSON_UNESCAPED_UNICODE);
 $sql = "UPDATE s_tables SET tbl_colname_json='$head_json' WHERE tbl_id='$tbl_id'";
 $obj = mysqli_query($link, $sql);
 if($obj){
@@ -122,13 +127,13 @@ $obj = mysqli_query($link, $sql);
 if($obj){
     while($row = mysqli_fetch_array($obj,MYSQLI_ASSOC)){
         $tmp = array();
-        foreach ($head as $colName){
-            $tmp[] = $row[$colName];
+        foreach ($head_obj as $colName_obj){
+            $tmp[] = $row[$colName_obj['colname']];
         }
         $res_table[$i++] = $tmp;
     }
 }
 
 $flags = array("find_flag" => $find_flag, "ins_col_flag" => $ins_col_flag, "upd_flag" => $upd_flag, "ins_flag" => $ins_flag);
-$jsonStr = array("flags" => $flags, "head" => $head, "data" => $res_table);
+$jsonStr = array("flags" => $flags, "head" => $head_obj, "data" => $res_table);
 echo json_encode($jsonStr);
