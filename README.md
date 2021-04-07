@@ -18,6 +18,7 @@ CHECK INFORMATION
    * ~~自定义按列排序显示~~
    * 核对分享时间限制
    * 支持列属性：列类型、列输入规则（模板、支持直接输入正则表达式）
+   * 增加是否已修改列
    * ~~bug: 管理数据时，修改信息不应自动改修改时间~~
 
 2. 信息核对用户核对模块
@@ -98,8 +99,14 @@ CHECK INFORMATION
 10. 部署网站
    * 注意检查Apache时区是否一致
    * 需composer安装PhpSpreadsheet、phpmailer
-   * 修改linux中php的require路径:ReadExcel.php, sendEmail.php, export_excel.php
+   * 修改linux中php的require路径:ReadExcel.php, sendEmail.php, export_excel.php, dbconfig.php
    * 配置htaccess
+     RewriteEngine On
+     RewriteCond %{REQUEST_FILENAME} !-f
+     RewriteRule ^([^\.]+)$ $1.html [NC]
+
+      RewriteCond %{REQUEST_URI} ^/s/ [NC]
+      RewriteRule ^(.*)$ check.html [NC]
 
 ##### 附加功能
 1. 收集表

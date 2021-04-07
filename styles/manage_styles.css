@@ -67,8 +67,8 @@
 .manage_list_item_data_view_body{
     display: flex;
     flex-direction: row;
-    align-content: start;
-    justify-content: center;
+    align-content: center;
+    justify-content: flex-start;
     margin-top: 20px;
 }
 

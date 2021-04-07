@@ -558,3 +558,56 @@ function initMainPagingById(id, n_pages, cur, visible_pages, p_fn){
         }
     });
 }
+
+
+
+
+
+
+var optionItemId = 0;
+
+function addOptionById(id) {
+    var item_body = $('#'+id+' .item_body');
+    var itemId = 'main_option_edit_' + optionItemId;
+    item_body.append(
+        '<div class="item" id="'+itemId+'">\n' +
+        '    <input type="text" placeholder="输入选项文字"/>\n' +
+        '    <img src="images/ic_delete_red.png" onclick="deleteOptionById(\'option_edit1\',\''+itemId+'\')"/>\n' +
+        '</div>'
+    );
+    optionItemId++;
+}
+
+function deleteOptionById(id, itemId) {
+    var item_body = $('#'+id+' .item_body');
+    var item = $('#'+id+' .item_body #'+itemId);
+    item.remove();
+}
+
+function clearOptionsById(id) {
+    var item_body = $('#'+id+' .item_body');
+    item_body.html('');
+}
+
+function getOptionArrayById(id) {
+    var item_body = $('#'+id+' .item_body .item');
+    var res = [];
+    var flag = false;
+    item_body.each(function (index, elem){
+        var item = $(elem).find('input');
+        var text = $.trim(item.val());
+        if(text != '' && text != undefined){
+            flag = true;
+            res.push(text);
+        }else{
+            flag = false;
+            $(elem).warning('#ffa9ab', '#EAEDF6');
+        }
+    });
+    console.log(flag);
+    console.log(res);
+    if (flag == true){
+        return res;
+    }
+    return false;
+}

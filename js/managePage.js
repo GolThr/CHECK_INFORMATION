@@ -259,6 +259,13 @@ function renderTable(msg, orderByInd, order){
                 data = "";
             }
             if(j >= 0 && j < 4){
+                if(j == 1){
+                    data = (data == 0) ? '未核对' : '已核对';
+                }else if(j == 2){
+                    data = (data == 0) ? '未查看' : '已查看';
+                }else if(j == 3){
+                    data = (data == '') ? '-' : data.substring(0,19);
+                }
                 $('#row'+row_id).append('<td class="readonly_td col'+ j +'"><input class="change_able_editor" row="'+row_id+'" col="'+j+'" readonly="true" type="text" value="' + data + '"></input></td>');
             }else{
                 $('#row'+row_id).append('<td class="change_able col'+ j +'"><input class="change_able_editor" row="'+row_id+'" col="'+j+'" type="text" value="' + data + '" onblur="onInputNumberBlur(this)"></input></td>');

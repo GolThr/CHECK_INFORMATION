@@ -114,13 +114,29 @@ document.writeln(
     '        <input type="text" id="col_prop_name" class="dialog_input main_input" placeholder="列名称"/>\n' +
     '        <div class="dialog_select_line" style="margin-top: 0;">' +
     '            <span class="dialog_sub_title" style="margin-top: 0;width: auto;">类型</span>' +
-    '            <div class="main_select_list_borderstyle" style="height: 30px;width: 150px;" id="dialog_select_type" onclick="mainSelectListToggleById(\'dialog_select_type\')">\n' +
+    '            <div class="main_select_list_borderstyle" style="height: 30px;width: 150px;" id="dialog_select_type" onclick="mainSelectListToggleById(\'dialog_select_type\', ToggleColPropRadioEdit)">\n' +
     '                <img class="main_select_arrow" style="top: 10px;" src="images/ic_down_arrow.png"/>\n' +
     '                <span class="main_select_default" style="line-height: 30px;">文本</span>\n' +
     '                <div class="main_select_item" style="top: 30px;">\n' +
     '                    <span>文本</span>\n' +
     '                    <span>单选框</span>\n' +
     '                </div>\n' +
+    '            </div>' +
+    '        </div>' +
+    '        <div class="dialog_select_block" id="prop_edit_radio" style="display: none;">' +
+    '            <div class="dialog_select_line" style="margin-bottom: 20px;">' +
+    '                <span class="dialog_sub_title" style="margin-top: 0;width: auto;">添加选项</span>' +
+    '                <div class="dialog_sub_btn_line">\n' +
+    '                    <div class="dialog_sub_btn">' +
+    '                        <img src="images/ic_add_grey.png" style="width: auto;height: 15px;"/>' +
+    '                    </div>' +
+    '                    <div class="dialog_sub_btn">' +
+    '                        <img src="images/ic_delete_red.png" style="width: auto;height: 15px;"/>' +
+    '                    </div>' +
+    '                </div>' +
+    '            </div>' +
+    '            <div class="dialog_sub_btn_line" style="width: 100%;justify-content: flex-start;">' +
+    '                <input class="dialog_checkbox_item verify_info_checkbox" ischecked="false" isdisabled="false" onclick="onCheckedBox(this)" style="border: none;"></input>' +
     '            </div>' +
     '        </div>' +
     '        <div class="dialog_select_line" style="margin-bottom: 20px;">' +
@@ -202,6 +218,7 @@ function showDialogColProp(title, prop, ok_fn, cancel_fn) {
     dialog_body.fadeIn('fast');
     dialog_title.text(title);
     var col_prop_name = $('#dialog_col_prop #col_prop_name');
+    var prop_edit_radio = $('#prop_edit_radio');
     var col_prop_regex = $('#col_prop_regex');
     if(prop != null && prop != ''){
         if(prop['colname'] != null && prop['colname'] != '' && prop['colname'] != undefined){
@@ -209,6 +226,11 @@ function showDialogColProp(title, prop, ok_fn, cancel_fn) {
         }
         if(prop['type'] != null && prop['type'] != '' && prop['type'] != undefined){
             setMainSelectListSelectedById('dialog_select_type', prop['type']);
+            if(prop['type'] == '单选框'){
+                prop_edit_radio.show();
+            }else{
+                prop_edit_radio.hide();
+            }
         }
         if(prop['rule'] != null && prop['rule'] != '' && prop['rule'] != undefined){
             setMainSelectListSelectedById('dialog_select_rule', prop['rule']);
@@ -218,6 +240,9 @@ function showDialogColProp(title, prop, ok_fn, cancel_fn) {
                 col_prop_regex.hide();
             }
         }
+        if(prop['options'] != null && prop['options'] != '' && prop['options'] != undefined){
+            col_prop_regex.val(prop['options']);
+        }
         if(prop['regex'] != null && prop['regex'] != '' && prop['regex'] != undefined){
             col_prop_regex.val(prop['regex']);
         }
@@ -226,6 +251,7 @@ function showDialogColProp(title, prop, ok_fn, cancel_fn) {
         setMainSelectListSelectedById('dialog_select_type', '文本');
         setMainSelectListSelectedById('dialog_select_rule', '无');
         col_prop_regex.val('');
+        prop_edit_radio.hide();
         col_prop_regex.hide();
     }
     cancel_btn.unbind('click');
@@ -246,11 +272,23 @@ function showDialogColProp(title, prop, ok_fn, cancel_fn) {
     });
 }
 
+function f() {
+    
+}
+
 function hideDialogColProp(){
     var back = $('.dialog_back');
     var dialog_body = $('#dialog_col_prop');
     dialog_body.hide();
     back.fadeOut('fast');
+}
+
+function ToggleColPropRadioEdit(){
+    if(getMainSelectListSelectedById('dialog_select_type') == '单选框'){
+        $('#prop_edit_radio').show();
+    }else{
+        $('#prop_edit_radio').hide();
+    }
 }
 
 function ToggleColPropRegexInput(){

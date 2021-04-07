@@ -366,9 +366,13 @@ $('#link_verify_btn').click(function (){
 });
 
 $('.info_check_save').click(function (){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     checkInfoVerify();
 });
 
 $('.info_check_ok').click(function (){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     checkInfoVerify();
 });

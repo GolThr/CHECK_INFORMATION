@@ -7,22 +7,6 @@ require 'D:\xampp\php\vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-function isLongNumber($t){
-    $n = (string)$t;
-    $cnt = 0;
-    $flag = true;
-    for($i = 0; $i < strlen($n); $i++){
-        if($n[$i] < '0' || $n[$i] > '9'){
-            $flag = false;
-        }
-        $cnt++;
-    }
-    if($cnt >= 13 && $flag == true){
-        return true;
-    }
-    return false;
-}
-
 $uuid = $_GET["i"];
 $tbl_name = $_GET["name"];
 //$uuid = "ee248a63-62e2-3398-8c3d-be2a746c0aa6";
@@ -107,12 +91,7 @@ $row = 2;
 foreach ($res as $item) {
     $column = 1;
     foreach ($item as $value) {
-        if(isLongNumber($value)){
-            $worksheet->setCellValueByColumnAndRow($column, $row, (string)$value."\t");
-        }else{
-            $worksheet->setCellValueByColumnAndRow($column, $row, (string)$value);
-        }
-        // $worksheet->getCellByColumnAndRow($column, $row)->getStyle()->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+        $worksheet->setCellValueByColumnAndRow($column, $row, (string)$value);
         $column++;
     }
     $row++;

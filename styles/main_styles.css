@@ -632,6 +632,7 @@ li{
     align-items: center;
     justify-content: center;
     background: rgba(241,246,252,0.5);
+    backdrop-filter: blur(5px);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -683,6 +684,37 @@ li{
     width: 100%;
     margin-bottom: 20px;
     text-align: left;
+}
+
+.dialog_sub_btn_line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.dialog_sub_btn{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.dialog_sub_btn:hover{
+    background: #EAEDF6;
+}
+
+.dialog_select_block{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
 }
 
 .dialog_select_line{
@@ -1062,6 +1094,7 @@ li{
     align-items: center;
     justify-content: center;
     background: rgba(241,246,252,0.5);
+    backdrop-filter: blur(5px);
     position: absolute;
     top: 0;
     bottom: 0;

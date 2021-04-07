@@ -4,20 +4,22 @@
     <meta charset="UTF-8">
     <title>标准样式示例</title>
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/affects.js"></script>
     <link rel="stylesheet" href="styles/StandardItems_styles.css" type="text/css"/>
 </head>
 <body>
 
     <span class="std_title">滚动通知marquee(拷贝html，可能不兼容)</span>
-    <!--滚动通知-->
+    <!--滚动通知-------------------------------------------------------------------------->
     <div class="marquee_inline_body">
         <img class="marquee_inline_img" src="images/ic_warning.png"/>
         <marquee class="marquee_inline_text">那么默认情况下，水平滚动的文字背景与文字同高、与浏览器窗口同宽，使用  width  和  height  参数调整其水平和垂直的范围。</marquee>
         <img class="marquee_inline_img" onclick="hideMarqueeInline()" src="images/ic_close.png"/>
     </div>
 
+
     <span class="std_title">滚动通知-自制(拷贝js)</span>
-    <!--滚动通知-->
+    <!--滚动通知-------------------------------------------------------------------------->
     <div class="marquee_inline_body" id="marquee1">
         <img class="marquee_inline_img" src="images/ic_warning.png"/>
         <div class="marquee_inline_content">
@@ -26,8 +28,9 @@
         <img class="marquee_inline_img" onclick="hideMarqueeInline()" src="images/ic_close.png"/>
     </div>
 
+
     <span class="std_title">滑动验证(drag.js)</span>
-    <!--滑动验证-->
+    <!--滑动验证-------------------------------------------------------------------------->
     <div class="drag_content" id="drag">
         <div class="drag_bg"></div>
         <div class="drag_text" onselectstart="return false;">请拖动滑块验证</div>
@@ -36,15 +39,17 @@
         </div>
     </div>
 
+
     <span class="std_title">滑动开关(需拷贝js)</span>
-    <!--滑动开关-->
+    <!--滑动开关-------------------------------------------------------------------------->
     <div class="switcher_body" ischecked="false" id="switcher" onclick="switcherToggle()">
         <div class="switcher_bg" id="switcher_bg"></div>
         <div class="switcher_btn" id="switcher_btn"></div>
     </div>
 
+
     <span class="std_title">单选列表-卡片样式(需包含dropSelect.js)</span>
-    <!--单选列表-->
+    <!--单选列表-------------------------------------------------------------------------->
     <div class="main_select_list_cardstyle" id="select1" onclick="mainSelectListToggleById('select1')">
         <img class="main_select_arrow" src="images/ic_down_arrow.png"/>
         <span class="main_select_default">123</span>
@@ -58,8 +63,9 @@
         </div>
     </div>
 
+
     <span class="std_title">单选列表-边框样式(需包含dropSelect.js)</span>
-    <!--单选列表-->
+    <!--单选列表-------------------------------------------------------------------------->
         <div class="main_select_list_borderstyle" id="select2" onclick="mainSelectListToggleById('select2')">
             <img class="main_select_arrow" src="images/ic_down_arrow.png"/>
             <span class="main_select_default">123</span>
@@ -73,8 +79,9 @@
             </div>
         </div>
 
+
     <span class="std_title">日历选取-卡片样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式，包含dropList.js)</span>
-    <!--日历选取-->
+    <!--日历选取-------------------------------------------------------------------------->
     <div class="main_calendar_cardstyle" id="calendar1" onclick="mainCalendarToggleById('calendar1')">
         <img class="main_calendar_arrow" src="images/ic_down_arrow.png"/>
         <span class="main_select_placeholder">请选择日期</span>
@@ -86,8 +93,9 @@
         </div>
     </div>
 
+
     <span class="std_title">日历选取-边框样式(需包含main_btn_line、dialog_btn_seco、dialog_btn_main样式，包含dropList.js)</span>
-    <!--日历选取-->
+    <!--日历选取-------------------------------------------------------------------------->
     <div class="main_calendar_borderstyle" id="calendar2" onclick="mainCalendarToggleById('calendar2')">
         <img class="main_calendar_arrow" src="images/ic_down_arrow.png"/>
         <span class="main_select_placeholder">请选择日期</span>
@@ -99,21 +107,38 @@
         </div>
     </div>
 
+
     <span class="std_title">隐式搜索框(需包含common.js)</span>
-    <!--隐式搜索框-->
+    <!--隐式搜索框-------------------------------------------------------------------------->
     <div class="main_search_cardstyle" id="search1" onmouseover="mainSearchShowById('search1', 240)" onmouseleave="mainSearchHideById('search1')">
         <img class="main_search_img_left" src="images/ic_search.png">
         <input type="text" placeholder="搜索...">
     </div>
 
+
     <span class="std_title">分页(需包含paging.js)</span>
-    <!--分页-->
+    <!--分页-------------------------------------------------------------------------->
     <div class="main_paging_cardstyle" id="paging1"></div>
     <script type="text/javascript">
         initMainPagingById('paging1', 9, 1, 8, function (p){
             console.log('page to ' + p);
         });
     </script>
+
+
+    <span class="std_title">选项编辑(需包含optionEdit.js)</span>
+    <!--选项编辑-------------------------------------------------------------------------->
+    <div class="main_option_edit" id="option_edit1">
+        <div class="title_line">
+            <span>添加选项</span>
+            <img src="images/ic_add_grey.png" onclick="addOptionById('option_edit1')"/>
+        </div>
+        <div class="item_body"></div>
+    </div>
+    <!--获取示例-->
+    <span onclick="getOptionArrayById('option_edit1')" style="cursor: pointer; width: 100px; height: 30px; background: #EAEDF6; border-radius: 10px; text-align: center; line-height: 30px;font-size: 13px;">点我获取</span>
+
+
 
     <script type="text/javascript" src="js/StandardItemsPage.js"></script>
 </body>

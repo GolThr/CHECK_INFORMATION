@@ -1,6 +1,6 @@
 var agreement = 'http';
 var domain = 'www.chake.link';
-var version = 'alpha_1.0.0';
+var version = 'alpha_2.0.0';
 
 var s_userinfo;
 function initUser() {

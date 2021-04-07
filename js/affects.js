@@ -19,6 +19,16 @@ $.fn.shake = function (intShakes /*Amount of shakes*/, intDistance /*Shake dista
     return this;
 }
 
+$.fn.warning = function (start_color, end_color) {
+    var jqNode = $(this);
+    jqNode.css({'background-color': start_color});
+    jqNode.css({'transition': 'background-color 500ms'});
+    setTimeout(function () {
+        jqNode.css({'background-color': end_color});
+    }, 500);
+    return this;
+}
+
 function waitToLogin(time){
     if(time > 0){
         $(".time_left").text(time);

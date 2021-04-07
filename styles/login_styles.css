@@ -70,6 +70,17 @@ body{
     margin-bottom: 15px;
 }
 
+.sheet_loading_img{
+    width: auto;
+    height: 20px;
+    animation: an_loading 1.5s infinite linear;
+}
+
+@keyframes an_loading {
+    0%   {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
 .login_func_line{
     width: 260px;
     display: flex;

@@ -57,8 +57,12 @@ function showCityInfo() {
     });
 }
 showCityInfo();
+setTimeout(function() {
+    showLoginPage();
+}, 5000);
 
 function showLoginPage(){
+    $('.sheet_loading_img').hide();
     $('#login_body').slideDown();
 }
 
