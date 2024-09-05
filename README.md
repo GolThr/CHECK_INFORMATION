@@ -4,7 +4,7 @@ CHECK INFORMATION
 https://gitee.com/golthr/CHECK_INFORMATION.git
 
 ### 界面预览
-
+##### 发起人界面
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image1.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image2.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image3.png)
@@ -18,9 +18,11 @@ https://gitee.com/golthr/CHECK_INFORMATION.git
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image11.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image12.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image13.png)
+##### 参与者界面
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image14.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image15.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image16.png)
+##### 管理员界面
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image17.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image18.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image19.png)
