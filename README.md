@@ -1,6 +1,8 @@
 # 查客核对
 CHECK INFORMATION
-项目已转移到Gitee（GitHub代码最后更新2021.04.08）
+该项目为本科毕业设计，其中前端中所有组件均为自己动手实现。
+
+该项目已转移到Gitee（GitHub代码最后更新2021.04.08）
 https://gitee.com/golthr/CHECK_INFORMATION.git
 
 ### 界面预览
