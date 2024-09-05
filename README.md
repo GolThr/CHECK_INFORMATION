@@ -3,6 +3,7 @@ CHECK INFORMATION
 该项目为本科毕业设计，旨在提供一个信息收集和核对的交互平台，其前端中所有组件均为自己使用原生代码手动实现。
 
 该项目已转移到Gitee（GitHub代码最后更新2021.04.08）
+
 https://gitee.com/golthr/CHECK_INFORMATION.git
 
 ### 界面预览
