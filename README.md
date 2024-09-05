@@ -131,13 +131,15 @@ https://gitee.com/golthr/CHECK_INFORMATION.git
    * 注意检查Apache时区是否一致
    * 需composer安装PhpSpreadsheet、phpmailer
    * 修改linux中php的require路径:ReadExcel.php, sendEmail.php, export_excel.php, dbconfig.php
-   * 配置htaccess
+   * 配置htaccess重写规则
+```
      RewriteEngine On
      RewriteCond %{REQUEST_FILENAME} !-f
      RewriteRule ^([^\.]+)$ $1.html [NC]
 
-      RewriteCond %{REQUEST_URI} ^/s/ [NC]
-      RewriteRule ^(.*)$ check.html [NC]
+     RewriteCond %{REQUEST_URI} ^/s/ [NC]
+     RewriteRule ^(.*)$ check.html [NC]
+```
 
 ##### 附加功能
 1. 收集表
