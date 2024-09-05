@@ -1,7 +1,31 @@
 # 查客核对
 CHECK INFORMATION
-项目已转移到Gitee（GitHub最后更新2021.04.08）
+项目已转移到Gitee（GitHub代码最后更新2021.04.08）
 https://gitee.com/golthr/CHECK_INFORMATION.git
+
+### 界面预览
+
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image1.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image2.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image3.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image4.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image5.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image6.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image7.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image8.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image9.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image10.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image11.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image12.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image13.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image14.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image15.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image16.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image17.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image18.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image19.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image20.png)
+![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image21.png)
 
 ### 工作进程
 ##### 基础功能
@@ -83,7 +107,6 @@ https://gitee.com/golthr/CHECK_INFORMATION.git
    * ~~主页信息显示~~
    * ~~管理员权限转让，邮箱为id~~
    * ~~某些情况下自动发送系统消息~~
-   * 打赏查看
    * 数据库设置：端口、密码、数据库名
    * 消息和公告正文支持markdown或html
    * 管理员用户设置权限，分为管理所有和只处理反馈消息
