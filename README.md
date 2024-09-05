@@ -27,6 +27,7 @@ https://gitee.com/golthr/CHECK_INFORMATION.git
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image16.png)
 ##### 管理员界面
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image17.png)
+##### 网站安装界面
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image18.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image19.png)
 ![image](https://github.com/GolThr/CHECK_INFORMATION/blob/main/assets/image20.png)
